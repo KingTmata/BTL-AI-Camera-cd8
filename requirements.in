@@ -1,0 +1,7 @@
+# Môi trường demo CPU. Cài torch/torchvision CPU trước, rồi cài file này.
+ultralytics>=8.4.0,<9
+streamlit>=1.38,<2
+pandas>=2,<4
+PyYAML>=6,<7
+matplotlib>=3.8,<4
+# ultralytics dùng opencv-python; không cài thêm opencv-python-headless.

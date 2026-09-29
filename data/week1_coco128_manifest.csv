@@ -1,0 +1,51 @@
+image_id,image_path,label_path,present_project_classes,review20,review_status,source
+000000000142,data/reference/coco128/images/train2017/000000000142.jpg,data/reference/coco128/labels/train2017/000000000142.txt,bottle,true,pending,COCO128 / COCO train2017
+000000000164,data/reference/coco128/images/train2017/000000000164.jpg,data/reference/coco128/labels/train2017/000000000164.txt,bottle,true,pending,COCO128 / COCO train2017
+000000000241,data/reference/coco128/images/train2017/000000000241.jpg,data/reference/coco128/labels/train2017/000000000241.txt,person|bottle,true,pending,COCO128 / COCO train2017
+000000000283,data/reference/coco128/images/train2017/000000000283.jpg,data/reference/coco128/labels/train2017/000000000283.txt,bottle,true,pending,COCO128 / COCO train2017
+000000000328,data/reference/coco128/images/train2017/000000000328.jpg,data/reference/coco128/labels/train2017/000000000328.txt,person|cell phone,true,pending,COCO128 / COCO train2017
+000000000384,data/reference/coco128/images/train2017/000000000384.jpg,data/reference/coco128/labels/train2017/000000000384.txt,laptop,true,pending,COCO128 / COCO train2017
+000000000387,data/reference/coco128/images/train2017/000000000387.jpg,data/reference/coco128/labels/train2017/000000000387.txt,laptop|cell phone,true,pending,COCO128 / COCO train2017
+000000000395,data/reference/coco128/images/train2017/000000000395.jpg,data/reference/coco128/labels/train2017/000000000395.txt,person|cell phone,true,pending,COCO128 / COCO train2017
+000000000486,data/reference/coco128/images/train2017/000000000486.jpg,data/reference/coco128/labels/train2017/000000000486.txt,bottle,true,pending,COCO128 / COCO train2017
+000000000536,data/reference/coco128/images/train2017/000000000536.jpg,data/reference/coco128/labels/train2017/000000000536.txt,person|cell phone,true,pending,COCO128 / COCO train2017
+000000000560,data/reference/coco128/images/train2017/000000000560.jpg,data/reference/coco128/labels/train2017/000000000560.txt,cell phone,true,pending,COCO128 / COCO train2017
+000000000643,data/reference/coco128/images/train2017/000000000643.jpg,data/reference/coco128/labels/train2017/000000000643.txt,bottle,true,pending,COCO128 / COCO train2017
+000000000036,data/reference/coco128/images/train2017/000000000036.jpg,data/reference/coco128/labels/train2017/000000000036.txt,person,true,pending,COCO128 / COCO train2017
+000000000049,data/reference/coco128/images/train2017/000000000049.jpg,data/reference/coco128/labels/train2017/000000000049.txt,person,true,pending,COCO128 / COCO train2017
+000000000061,data/reference/coco128/images/train2017/000000000061.jpg,data/reference/coco128/labels/train2017/000000000061.txt,person,true,pending,COCO128 / COCO train2017
+000000000074,data/reference/coco128/images/train2017/000000000074.jpg,data/reference/coco128/labels/train2017/000000000074.txt,person,true,pending,COCO128 / COCO train2017
+000000000077,data/reference/coco128/images/train2017/000000000077.jpg,data/reference/coco128/labels/train2017/000000000077.txt,person,true,pending,COCO128 / COCO train2017
+000000000086,data/reference/coco128/images/train2017/000000000086.jpg,data/reference/coco128/labels/train2017/000000000086.txt,person,true,pending,COCO128 / COCO train2017
+000000000109,data/reference/coco128/images/train2017/000000000109.jpg,data/reference/coco128/labels/train2017/000000000109.txt,person,false,pending,COCO128 / COCO train2017
+000000000110,data/reference/coco128/images/train2017/000000000110.jpg,data/reference/coco128/labels/train2017/000000000110.txt,person,false,pending,COCO128 / COCO train2017
+000000000113,data/reference/coco128/images/train2017/000000000113.jpg,data/reference/coco128/labels/train2017/000000000113.txt,person,false,pending,COCO128 / COCO train2017
+000000000127,data/reference/coco128/images/train2017/000000000127.jpg,data/reference/coco128/labels/train2017/000000000127.txt,person,false,pending,COCO128 / COCO train2017
+000000000136,data/reference/coco128/images/train2017/000000000136.jpg,data/reference/coco128/labels/train2017/000000000136.txt,person,false,pending,COCO128 / COCO train2017
+000000000149,data/reference/coco128/images/train2017/000000000149.jpg,data/reference/coco128/labels/train2017/000000000149.txt,person,false,pending,COCO128 / COCO train2017
+000000000151,data/reference/coco128/images/train2017/000000000151.jpg,data/reference/coco128/labels/train2017/000000000151.txt,person,false,pending,COCO128 / COCO train2017
+000000000165,data/reference/coco128/images/train2017/000000000165.jpg,data/reference/coco128/labels/train2017/000000000165.txt,person,false,pending,COCO128 / COCO train2017
+000000000192,data/reference/coco128/images/train2017/000000000192.jpg,data/reference/coco128/labels/train2017/000000000192.txt,person,false,pending,COCO128 / COCO train2017
+000000000201,data/reference/coco128/images/train2017/000000000201.jpg,data/reference/coco128/labels/train2017/000000000201.txt,person,false,pending,COCO128 / COCO train2017
+000000000257,data/reference/coco128/images/train2017/000000000257.jpg,data/reference/coco128/labels/train2017/000000000257.txt,person,false,pending,COCO128 / COCO train2017
+000000000260,data/reference/coco128/images/train2017/000000000260.jpg,data/reference/coco128/labels/train2017/000000000260.txt,person,false,pending,COCO128 / COCO train2017
+000000000294,data/reference/coco128/images/train2017/000000000294.jpg,data/reference/coco128/labels/train2017/000000000294.txt,person,false,pending,COCO128 / COCO train2017
+000000000308,data/reference/coco128/images/train2017/000000000308.jpg,data/reference/coco128/labels/train2017/000000000308.txt,person,false,pending,COCO128 / COCO train2017
+000000000315,data/reference/coco128/images/train2017/000000000315.jpg,data/reference/coco128/labels/train2017/000000000315.txt,person,false,pending,COCO128 / COCO train2017
+000000000322,data/reference/coco128/images/train2017/000000000322.jpg,data/reference/coco128/labels/train2017/000000000322.txt,person,false,pending,COCO128 / COCO train2017
+000000000326,data/reference/coco128/images/train2017/000000000326.jpg,data/reference/coco128/labels/train2017/000000000326.txt,person,false,pending,COCO128 / COCO train2017
+000000000338,data/reference/coco128/images/train2017/000000000338.jpg,data/reference/coco128/labels/train2017/000000000338.txt,person,false,pending,COCO128 / COCO train2017
+000000000357,data/reference/coco128/images/train2017/000000000357.jpg,data/reference/coco128/labels/train2017/000000000357.txt,person,false,pending,COCO128 / COCO train2017
+000000000360,data/reference/coco128/images/train2017/000000000360.jpg,data/reference/coco128/labels/train2017/000000000360.txt,person,false,pending,COCO128 / COCO train2017
+000000000368,data/reference/coco128/images/train2017/000000000368.jpg,data/reference/coco128/labels/train2017/000000000368.txt,person,false,pending,COCO128 / COCO train2017
+000000000370,data/reference/coco128/images/train2017/000000000370.jpg,data/reference/coco128/labels/train2017/000000000370.txt,person,false,pending,COCO128 / COCO train2017
+000000000382,data/reference/coco128/images/train2017/000000000382.jpg,data/reference/coco128/labels/train2017/000000000382.txt,person,false,pending,COCO128 / COCO train2017
+000000000389,data/reference/coco128/images/train2017/000000000389.jpg,data/reference/coco128/labels/train2017/000000000389.txt,person,false,pending,COCO128 / COCO train2017
+000000000397,data/reference/coco128/images/train2017/000000000397.jpg,data/reference/coco128/labels/train2017/000000000397.txt,person,false,pending,COCO128 / COCO train2017
+000000000415,data/reference/coco128/images/train2017/000000000415.jpg,data/reference/coco128/labels/train2017/000000000415.txt,person,false,pending,COCO128 / COCO train2017
+000000000419,data/reference/coco128/images/train2017/000000000419.jpg,data/reference/coco128/labels/train2017/000000000419.txt,person,false,pending,COCO128 / COCO train2017
+000000000009,data/reference/coco128/images/train2017/000000000009.jpg,data/reference/coco128/labels/train2017/000000000009.txt,,true,pending,COCO128 / COCO train2017
+000000000025,data/reference/coco128/images/train2017/000000000025.jpg,data/reference/coco128/labels/train2017/000000000025.txt,,true,pending,COCO128 / COCO train2017
+000000000030,data/reference/coco128/images/train2017/000000000030.jpg,data/reference/coco128/labels/train2017/000000000030.txt,,false,pending,COCO128 / COCO train2017
+000000000034,data/reference/coco128/images/train2017/000000000034.jpg,data/reference/coco128/labels/train2017/000000000034.txt,,false,pending,COCO128 / COCO train2017
+000000000042,data/reference/coco128/images/train2017/000000000042.jpg,data/reference/coco128/labels/train2017/000000000042.txt,,false,pending,COCO128 / COCO train2017

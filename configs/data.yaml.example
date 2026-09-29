@@ -1,0 +1,10 @@
+# Sao chép thành data.yaml và đổi path thành đường dẫn tuyệt đối của máy.
+path: C:/PATH/TO/BTL-AI-Camera-cd8/data/dataset
+train: images/train
+val: images/val
+test: images/test
+names:
+  0: person
+  1: bottle
+  2: cell phone
+  3: laptop

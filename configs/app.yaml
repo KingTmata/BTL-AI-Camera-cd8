@@ -1,0 +1,43 @@
+model:
+  weights: weights/yolo26n.pt
+  class_profile: coco80
+  device: cpu
+  imgsz: 640
+  nms: false
+  nms_iou: 0.70
+  display_conf: 0.25
+  tracker_input_conf: 0.10
+source:
+  type: webcam
+  value: 0
+  mode: live_latest
+tracking:
+  enabled: true
+  config: configs/bytetrack.yaml
+  analytics_class: person
+  reset_on_source_change: true
+line:
+  id: line_1
+  start: [0.15, 0.55]
+  end: [0.85, 0.55]
+  anchor: bottom_center
+  buffer_height_ratio: 0.01
+  confirm_frames: 3
+  max_observation_gap_seconds: 0.6
+  cooldown_seconds: 0.0
+zone:
+  id: zone_1
+  polygon: [[0.25, 0.25], [0.75, 0.25], [0.90, 0.90], [0.10, 0.90]]
+  boundary_is_inside: true
+  dwell_seconds: 2.0
+  lost_grace_seconds: 0.6
+  pause_dwell_when_missing: true
+  exit_confirm_frames: 3
+runtime:
+  pending_frames: 1
+  preview_fps: 10
+  preview_max_width: 640
+  preview_jpeg_quality: 75
+  trajectory_points_limit: 60
+  ui_recent_events_limit: 100
+  save_video: false

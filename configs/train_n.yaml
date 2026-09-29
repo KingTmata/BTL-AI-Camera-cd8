@@ -1,0 +1,11 @@
+model: weights/yolo26n.pt
+data: configs/data.yaml
+imgsz: 640
+epochs: 50
+batch: 8
+optimizer: MuSGD
+lr0: 0.001
+patience: 10
+seed: 42
+project: runs/train
+name: classroom_v1_26n_seed42
