@@ -1,6 +1,25 @@
-# BTL AI Camera — chuẩn bị môi trường
+# BTL AI Camera — chạy, xem kết quả và chuẩn bị train
 
 Repo hiện có **baseline tuần 1** theo [kế hoạch](Ke_hoach_De_8_Camera_AI.md): YOLO26n pretrained trên ảnh/video/webcam cho bốn lớp `person`, `bottle`, `cell phone`, `laptop`. Chưa có ứng dụng hoàn chỉnh, dữ liệu tự thu, fine-tune, tracking, đếm hay cảnh báo. Xem [bàn giao G1](WEEK1_G1.md) để biết phần đã kiểm và phần còn thiếu.
+
+## Bắt đầu từ đâu?
+
+| Bạn muốn làm gì? | Dùng phần nào? | Hướng dẫn |
+|---|---|---|
+| Chọn ảnh, xem hộp, bấm xem từng đối tượng | Web `src/ui/`, dùng model ở `src/inference/` | [Chạy web và test](docs/KIEM_THU.md) |
+| Hiểu từng folder và luồng hoạt động | Tài liệu sơ đồ, bảng đầu vào/đầu ra | [Cấu trúc và luồng](docs/CAU_TRUC_VA_LUONG.md) |
+| Chạy ảnh/video/webcam bằng terminal | `src/inference/demo.py` | [Lệnh CLI](docs/KIEM_THU.md#3-test-ảnh-bằng-cli) |
+| Kiểm code có hoạt động đúng không | `tests/` | [Kiểm thử tự động](docs/KIEM_THU.md#2-kiểm-mã-tự-động) |
+| Chuẩn bị dữ liệu để train thử | `scripts/data/` | [Train thử và fine-tune về sau](docs/TRAIN_VA_DANH_GIA.md) |
+| Fine-tune model mới | Ultralytics trainer + `configs/train_n.yaml`; `src/training/` chưa có trainer tự viết | [CPU, Colab, resume, validation](docs/TRAIN_VA_DANH_GIA.md) |
+
+Mở giao diện trên máy:
+
+```powershell
+& .\.venv\Scripts\python.exe -m streamlit run src/app.py
+```
+
+Mở **http://127.0.0.1:8501**, chọn ảnh → **Phân tích ảnh** → chọn dòng đối tượng để xem crop. Có thư viện ảnh thu nhỏ, upload ảnh, chọn frame video, nhãn COCO để đối chiếu, tải PNG/JSON/CSV. Terminal giữ server chạy; Ctrl+C để dừng. Giao diện hiện chỉ chạy inference, không có nút train.
 
 ## Môi trường đã chọn
 
@@ -35,15 +54,23 @@ Trên máy đã chuẩn bị, `.venv` dùng Python 3.11.16; các gói chính là
 ├── demo/
 ├── reports/{results,errors}/
 ├── runs/
-├── src/week1_demo.py              # Baseline detection tuần 1; chưa là app hoàn chỉnh
-├── tests/                         # Chưa có test vì chưa có logic
+├── src/
+│   ├── inference/                 # CODE CHẠY nhận dạng: detector.py, demo.py
+│   ├── ui/                        # CODE WEB: chọn ảnh, bảng, crop, download
+│   ├── training/                  # Chỗ dành cho code train sau này; hiện có README
+│   ├── app.py                     # Điểm khởi động web, gọi ui/app.py
+│   └── week1_demo.py               # Lệnh CLI cũ, chuyển sang inference/demo.py
+├── scripts/data/                  # CODE CHUẨN BỊ dữ liệu, không train
+├── tests/                         # CODE KIỂM THỬ; không phải dataset test
+├── docs/                          # Cấu trúc/luồng, chạy test, train về sau
+├── .streamlit/config.toml          # Web local, giới hạn ảnh và giao diện
 ├── weights/yolo26n.pt             # Checkpoint pretrained, không commit
 ├── requirements.in
 ├── requirements-demo-cpu.lock.txt
 └── THIRD_PARTY.md
 ```
 
-Các thư mục ảnh/video và `runs/` đang trống; Git không lưu thư mục rỗng. Các tệp README trong thư mục cấp trên giữ lại ý nghĩa của từng nơi. File cấu hình ứng dụng và train là **đặc tả** từ kế hoạch, chưa phải lệnh chạy được của dự án.
+`data/reference/` đã có COCO128 và `runs/week1/` có kết quả thử trên máy này; dataset phòng học chưa có. Git không lưu thư mục rỗng hoặc dữ liệu/weights đã được ignore. `configs/app.yaml` là đặc tả app đầy đủ trong tương lai, chưa được UI/CLI hiện tại đọc. `configs/train_n.yaml` có thể truyền cho lệnh Ultralytics train khi dữ liệu sẵn sàng; chưa có run fine-tune.
 
 ## Tái tạo môi trường trên máy Windows khác
 
@@ -98,7 +125,7 @@ Kỳ vọng bốn ID COCO lần lượt là `person`, `bottle`, `cell phone`, `l
 3. Viết ứng dụng theo các module ở mục 10 của kế hoạch; kiểm camera, tracking, đếm và cảnh báo.
 4. Fine-tune, đánh giá trên test độc lập, đo FPS/độ trễ và ghi kết quả thật vào báo cáo.
 
-Baseline ảnh/video/webcam tuần 1 chạy bằng `python -m src.week1_demo --source <ảnh|video|0>` từ thư mục gốc. Lệnh kiểm camera chi tiết ở [WEEK1_G1.md](WEEK1_G1.md). Các lệnh `python -m src.cli`, `src.train`, `src.evaluate` và `streamlit run src/app.py` trong kế hoạch vẫn là **giao diện dự kiến** cho các tuần sau.
+Baseline ảnh/video/webcam chạy bằng `python -m src.inference.demo --source <ảnh|video|0>`; lệnh cũ `-m src.week1_demo` vẫn dùng được. Web `streamlit run src/app.py` đã triển khai để xem ảnh/frame. Các lệnh `python -m src.cli`, `src.train`, `src.evaluate` trong kế hoạch vẫn chưa có; hướng dẫn train hiện dùng CLI Ultralytics.
 
 Ảnh tham khảo COCO128 không nằm trong Git. Để chạy lại mẫu tuần 1 trên máy khác, tải [COCO128 theo tài liệu Ultralytics](https://docs.ultralytics.com/datasets/detect/coco128/) rồi giải nén đúng vị trí:
 
@@ -110,3 +137,16 @@ Expand-Archive -LiteralPath data\reference\coco128.zip -DestinationPath data\ref
 ```
 
 Hai MP4 trong `demo/smoke/` là slideshow kỹ thuật được tạo cục bộ từ ảnh COCO128 và không nằm trong Git. Chúng không thay video quay thật cần cho G1.
+
+## Nhật ký theo tuần
+
+### Tuần 1 — Baseline detection với YOLO26n pretrained
+
+- Đã chuẩn bị môi trường Python 3.11 CPU, tải checkpoint YOLO26n và chốt bốn lớp: `person`, `bottle`, `cell phone`, `laptop`.
+- Đã chạy thử nhận dạng trên ảnh COCO128 và hai video slideshow kỹ thuật; có kết quả phát hiện người/chai, nhưng bỏ sót một số điện thoại/laptop. Đã thêm giao diện web để chọn ảnh/frame, xem bounding box, crop và tải kết quả.
+- Sáu bài kiểm thử mã đã chạy thành công. Chưa xác nhận webcam trên máy demo, video quay thật, dữ liệu tự thu hoặc chất lượng trên test độc lập. Chi tiết: [bàn giao G1](WEEK1_G1.md).
+
+### Tuần 2 — Chuẩn bị dataset v1
+
+- Đã ghi quy trình nhận ảnh từ thành viên, kiểm trùng, chuẩn hóa nhãn, review chéo và chia train/validation theo nguồn hoặc phiên; thêm các file CSV mẫu để bàn giao dữ liệu.
+- Mục tiêu hiện tại là ít nhất 2.500 ảnh gốc hợp lệ cho train và validation; bộ test sẽ được thu riêng gần cuối dự án. Chưa có dataset v1 được khóa hoặc lần fine-tune nào. Chi tiết: [kế hoạch G2](WEEK2_G2.md).

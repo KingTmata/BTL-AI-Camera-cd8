@@ -8,6 +8,8 @@ Mốc này chỉ được đánh dấu hoàn thành khi có bằng chứng thậ
 | Bốn lớp | `LABELING_GUIDE.md`, `configs/data.yaml.example` | Đã chốt trong tài liệu |
 | Ảnh baseline | `runs/week1/image_bottle/` và `image_phone/` có summary/ảnh đã vẽ | Đã chạy; nhận chai, thấy 3 người ở ảnh khác nhưng bỏ sót điện thoại |
 | Video baseline | `runs/week1/video_smoke_1/` và `video_smoke_2/` | Đã chạy; clip 1 đóng/mở lại nguồn thành công; chưa thay video quay thật |
+| Web xem kết quả | `src/ui/app.py` + `src/inference/detector.py` | Có gallery/upload ảnh, xem frame video, bảng/crop, nhãn tham khảo và tải kết quả; không phải livestream camera |
+| Hướng dẫn và test mã | `docs/`, `tests/` | 6 bài kiểm tự động pass; train chỉ được hướng dẫn, chưa chạy |
 | Webcam chạy, dừng, mở lại | Lệnh `--source 0`; máy chạy công cụ không thấy webcam 0–2 | Chưa xác nhận trên máy có webcam |
 | 20 ảnh hai người gán thử | `data/week1_review_20.csv` | Chờ hai người gán và review thật |
 | 30–50 ảnh thử | `data/week1_coco128_manifest.csv` liệt kê 50 ảnh COCO128 | Có mẫu kỹ thuật; kiểm tự động 50/50 file/box hợp lệ. Chưa có ảnh tự thu/review. COCO128 tải về có 4 file không ghép được cặp ảnh/nhãn; đã loại khỏi danh sách |
