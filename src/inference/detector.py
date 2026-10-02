@@ -13,17 +13,16 @@ import numpy as np
 from PIL import Image, ImageOps
 
 ROOT = Path(__file__).resolve().parents[2]
-PROJECT_NAMES = ("person", "bottle", "cell phone", "laptop")
-COCO_TO_PROJECT = {0: 0, 39: 1, 67: 2, 63: 3}
+from src.classes import COCO_NAMES, COCO_TO_PROJECT, PROJECT_NAMES
 
 
 def class_mapping(names: dict[int, str]) -> dict[int, int]:
     """Từ chối checkpoint không đúng profile để không âm thầm đổi ID."""
-    if len(names) == 80 and all(names.get(i) == PROJECT_NAMES[j] for i, j in COCO_TO_PROJECT.items()):
+    if len(names) == 80 and all(names.get(i) == name for i, name in COCO_NAMES.items()):
         return dict(COCO_TO_PROJECT)
-    if len(names) == 4 and [names.get(i) for i in range(4)] == list(PROJECT_NAMES):
-        return {i: i for i in range(4)}
-    raise ValueError("Checkpoint phải có 80 lớp COCO hoặc đúng thứ tự person, bottle, cell phone, laptop.")
+    if len(names) == len(PROJECT_NAMES) and [names.get(i) for i in range(len(PROJECT_NAMES))] == list(PROJECT_NAMES):
+        return {i: i for i in range(len(PROJECT_NAMES))}
+    raise ValueError("Checkpoint phải là COCO80 hoặc project8 đúng thứ tự: " + ", ".join(PROJECT_NAMES))
 
 
 def decode_image(payload: bytes) -> np.ndarray:
@@ -44,7 +43,7 @@ def crop_box(frame: np.ndarray, box: list[float]) -> np.ndarray:
 
 
 def reference_boxes(label_text: str, width: int, height: int) -> list[dict]:
-    """Đọc nhãn COCO80; output ID luôn là project4, tọa độ là pixel."""
+    """Đọc nhãn COCO80; output ID luôn là project8, tọa độ là pixel."""
     rows = []
     for line_number, line in enumerate(label_text.splitlines(), 1):
         if not line.strip():

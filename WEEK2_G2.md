@@ -1,6 +1,8 @@
 # Tuần 2 — Dataset v1 từ ảnh do nhóm cung cấp
 
-**Cập nhật 29/09/2026 theo quyết định của nhóm:** thành viên tự tìm và bàn giao ảnh; tối thiểu **2.500 ảnh gốc hợp lệ sau lọc trùng** cho train + validation. Test được bổ sung gần cuối dự án, ngoài số lượng này. Chưa có dataset v1 thực tế; tài liệu và file mẫu không phải bằng chứng hoàn thành G2.
+**Cập nhật 03/10/2026:** dataset chính draft `project8_v0.2` có **1.800 ảnh / 5.862 box**: 1.310 train, 360 validation, 130 test. Nguồn COCO500 (500 ảnh) và Laptop Roboflow v1 do thành viên đóng góp (1.300 ảnh) ngang hàng. Có 1.670 ảnh phát triển; còn thiếu 830 ảnh so với mục tiêu 2.500 nếu giữ mục tiêu đó. Nhãn nguồn Laptop hiện chỉ book/laptop, các lớp khác bổ sung theo phân công. 130 ảnh test vẫn giữ riêng, chưa phải test đủ tám lớp hoặc phòng học độc lập. Review, khóa release, video thật, baseline và fine-tune chưa hoàn tất. Đã có công cụ inventory/check/split/lock/verify và evaluator; không gọi draft là G2 đã nghiệm thu. Hướng dẫn hiện hành: [docs/WEEK2_WORKFLOW.md](docs/WEEK2_WORKFLOW.md), [EVALUATION_PROTOCOL.md](EVALUATION_PROTOCOL.md).
+
+**Cập nhật 29/09/2026 theo quyết định của nhóm:** thành viên tự tìm và bàn giao ảnh; tối thiểu **2.500 ảnh gốc hợp lệ sau lọc trùng** cho train + validation. Test được bổ sung gần cuối dự án, ngoài số lượng này. Đã có dataset draft project8_v0.2 thực tế; chưa có release v1 đã review/khóa. Mục tiêu 2.500 là mục tiêu kế hoạch, không phải số đang có.
 
 ## 1. Quy mô và cách chia
 
@@ -13,7 +15,7 @@
 80/20 là phương án đề xuất để triển khai; giữ nguyên nhóm nguồn/phiên quan trọng hơn đúng từng ảnh theo tỷ lệ. Nếu có 3.000 ảnh thì hướng tới 2.400/600. Không lấy bớt từ 2.500 ảnh đã dùng phát triển để gọi thành test mới.
 
 - 2.500 là số **ảnh khác nhau**, không phải số box, không cộng ảnh augmentation hay bản resize vào chỉ tiêu.
-- Dự kiến khoảng 10% ảnh âm tính đã kiểm đủ bốn lớp: 250 ảnh trong tổng 2.500, ví dụ 200 train + 50 val. Có thể điều chỉnh và ghi tỷ lệ thật.
+- Dự kiến khoảng 10% ảnh âm tính đã kiểm đủ tám lớp: 250 ảnh trong tổng 2.500, ví dụ 200 train + 50 val. Có thể điều chỉnh và ghi tỷ lệ thật.
 - Mục tiêu phủ mỗi lớp: ít nhất khoảng 400 ảnh train và 80 ảnh val có lớp đó. Đây là mục tiêu phân bổ ban đầu, không bảo đảm chất lượng; một ảnh có thể góp vào nhiều lớp nên không cộng các cột thành tổng ảnh.
 - Ưu tiên điện thoại/laptop nhỏ, trên bàn, cầm tay, bị che; tránh lấy quá nhiều người để đủ tổng trong khi thiếu ba lớp còn lại.
 - Thành viên đánh dấu bối cảnh `classroom`, `indoor_other`, `outdoor`, `unknown`. Ảnh có người và laptop chưa tự chứng minh đó là phòng học. Báo cáo rõ tỷ lệ bối cảnh thực tế.
@@ -43,7 +45,7 @@ data/raw/<source_id>/
 ```mermaid
 flowchart LR
     A[Nhóm bàn giao ảnh và nguồn] --> B[Kiểm ảnh hỏng và trùng]
-    B --> C[Đổi ID và bổ sung đủ nhãn 4 lớp]
+    B --> C[Đổi ID và bổ sung đủ nhãn 8 lớp]
     C --> D[Kiểm nhãn tự động và review chéo]
     D --> E[Chia theo nhóm nguồn hoặc phiên]
     E --> F[Train khoảng 80%]
@@ -67,15 +69,19 @@ flowchart LR
 | Lớp | ID nhóm | ID YOLO COCO80 | category_id COCO JSON gốc |
 |---|---:|---:|---:|
 | person | 0 | 0 | 1 |
-| bottle | 1 | 39 | 44 |
-| cell phone | 2 | 67 | 77 |
+| table | 1 | 60 (dining table, đối chứng gần đúng) | 67 |
+| chair | 2 | 56 | 62 |
 | laptop | 3 | 63 | 73 |
+| cell phone | 4 | 67 | 77 |
+| backpack | 5 | 24 | 27 |
+| book | 6 | 73 | 84 |
+| cup | 7 | 41 | 47 |
 
 Luôn kiểm `names`/`categories` của nguồn. Không áp các số của COCO cho dataset khác chỉ vì tên file giống nhau. Giữ nhãn gốc; chỉ nhãn đã chuyển đổi đi vào `data/dataset/labels/`.
 
-Giữ **mọi box thuộc cả bốn lớp trong mỗi ảnh**. Nguồn chỉ gán điện thoại có thể còn người/chai/laptop chưa được gán; phải bổ sung trước khi dùng. Đồng nhất cách bao hộp theo [quy chuẩn nhãn](LABELING_GUIDE.md). Crowd/group/ignore hoặc vật mơ hồ phải được review: gán lại từng vật xác định được hoặc loại ảnh nếu pipeline không hỗ trợ; không xóa nhãn rồi giữ vùng đó thành nền.
+Giữ **mọi box thuộc cả tám lớp trong mỗi ảnh**. Mỗi thành viên có thể phụ trách một hoặc nhiều lớp; sau khi tổng hợp cần bổ sung các vật thuộc lớp mục tiêu đang xuất hiện. Nguồn chỉ gán điện thoại có thể còn người/cốc/laptop chưa được gán. Đồng nhất cách bao hộp theo [quy chuẩn nhãn](LABELING_GUIDE.md). Crowd/group/ignore hoặc vật mơ hồ phải được review: gán lại từng vật xác định được hoặc loại ảnh nếu pipeline không hỗ trợ; không xóa nhãn rồi giữ vùng đó thành nền.
 
-Kiểm tự động 100%: cặp ảnh/TXT, năm giá trị mỗi dòng, ID nguyên 0–3, số hữu hạn, rộng/cao > 0, hộp nằm trong ảnh, box trùng, số ảnh/box từng lớp, nhóm trùng xuyên split. Máy kiểm định dạng không biết hết nhãn thiếu; việc đó cần người review.
+Kiểm tự động 100%: cặp ảnh/TXT, năm giá trị mỗi dòng, ID nguyên 0–7, số hữu hạn, rộng/cao > 0, hộp nằm trong ảnh, box trùng, số ảnh/box từng lớp, nhóm trùng xuyên split. Máy kiểm định dạng không biết hết nhãn thiếu; việc đó cần người review.
 
 ### C. Review người thứ hai
 
@@ -87,7 +93,7 @@ Mục tiêu 20% (500/2.500 ảnh), phân tầng theo nguồn, lớp, bối cản
 - Với nguồn khác: giữ split chuẩn nếu phù hợp, đồng thời kiểm rò rỉ giữa nguồn. Dataset không có split thì chia theo phiên/nhóm cảnh/gần trùng, seed 42; điều chỉnh nhóm để đủ lớp.
 - Nếu split chuẩn của nhiều nguồn xung đột do ảnh trùng, ưu tiên loại bản xung đột khỏi bộ v1 hoặc giữ nguyên nhóm trong một split có ghi lý do; không giữ cả hai.
 - Đưa ảnh đã duyệt vào `data/dataset/images/{train,val}` và TXT tương ứng vào `labels/{train,val}`. Tên gồm `source_id` + ID ảnh để tránh ghi đè.
-- Tạo `data/manifest.csv`, `data/splits/v1/train.txt`, `val.txt`, `SHA256SUMS.txt`; ghi checksum cả ảnh, nhãn, manifest và danh sách chia. Hai file TXT là danh sách đường dẫn tương đối với repo phục vụ kiểm tra; YAML chạy train dùng các folder ảnh.
+- Tạo `data/manifest.csv`, `data/dataset/v1/splits/train.txt`, `val.txt`, `checksums.json`; ghi checksum cả ảnh, nhãn, manifest và danh sách chia. Hai file TXT là danh sách đường dẫn tương đối với repo phục vụ kiểm tra; YAML chạy train dùng các folder ảnh.
 - Mọi sửa nhãn/thay split sau khóa tạo phiên bản mới, ghi lý do và chạy lại baseline/thí nghiệm liên quan. Không cập nhật bộ val lặng lẽ giữa hai model.
 
 ## 4. Test bổ sung gần cuối
@@ -96,7 +102,7 @@ Mục tiêu 20% (500/2.500 ảnh), phân tầng theo nguồn, lớp, bối cản
 
 Lịch đề xuất: cuối tuần 4 hoặc đầu tuần 5 nhận và gán nhãn test; sau khi khóa model/ngưỡng/logic và nhãn thì chấm ở tuần 5, để còn thời gian viết báo cáo. Với dự án năm tuần, thực hiện trước giai đoạn chốt báo cáo, không chờ ngày cuối.
 
-- Đề xuất thêm 300–500 ảnh thực tế từ phiên chưa dùng; số này ngoài tối thiểu 2.500 ảnh phát triển. Ghi quy mô thật và số mẫu từng lớp; nếu thiếu lớp thì nêu giới hạn, không tuyên bố đánh giá đủ bốn lớp.
+- Đề xuất thêm 300–500 ảnh thực tế từ phiên chưa dùng; số này ngoài tối thiểu 2.500 ảnh phát triển. Ghi quy mô thật và số mẫu từng lớp; nếu thiếu lớp thì nêu giới hạn, không tuyên bố đánh giá đủ tám lớp.
 - Không trích test từ val đã xem, ảnh train hoặc phiên video_dev. Kiểm trùng với toàn bộ ảnh phát triển kể cả ảnh đã bị loại sau khi nhóm xem kết quả.
 - Chỉ thêm `test: images/test` vào YAML khi đã có bộ test hợp lệ. Không trỏ test về val để lệnh chạy được.
 - Nếu xem test rồi dùng lỗi để sửa model/ngưỡng thì bộ đó đã tham gia phát triển; cần test mới hoặc ghi rõ phép đo không còn độc lập.
@@ -105,17 +111,17 @@ Lịch đề xuất: cuối tuần 4 hoặc đầu tuần 5 nhận và gán nhã
 
 Ảnh tổng hợp phục vụ detection. Tracking/đếm vẫn cần **3–5 clip video_dev có trình tự thật** và **5–10 clip video_test độc lập bổ sung cuối dự án**, gán sự kiện cùng timestamp. Slideshow COCO128 chỉ thử đọc file, không thay video sự kiện.
 
-Cuối tuần 2 chấm YOLO26n pretrained trên **val đã khóa**, lưu mAP50, mAP50–95 và AP từng lớp, số ảnh/box, cấu hình, version và checksum checkpoint/dataset. Dùng evaluator chung có ánh xạ 80→4; không chạy pretrained80 thẳng trên YAML4 rồi công bố so sánh. Hiện evaluator chung **chưa có**, nên chưa có baseline validation G2. Web chỉ hiển thị dự đoán; số confidence không phải mAP.
+Cuối tuần 2 chấm YOLO26n pretrained trên **val đã khóa**, lưu mAP50, mAP50–95 và AP từng lớp, số ảnh/box, cấu hình, version và checksum checkpoint/dataset. Đã có evaluator chung `python -m src.evaluation`, ánh xạ COCO80→project8 hoặc project8 identity. Chưa có dữ liệu nhóm đã khóa nên chưa có baseline G2. Web chỉ hiển thị dự đoán; confidence không phải mAP. Table COCO là dining table nên ghi giới hạn phạm vi trong bảng so sánh.
 
 Nếu ảnh đến từ tập pretrained đã học, ghi rõ chồng lặp; kết quả trên đó không chứng minh khả năng tổng quát sang phòng học mới. Báo cáo kết quả công khai và test phòng học thật riêng, không gộp thành một kết luận.
 
-## 6. Checklist G2 điều chỉnh — 0/8
+## 6. Checklist nghiệm thu G2 — chưa hoàn tất
 
-Chỉ đánh dấu sau khi có bằng chứng, không tính file khung là dataset đã đạt.
+Đã có bằng chứng kiểm kỹ thuật và hồ sơ draft. Các mục dưới đây là điều kiện nghiệm thu cuối, chưa đánh dấu hoàn thành khi còn review/nhãn/quyền/split cần xác nhận.
 
 - [ ] Có ≥2.500 ảnh phát triển hợp lệ, có nguồn, quyền và thống kê bối cảnh.
 - [ ] Đã lọc ảnh hỏng/trùng/gần trùng giữa mọi nguồn, có danh sách loại và nhóm trùng.
-- [ ] Có nhãn YOLO đủ bốn lớp theo quy chuẩn; mọi ảnh có TXT hợp lệ, ảnh âm tính được xác nhận.
+- [ ] Có nhãn YOLO đủ tám lớp theo quy chuẩn; mọi ảnh có TXT hợp lệ, ảnh âm tính được xác nhận.
 - [ ] Kiểm tự động 100%; review chéo 10–20% và toàn bộ ca nghi ngờ, có người và kết quả thật.
 - [ ] Train/val khoảng 80/20 theo nhóm đã khóa; không rò rỉ; đủ ví dụ từng lớp và có checksum.
 - [ ] Hoàn thiện `configs/data.yaml`, `data/manifest.csv`, `data/DATA_CARD.md` bằng số liệu thật.
@@ -128,14 +134,14 @@ Chỉ đánh dấu sau khi có bằng chứng, không tính file khung là datas
 
 | Nơi | Vai trò | Trạng thái |
 |---|---|---|
-| `data/raw/` | Dữ liệu gốc thành viên bàn giao | Chờ nhóm cung cấp |
+| `data/raw/` | Nguồn COCO và ZIP Laptop thành viên | Đã lưu raw và metadata gốc |
 | `data/templates/` | Mẫu kê nguồn, manifest, review, video | Header mẫu; chưa có bản ghi thật |
-| `data/dataset/` | Ảnh/nhãn cuối cho train/val; test thêm sau | Chưa có dataset v1 |
-| `data/splits/` | Danh sách chia và checksum sau khóa | Chưa khóa |
-| `data/DATA_CARD.md` | Hồ sơ dataset và hạn chế | Khung chờ số liệu |
-| `scripts/data/` | Code chuẩn bị/kiểm dữ liệu, không train | Mới có tiện ích COCO128 smoke; pipeline G2 chưa viết |
+| `data/dataset/project8_v0.2/` | Dataset chính draft | 1.310 train / 360 val / 130 test; 1.800 ảnh, 5.862 box |
+| `data/dataset/v1/splits/` | Danh sách chia; checksum trong release | Chưa khóa; lock sẽ sinh |
+| `data/DATA_CARD.md` | Hồ sơ dataset và hạn chế | Có số liệu draft, nguồn, split và việc còn thiếu |
+| `scripts/data/` + `src/dataset.py` | Inventory, kiểm dữ liệu, chia nhóm và khóa release | Đã triển khai, xem workflow |
 | `src/training/` + `configs/train_n.yaml` | Train bằng Ultralytics khi dataset đạt | Chưa fine-tune |
 | `src/inference/` + `src/ui/` | Chạy model và xem kết quả | Đã có bản thử tuần 1 |
 | `tests/` | Kiểm code | Khác hoàn toàn ảnh `images/test/` |
 
-Lần cập nhật này chỉ thay kế hoạch, hướng dẫn và khung dữ liệu; không tìm/tải ảnh, không thực hiện train và không đánh dấu G2 hoàn thành.
+Đã triển khai công cụ và kiểm bằng dữ liệu nhân tạo cùng model pretrained thật. Đã có 1.800 ảnh dữ liệu chính và hồ sơ draft; chưa có video thật, review đã duyệt hoặc baseline validation; G2 chưa hoàn thành.

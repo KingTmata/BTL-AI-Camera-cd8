@@ -1,4 +1,6 @@
 # Kế hoạch đề tài 8 Nhận dạng đối tượng trong camera
+
+> **Cập nhật 03/10/2026:** dataset chính draft `project8_v0.2` có **1.800 ảnh / 5.862 box**: 1.310 train, 360 validation, 130 test. Nguồn COCO500 (500 ảnh) và Laptop Roboflow v1 do thành viên đóng góp (1.300 ảnh) ngang hàng. Có 1.670 ảnh phát triển; còn thiếu 830 ảnh so với mục tiêu 2.500 nếu giữ mục tiêu đó. Nhãn nguồn Laptop hiện chỉ book/laptop, các lớp khác bổ sung theo phân công. 130 ảnh test vẫn giữ riêng, chưa phải test đủ tám lớp hoặc phòng học độc lập. Review, khóa release, video thật, baseline và fine-tune chưa hoàn tất. Xem [hồ sơ dataset chính](docs/PROJECT8_V0_2_DATA_PROFILE.md), [workflow](docs/WEEK2_WORKFLOW.md) và [protocol](EVALUATION_PROTOCOL.md).
 **Cách đọc nhanh:** cả nhóm đọc mục 1–3 và 18 trước; dữ liệu/model đọc 6, 8, 9; tracking đọc 7, 9, 10; ứng dụng đọc 5, 10, 20; repo ở 11; phân công/tiến độ ở 12–13; bộ nộp/bảo vệ ở 15–17; đối soát Qwen ở 19; cấu hình ở 20; kiểm thử/bàn giao ở 21; nguồn ở 22.
 ## 1 Mọi thành viên cần hiểu gì trước tiên
 
@@ -6,11 +8,11 @@ Nhóm xây dựng một ứng dụng nhận hình từ webcam, phát hiện đ�
 
 **Tên triển khai đề xuất:** Hệ thống phát hiện và theo dõi người cùng đồ vật trong phòng học qua camera.
 
-**Phạm vi dùng cho kế hoạch này:** kế thừa đoạn chat Mata cung cấp: 1 camera cố định, 4 lớp `person`, `bottle`, `cell phone`, `laptop`; tracking và đếm lượt qua vạch tập trung vào `person`. Các vật thể còn lại được phát hiện, theo dõi khi phù hợp và đếm hiện diện. Chốt YOLO26n làm bản chính (local/CPU); YOLO26s do thành viên khác hoặc Colab chạy làm đối chứng kích thước, không chặn đường chính. Không đổi thế hệ model giữa dự án nếu không có lý do thực nghiệm. Phạm vi vẫn cần giảng viên duyệt lại sau khi đổi từ YOLOv8 sang YOLO26.
+**Phạm vi dùng cho kế hoạch này:** kế thừa đoạn chat Mata cung cấp: 1 camera cố định, 8 lớp `person`, `table`, `chair`, `laptop`, `cell phone`, `backpack`, `book`, `cup`; tracking và đếm lượt qua vạch tập trung vào `person`. Các vật thể còn lại được phát hiện, theo dõi khi phù hợp và đếm hiện diện. Chốt YOLO26n làm bản chính (local/CPU); YOLO26s do thành viên khác hoặc Colab chạy làm đối chứng kích thước, không chặn đường chính. Không đổi thế hệ model giữa dự án nếu không có lý do thực nghiệm. Phạm vi vẫn cần giảng viên duyệt lại sau khi đổi từ YOLOv8 sang YOLO26.
 
 Ví dụ để cả nhóm hình dung:
 
-- Đưa chai vào webcam → ứng dụng vẽ hộp quanh chai, hiện “chai nước” và điểm confidence.
+- Đưa cốc vào webcam → ứng dụng vẽ hộp quanh cốc, hiện “cốc” và điểm confidence.
 - Một người đi qua vạch → ghi một sự kiện theo chiều A→B hoặc B→A; đứng yên trước camera không làm số lượt tăng từng frame.
 - Một người ở trong vùng đánh dấu trên 2 giây → hiện cảnh báo thử nghiệm và thêm một dòng nhật ký.
 - Đưa điện thoại ra xa → mô hình có thể bỏ sót; nhóm đo và giải thích lỗi, rồi kiểm tra fine-tune có cải thiện hay không.
@@ -19,7 +21,7 @@ Ví dụ để cả nhóm hình dung:
 
 ### Kế thừa trao đổi cũ
 
-Đã tìm lại các trao đổi ngày 24–25/09 và 28/09/2026: Mata hỏi về đề 8, CNN/YOLO, nhu cầu huấn luyện, dataset, repo, tracking, đếm/cảnh báo và mức khó 6–7/10. Hướng YOLO nhỏ + fine-tune + ByteTrack là gợi ý đã được bàn; đoạn chat Mata bổ sung xác định phương án bốn lớp và YOLOv8 (nay nhóm chuyển sang YOLO26n chính + YOLO26s đối chứng, xem mục 4, 8); tên thành viên cụ thể và ngày nộp vẫn chưa có.
+Đã tìm lại các trao đổi ngày 24–25/09 và 28/09/2026: Mata hỏi về đề 8, CNN/YOLO, nhu cầu huấn luyện, dataset, repo, tracking, đếm/cảnh báo và mức khó 6–7/10. Hướng YOLO nhỏ + fine-tune + ByteTrack là gợi ý đã được bàn; đoạn chat Mata bổ sung xác định phương án tám lớp và YOLOv8 (nay nhóm chuyển sang YOLO26n chính + YOLO26s đối chứng, xem mục 4, 8); tên thành viên cụ thể và ngày nộp vẫn chưa có.
 
 Tài liệu cũ “Đã dán markdown (1).md” nêu YOLOv8 + DeepSORT/ByteTrack (nay thay bằng YOLO26 + ByteTrack). Cần sửa cách hiểu: **ByteTrack cơ bản không dùng mô hình Re-ID hay khoảng cách cosine để ghép ngoại hình**; DeepSORT mới là hướng điển hình có đặc trưng ngoại hình. Tracking là phần nâng cấp hợp lý cho đề 8, nhưng tên đề trong PDF không tự biến tracking thành yêu cầu bắt buộc. [S6, S7]
 
@@ -57,7 +59,7 @@ Ba chương đã gửi tập trung vào tác tử, PEAS và tìm kiếm. Có th�
 | Thuyết trình và hỏi cá nhân | 2 | Mỗi người chạy và giải thích được hệ thống |
 | **Tổng** | **10** | Không suy ra điểm đạt chỉ từ số chức năng |
 
-**Ba việc hỏi giảng viên tuần 1:** sĩ số áp dụng; phạm vi bốn lớp và tracking có phù hợp; dùng pretrained rồi fine-tune có đáp ứng mong đợi không. Vẫn có thể đọc tài liệu, dựng baseline và chuẩn bị dữ liệu trong lúc chờ.
+**Ba việc hỏi giảng viên tuần 1:** sĩ số áp dụng; phạm vi tám lớp và tracking có phù hợp; dùng pretrained rồi fine-tune có đáp ứng mong đợi không. Vẫn có thể đọc tài liệu, dựng baseline và chuẩn bị dữ liệu trong lúc chờ.
 
 ## 3 Mục tiêu sản phẩm và giới hạn
 
@@ -81,7 +83,7 @@ Các con số dưới đây là **mục tiêu kỹ thuật ban đầu**, cần k
 
 | Mục tiêu | Cách xác nhận |
 |---|---|
-| Nhận bốn lớp trên ảnh và webcam | Test set có nhãn; báo cáo riêng từng lớp |
+| Nhận tám lớp trên ảnh và webcam | Test set có nhãn; báo cáo riêng từng lớp |
 | Chạy liên tục 10 phút | Không crash, không tăng hàng đợi đến mức hình càng lúc càng trễ |
 | Mục tiêu ≥10 FPS xử lý trên máy demo | Đo cả pipeline tại cấu hình đã chọn; báo cáo số thực dù thấp hơn |
 | Mục tiêu p95 độ trễ xử lý ≤200 ms | Từ lúc app nhận frame đến lúc tạo kết quả; không gọi đây là trễ toàn hệ camera–màn hình |
@@ -107,7 +109,7 @@ Chốt YOLO26 theo quyết định nhóm (thay YOLOv8): `yolo26n.pt` cho baselin
 | Streamlit | Giao diện Python đơn giản | Trạng thái phiên, nút, cấu hình, bảng kết quả |
 | CVAT hoặc công cụ gán nhãn tương đương | Vẽ bounding box và xuất nhãn YOLO | Nhãn đầy đủ, nhất quán, class ID đúng |
 | Pandas + Matplotlib | Tổng hợp CSV và vẽ kết quả | Mỗi hàng đại diện điều gì, trục và đơn vị |
-| pycocotools hoặc evaluator tương đương được kiểm chứng | Chấm dự đoán hai loại checkpoint trên cùng nhãn bốn lớp | Chuyển định dạng/category mapping đúng, cùng quy tắc tính AP |
+| pycocotools hoặc evaluator tương đương được kiểm chứng | Chấm dự đoán hai loại checkpoint trên cùng nhãn tám lớp | Chuyển định dạng/category mapping đúng, cùng quy tắc tính AP |
 | CSV/JSON/YAML | Nhật ký, kết quả và cấu hình | MVP chưa cần SQL Server hay backend riêng |
 | Git/GitHub | Quản lý mã và phân công | Branch, commit nhỏ, review, README |
 | Colab | Fine-tune nếu được cấp GPU | Lưu checkpoint; không coi tài nguyên miễn phí là được bảo đảm |
@@ -213,7 +215,7 @@ Không có cơ sở trong tài liệu đã kiểm tra để khẳng định mọ
 
 ### Quy mô và nguồn đề xuất
 
-**Mục tiêu:** khoảng 1.200 ảnh tự thu đã lọc trùng, gồm ảnh tĩnh và frame được chọn từ nhiều phiên quay. Có thể điều chỉnh trong khoảng 1.000–1.500 ảnh theo chất lượng và thời gian gán nhãn. Đây là tổng số ảnh trước augmentation, không phải chỉ tiêu cố định của giảng viên.
+**Mục tiêu hiện hành:** 2.500 ảnh phát triển train/validation theo WEEK2_G2.md; nhóm có thể điều chỉnh và ghi rõ quy mô thật. Hiện có 1.800 ảnh chính: 1.670 ảnh phát triển và 130 test, chưa tính ảnh mẫu/augmentation. Nguồn hiện tại là COCO và Roboflow, chưa chứng minh đó là ảnh tự thu phòng học.
 
 Thu 15–24 phiên quay/chụp ngắn, nhiều vị trí, ít nhất vài ngày hoặc buổi khác nhau; nếu làm được, dùng nhiều điện thoại/chai/người tình nguyện. Cố gắng có ít nhất 3 phiên độc lập cho validation và 3 phiên cho test. Số ảnh không thay thế được sự đa dạng.
 
@@ -228,18 +230,22 @@ Chọn một phòng làm bối cảnh chính; phòng thứ hai là cách tăng �
 
 COCO và các tập kiểm tra nhỏ được mô tả tại [S4, S13, S14]. Ưu tiên test tự thu chưa từng đưa vào pretrained/fine-tune của nhóm; không tải toàn bộ COCO nếu không cần.
 
-Nếu dữ liệu tự thu thiếu đa dạng, phương án bổ sung đã bàn là lọc khoảng **2.000–5.000 ảnh COCO chứa bốn lớp** cho huấn luyện. Đây là phạm vi dự kiến, chưa có tập lọc sẵn. Với mỗi ảnh được lấy, giữ đầy đủ nhãn của mọi đối tượng thuộc bốn lớp, đổi category ID về mapping của nhóm và ghi nguồn; không thêm ảnh đó vào test mới. COCO8 và COCO128 là công cụ debug thay thế nhau theo nhu cầu, không bắt buộc mất thời gian chạy cả hai nếu pipeline đã đúng.
+Nếu dữ liệu tự thu thiếu đa dạng, phương án bổ sung đã bàn là lọc khoảng **2.000–5.000 ảnh COCO chứa tám lớp** cho huấn luyện. Đã chọn COCO500 bằng seed 42 (400 train2017 + 100 val2017); quy mô 2.000–5.000 chỉ là phương án mở rộng nếu cần. Với mỗi ảnh được lấy, giữ đầy đủ nhãn của mọi đối tượng thuộc tám lớp, đổi category ID về mapping của nhóm và ghi nguồn; không thêm ảnh đó vào test mới. COCO8 và COCO128 là công cụ debug thay thế nhau theo nhu cầu, không bắt buộc mất thời gian chạy cả hai nếu pipeline đã đúng.
 
 ### Lớp và ánh xạ ID
 
 | Nghĩa | Tên nhãn chung | ID pretrained COCO trong Ultralytics | ID dataset riêng |
 |---|---|---:|---:|
 | Người | `person` | 0 | 0 |
-| Chai | `bottle` | 39 | 1 |
-| Điện thoại di động | `cell phone` | 67 | 2 |
+| Bàn | `table` (COCO dining table) | 60 | 1 |
+| Ghế | `chair` | 56 | 2 |
 | Laptop | `laptop` | 63 | 3 |
+| Điện thoại | `cell phone` | 67 | 4 |
+| Balo | `backpack` | 24 | 5 |
+| Sách/vở | `book` | 73 | 6 |
+| Cốc | `cup` | 41 | 7 |
 
-Các ID pretrained được đối chiếu từ `coco.yaml`. Đây không phải category ID gốc của COCO JSON. Luôn kiểm tra `model.names` của checkpoint đang dùng; đừng lấy 39/67/63 áp cho model đã fine-tune bốn lớp. [S4]
+Các ID pretrained được đối chiếu từ `coco.yaml`. Đây không phải category ID gốc của COCO JSON. Luôn kiểm tra `model.names` của checkpoint đang dùng; đừng lấy ID COCO80 áp cho model đã fine-tune tám lớp. [S4]
 
 ### Kịch bản thu thập
 
@@ -251,11 +257,11 @@ Các ID pretrained được đối chiếu từ `coco.yaml`. Đây không phải
 | Nền | Bàn gọn, bàn nhiều đồ, nền có vật dễ nhầm |
 | Che khuất | Không che, che một phần; không gán nhãn vật hoàn toàn vô hình |
 | Chuyển động | Đứng yên, đi ngang, hai người giao nhau |
-| Ảnh âm tính | Khoảng 10–15% ảnh không chứa bốn lớp; có vật dễ nhầm |
+| Ảnh âm tính | Khoảng 10–15% ảnh không chứa tám lớp; có vật dễ nhầm |
 
-Với tổng 1.200 ảnh, 10–15% tương ứng **120–180 ảnh âm tính, đã nằm trong tổng 1.200**, không cộng thêm. 100/1.200 ≈8,3%, không thể ghi là nằm trong khoảng 10–15%. Ảnh âm tính có file nhãn TXT rỗng theo quy ước nội bộ để phân biệt với ảnh chưa được gán nhãn.
+Mục tiêu ảnh âm tính khoảng 10% ảnh phát triển: 250/2.500 nếu đủ quy mô. Dataset hiện chọn ảnh dương tính, chưa có ảnh âm tính đã được xác nhận đủ tám lớp. Ảnh âm tính có file nhãn TXT rỗng theo quy ước nội bộ để phân biệt với ảnh chưa được gán nhãn.
 
-Chụp được một ảnh chứa cả bốn lớp vẫn chỉ tính là một ảnh, nhưng có nhiều bounding box. Báo cáo cả số ảnh và số instance từng lớp. Khi ít điện thoại hơn người, thu bổ sung điện thoại ở nhiều bối cảnh; không chỉ sao chép lặp ảnh để tạo cảm giác cân bằng.
+Chụp được một ảnh chứa cả tám lớp vẫn chỉ tính là một ảnh, nhưng có nhiều bounding box. Báo cáo cả số ảnh và số instance từng lớp. Khi ít điện thoại hơn người, thu bổ sung điện thoại ở nhiều bối cảnh; không chỉ sao chép lặp ảnh để tạo cảm giác cân bằng.
 
 ### Quy chuẩn gán nhãn thống nhất
 
@@ -264,7 +270,7 @@ Chọn quy ước **hộp chữ nhật bao phần nhìn thấy và nhận dạng
 | Lớp | Gán nhãn thế nào | Ca khó cần xử lý |
 |---|---|---|
 | `person` | Một hộp cho một người thật nhìn thấy; cắt hộp theo biên ảnh | Bị bàn che → bao phần thấy được; đáy hộp lúc này không còn là vị trí bàn chân |
-| `bottle` | Bao thân, cổ, nắp và đáy nhìn thấy; chai mở nắp vẫn có thể là chai | Cốc/ly thuộc loại khác, không tự đổi thành bottle; bình giữ nhiệt dạng chai cần quy ước minh họa trước |
+| `table`, `chair`, `backpack`, `book`, `cup` | Bao phần vật nhìn thấy và nhận dạng được theo LABELING_GUIDE.md | Table rộng hơn dining table; book gồm sách/vở; không đổi chai thành cup hoặc gộp nhiều vật thành một hộp |
 | `cell phone` | Bao phần điện thoại; không cố ý mở rộng hộp để chứa cả bàn tay | Bị che nhiều nhưng vẫn nhận dạng được → vẫn gán nhãn; không đặt quy tắc máy móc “che trên 50% là bỏ” |
 | `laptop` | Mở → bao màn hình và thân/phím; gập → gán nếu xác định được là laptop | Không yêu cầu phải thấy logo; không đoán từ hình chữ nhật giống quyển sổ |
 
@@ -278,9 +284,9 @@ Chọn quy ước **hộp chữ nhật bao phần nhìn thấy và nhận dạng
 
 1. Lưu nguồn gốc: người thu, ngày, thiết bị, phiên, bối cảnh và quyền sử dụng.
 2. Loại ảnh hỏng, trùng hoặc gần trùng; giữ một phần ảnh khó thực tế có chủ đích.
-3. Gán nhãn cả bốn lớp nhìn thấy trong ảnh. Nhãn box theo phần nhìn thấy, nhất quán trong toàn tập; ảnh quá khó xác định thì loại hoặc đánh dấu để xem lại.
+3. Gán nhãn cả tám lớp nhìn thấy trong ảnh. Nhãn box theo phần nhìn thấy, nhất quán trong toàn tập; ảnh quá khó xác định thì loại hoặc đánh dấu để xem lại.
 4. Người thứ hai kiểm tra ít nhất 10–20% ảnh và toàn bộ ảnh có nghi ngờ; dùng lỗi trên train/validation để rà nhãn. Nhãn test phải được kiểm và khóa trước khi xem dự đoán test; sửa nhãn sau đó cần lưu lý do và chấm lại mọi đối chứng.
-5. Chia **theo phiên quay/địa điểm/ngày**, mục tiêu xấp xỉ 70/15/15. Với 1.200 ảnh, 840/180/180 chỉ là ví dụ; tỷ lệ thực có thể lệch vì giữ nguyên nhóm.
+5. Chia **theo phiên quay/địa điểm/ngày**, mục tiêu train/val khoảng 80/20; test giữ riêng. Hiện giữ split nguồn: 1.310/360/130; tỷ lệ có thể lệch vì giữ nhóm.
 6. Kiểm tra mỗi lớp đều có đủ ví dụ trong val/test; giữ người hoặc kiểu vật chưa gặp ở train khi có thể.
 7. Chỉ augmentation tập train. Không để ảnh gốc ở train và bản xoay/crop của nó ở test.
 8. Khóa danh sách test trước khi tối ưu. Mọi thay đổi split phải có lý do và lưu phiên bản.
@@ -291,7 +297,7 @@ Chọn quy ước **hộp chữ nhật bao phần nhìn thấy và nhận dạng
 
 Nhãn YOLO: một file TXT tương ứng ảnh; mỗi dòng `class_id x_center y_center width height`, bốn tọa độ chuẩn hóa 0–1. Ví dụ hộp ở giữa, rộng 20%, cao 40% ảnh và thuộc lớp chai: `1 0.5 0.5 0.2 0.4`. Đây là ví dụ nhãn, không phải dữ liệu thật. [S5]
 
-`manifest.csv` dự kiến có `image_id`, `session_id`, `source`, `split`, `lighting`, `object_size_group`, `license_or_consent`, `sha256`. `DATA_CARD.md` mô tả số ảnh/box theo lớp, cách chọn split, hạn chế, người gán nhãn và quyền sử dụng. `data.yaml` giữ thứ tự bốn lớp cố định.
+`manifest.csv` dự kiến có `image_id`, `session_id`, `source`, `split`, `lighting`, `object_size_group`, `license_or_consent`, `sha256`. `DATA_CARD.md` mô tả số ảnh/box theo lớp, cách chọn split, hạn chế, người gán nhãn và quyền sử dụng. `data.yaml` giữ thứ tự tám lớp cố định.
 
 ### Video phát triển và video test là hai bộ khác nhau
 
@@ -457,7 +463,7 @@ Seed giúp kiểm soát ngẫu nhiên, không bảo đảm hai máy/phần cứn
 
 | Mã | So sánh | Giữ nguyên | Câu hỏi |
 |---|---|---|---|
-| E1 | YOLO26n pretrained vs fine-tuned (cả hai head nms True/False ghi riêng) | Test, bốn lớp, evaluator, ảnh 640, cách hậu xử lý | Dữ liệu riêng có giúp không? |
+| E1 | YOLO26n pretrained vs fine-tuned (cả hai head nms True/False ghi riêng) | Test, tám lớp, evaluator, ảnh 640, cách hậu xử lý | Dữ liệu riêng có giúp không? |
 | E2 | YOLO26n vs YOLO26s fine-tuned (26s chạy Colab/máy khác) | Train/val/test, lịch huấn luyện, evaluator, thiết bị | Model lớn đổi tốc độ và chất lượng thế nào? |
 | E2c | nms=False vs nms=True trên cùng checkpoint 26n | Cùng model, cùng val/test, cùng confidence | NMS-free nhanh hơn bao nhiêu, mất bao nhiêu mAP? |
 | E2b | 416 vs 640 | Cùng model, video/ảnh, thiết bị | Kích thước đầu vào ảnh hưởng ra sao? |
@@ -483,24 +489,24 @@ Nhãn lát cắt phải xác định trước khi xem dự đoán: ánh sáng th
 
 Ví dụ minh họa tự đặt: ảnh có 10 chai; model xuất 9 hộp, trong đó 8 khớp đúng → TP=8, FP=1, FN=2 → precision≈88,9%, recall=80%. Một vật chỉ ghép với một dự đoán; các hộp dư không được tính đúng nhiều lần.
 
-**Bẫy class ID:** pretrained có 80 lớp, model fine-tuned có 4 lớp. Phải chuyển dự đoán của cả hai về cùng bốn nhãn trước khi chấm. Không đưa model 80 lớp vào YAML bốn lớp rồi mặc định kết quả đã so được. Viết adapter ánh xạ theo bảng mục 6 và dùng chung evaluator; kiểm tra bằng một bộ hộp đúng/sai nhỏ mà nhóm biết đáp án.
+**Bẫy class ID:** pretrained có 80 lớp, model fine-tuned có 8 lớp. Phải chuyển dự đoán của cả hai về cùng tám nhãn trước khi chấm. Không đưa model 80 lớp vào YAML tám lớp rồi mặc định kết quả đã so được. Viết adapter ánh xạ theo bảng mục 6 và dùng chung evaluator; kiểm tra bằng một bộ hộp đúng/sai nhỏ mà nhóm biết đáp án.
 
 Để tính AP, giữ dự đoán ở ngưỡng đủ thấp theo evaluator đã chọn; không lấy ngưỡng giao diện 0,60 rồi kết luận mAP chuẩn mà không nói đã cắt bớt dự đoán. Chốt NMS và quy tắc matching, báo cáo precision/recall/F1 tại ngưỡng vận hành riêng. Có thể dùng evaluator COCO qua pycocotools sau khi quy đổi hai model sang cùng category mapping; document rõ định dạng và phiên bản.
 
-### Adapter bốn lớp và evaluator dùng chung
+### Adapter tám lớp và evaluator dùng chung
 
 Chốt `ModelEvaluator` dùng một evaluator COCO bbox cho cả ba checkpoint, thay vì so hai bảng mAP do hai đường chấm khác nhau sinh ra. Validation trong lúc train vẫn hữu ích để chọn checkpoint; bảng đối chứng chính phải chạy lại qua evaluator chung.
 
 1. `ClassMapper` đọc `model.names`, so tên với profile `coco80` hoặc `project4`; nếu sai hoặc thiếu lớp thì dừng với lỗi rõ ràng. Baseline lọc/map `0→0, 39→1, 67→2, 63→3`. Fine-tuned giữ `0→0, 1→1, 2→2, 3→3`. Không suy ra profile chỉ từ tên file.
 2. `PredictionAdapter` lấy hộp pixel xyxy và score, đổi thành COCO xywh: `[xmin, ymin, xmax-xmin, ymax-ymin]`; không chuẩn hóa thêm lần nữa. Tên ảnh, image_id và kích thước phải khớp manifest.
-3. `GroundTruthExporter` xuất ảnh/annotation của split đã chọn; giữ **cả ảnh âm tính có 0 box**. Categories dùng ID `0–3` nhất quán ở GT, predictions và evaluator; không nhầm với COCO JSON gốc.
-4. `ModelEvaluator` khóa task bbox, bốn catIds, IoU 0,50:0,05:0,95 và diện tích all. Dùng cùng `maxDets=[1,10,100]` theo protocol đã chọn; inference có thể giữ tối đa 300 hộp trước khi evaluator giới hạn. Ghi tên evaluator/phiên bản và ngưỡng hậu xử lý. [S25]
+3. `GroundTruthExporter` xuất ảnh/annotation của split đã chọn; giữ **cả ảnh âm tính có 0 box**. Categories dùng ID `0–7` nhất quán ở GT, predictions và evaluator; không nhầm với COCO JSON gốc.
+4. `ModelEvaluator` khóa task bbox, tám catIds, IoU 0,50:0,05:0,95 và diện tích all. Dùng cùng `maxDets=[1,10,100]` theo protocol đã chọn; inference có thể giữ tối đa 300 hộp trước khi evaluator giới hạn. Ghi tên evaluator/phiên bản và ngưỡng hậu xử lý. [S25]
 5. Xuất mAP50, mAP50–95, AP/Recall theo lớp và số mẫu từng lớp. Với lát cắt không có GT của một lớp, ghi N/A và tập lớp thực sự lấy trung bình; không tự gán điểm 0 hay 1 cho ô thiếu dữ liệu.
 6. P/R/F1 tại confidence 0,25/0,40/0,60 được tính riêng, IoU matching 0,50, ghép một-một cùng lớp theo thứ tự score. Chọn ngưỡng trên validation, rồi cố định cho test. mAP tích hợp nhiều score nên không đồng nhất với P/R tại một ngưỡng.
 
-**Ví dụ mapping:** hộp baseline có raw class 39 → bottle, project ID 1; hộp fine-tuned class 1 cũng → bottle. Raw class 1 của baseline là lớp khác và bị loại. Mã minh họa Qwen là đúng hướng ánh xạ, nhưng chưa phải evaluator hoàn chỉnh: còn thiếu kiểm profile, đổi hộp, GT, ảnh âm tính và quy tắc matching.
+**Ví dụ mapping:** hộp baseline có raw class 63 → laptop, project ID 3; hộp fine-tuned class 3 cũng → laptop. Raw class 3 của baseline là lớp khác và bị loại. Mã minh họa Qwen là đúng hướng ánh xạ, nhưng chưa phải evaluator hoàn chỉnh: còn thiếu kiểm profile, đổi hộp, GT, ảnh âm tính và quy tắc matching.
 
-**Kiểm evaluator trước khi đo model:** bộ dữ liệu nhân tạo có cả bốn lớp và ảnh âm tính; hộp đúng hoàn toàn đạt AP xấp xỉ 1; hộp sai lớp không được TP; dự đoán trùng không tạo thêm TP và có thể thành FP tùy giới hạn evaluator; ảnh không GT nhưng có dự đoán vẫn có FP. Kiểm riêng ca không có dự đoán để trả metric hợp lệ, không crash. Các dữ liệu này chỉ dùng kiểm công cụ, không nhập vào bảng kết quả camera.
+**Kiểm evaluator trước khi đo model:** bộ dữ liệu nhân tạo có cả tám lớp và ảnh âm tính; hộp đúng hoàn toàn đạt AP xấp xỉ 1; hộp sai lớp không được TP; dự đoán trùng không tạo thêm TP và có thể thành FP tùy giới hạn evaluator; ảnh không GT nhưng có dự đoán vẫn có FP. Kiểm riêng ca không có dự đoán để trả metric hợp lệ, không crash. Các dữ liệu này chỉ dùng kiểm công cụ, không nhập vào bảng kết quả camera.
 
 ### Tracking đếm và cảnh báo
 
@@ -562,7 +568,7 @@ Mỗi lớp đảm nhiệm một phần rõ ràng; không tạo cây kế thừa
 | `src/tracker.py` | `ObjectTracker` | Adapter `process(frame)` cho YOLO+ByteTrack; trạng thái theo phiên, `reset` |
 | `src/analytics.py` | `LineCounter`, `ZoneMonitor`, `EventAnalyzer` | Hai lớp logic nhỏ; EventAnalyzer tổng hợp số hiện tại và sự kiện |
 | `src/runtime.py` | `PipelineRunner` | Worker, hàng chờ có giới hạn, stop/start, snapshot mới nhất |
-| `src/class_mapper.py` | `ClassMapper` | Đối chiếu names và quy về bốn lớp |
+| `src/class_mapper.py` | `ClassMapper` | Đối chiếu names và quy về tám lớp |
 | `src/data_check.py` | `DatasetValidator` | Nhãn, box, class, manifest, split và nguồn phiên |
 | `src/logger.py` | `ResultLogger` | Ghi detection/event/metrics ra file |
 | `src/app.py` | `CameraApp` | Điều phối input, xử lý, trạng thái giao diện |
@@ -578,13 +584,13 @@ Mỗi lớp đảm nhiệm một phần rõ ràng; không tạo cây kế thừa
 
 **Đường triển khai mặc định:** ảnh tĩnh/evaluator dùng `ObjectDetector.detect`; camera/video có tracking dùng `ObjectTracker.process` bọc **một** lần `model.track` với `persist=True` và YAML ByteTrack tường minh. Hai đường dùng chung ClassMapper và định dạng đầu ra. Không gọi detect rồi track trên cùng frame. Bảng là thiết kế lớp dự kiến, chưa phải tên lớp có sẵn trong repo tham khảo.
 
-Adapter xử lý cả kết quả rỗng, hộp chưa có track_id và profile 80/4 lớp. Bốn lớp được hiển thị; chỉ track người hợp lệ, đang có quan sát mới đi vào vạch/vùng. Các hộp chưa có ID vẫn có thể được vẽ nếu API trả về; không tự coi ID rỗng là lỗi.
+Adapter xử lý cả kết quả rỗng, hộp chưa có track_id và profile 80/8 lớp. Tám lớp được hiển thị; chỉ track người hợp lệ, đang có quan sát mới đi vào vạch/vùng. Các hộp chưa có ID vẫn có thể được vẽ nếu API trả về; không tự coi ID rỗng là lỗi.
 
 `model.track` có thể trả các hộp sau bước tracking thay vì toàn bộ detection trước tracking. Do đó dashboard gọi số hiện tại là “đối tượng đang quan sát từ đầu ra pipeline”; ghi chính sách đếm rõ ràng. Nếu nhóm cần cả detection thô và track trong cùng frame, dùng một lần detect rồi chuyển chính các hộp đó sang adapter ByteTrack, khóa phiên bản API và kiểm thử; không giải quyết bằng inference lần hai.
 
 Python viết theo OOP đơn giản, hàm ngắn, tên rõ, không lạm dụng kế thừa hay lambda/comprehension lồng nhau. Ví dụ adapter thủ tục trong Qwen được chuyển về trách nhiệm `ClassMapper.map_id` và `PredictionAdapter.convert`; logic vạch/vùng tách khỏi Streamlit để kiểm thử bằng tọa độ/timestamp nhân tạo.
 
-**Hợp đồng dữ liệu chung:** `session_id`, `frame_id`, `source_timestamp_ms`, `received_monotonic_ns`, kích thước ảnh gốc, `class_id`, `class_name`, `confidence`, `bbox_xyxy`, `track_id` có thể rỗng và `observed`. Tọa độ lưu theo ảnh gốc; class_id luôn là project 0–3 sau adapter. Hộp chỉ do tracker dự đoán khi không thấy vật không được coi là observed để cộng dwell.
+**Hợp đồng dữ liệu chung:** `session_id`, `frame_id`, `source_timestamp_ms`, `received_monotonic_ns`, kích thước ảnh gốc, `class_id`, `class_name`, `confidence`, `bbox_xyxy`, `track_id` có thể rỗng và `observed`. Tọa độ lưu theo ảnh gốc; class_id luôn là project 0–7 sau adapter. Hộp chỉ do tracker dự đoán khi không thấy vật không được coi là observed để cộng dwell.
 
 **Log sự kiện:** `session_id,event_id,event_type,track_id,class_id,line_id,region_id,direction,crossing_time_ms,emitted_time_ms,observed_dwell_ms`; trường không áp dụng để rỗng. Mọi thời điểm sự kiện dùng cùng timeline nguồn, không trộn Unix time vào cột này.
 
@@ -594,7 +600,7 @@ Python viết theo OOP đơn giản, hàm ngắn, tên rõ, không lạm dụng 
 
 ### Kiểm thử cần ưu tiên
 
-1. ID bốn lớp trước/sau fine-tune ánh xạ đúng; box nằm trong ảnh và đúng thứ tự tọa độ.
+1. ID tám lớp trước/sau fine-tune ánh xạ đúng; box nằm trong ảnh và đúng thứ tự tọa độ.
 2. Một track đi qua vạch một lần → một sự kiện; đứng/rung tại vạch → không tăng liên tục.
 3. Đi qua rồi quay lại → hai chiều được ghi đúng; đổi video → không giữ số đếm phiên trước.
 4. Video chạy nhanh gấp đôi trên máy vẫn có cùng thời gian sự kiện theo timeline nguồn.
@@ -612,15 +618,15 @@ Python viết theo OOP đơn giản, hàm ngắn, tên rõ, không lạm dụng 
 | Repo và liên kết | Gần dự án ở đâu | Tận dụng cụ thể | Phần nhóm vẫn phải làm |
 |---|---|---|---|
 | [ultralytics/ultralytics](https://github.com/ultralytics/ultralytics) | Lõi detection, train, validation, tracking | Thư viện, pretrained weights, train/val API, ByteTrack tích hợp | Dataset, app, quy tắc nghiệp vụ và đánh giá riêng |
-| [Youssef-Azzam/Crowd_Counter](https://github.com/Youssef-Azzam/Crowd_Counter) | Đếm người, tracking, vạch/vùng và xuất thống kê | Ý tưởng bộ đếm, log CSV/JSON, benchmark; xem `people_counter/analytics.py` theo cấu trúc đã bàn | Phạm vi bốn lớp, tinh chỉnh quy tắc, ground truth và kiểm chứng đếm |
-| [yazenemino/yolov8-object-detection-app](https://github.com/yazenemino/yolov8-object-detection-app) | Ứng dụng YOLO (gốc v8), webcam, dashboard, so model | Cách tách `src/detector.py`, `src/app.py`, `src/config.py`; cache model và log — port sang `yolo26n/s.pt` | Huấn luyện bốn lớp YOLO26, tracking camera theo yêu cầu, evaluator dữ liệu riêng |
+| [Youssef-Azzam/Crowd_Counter](https://github.com/Youssef-Azzam/Crowd_Counter) | Đếm người, tracking, vạch/vùng và xuất thống kê | Ý tưởng bộ đếm, log CSV/JSON, benchmark; xem `people_counter/analytics.py` theo cấu trúc đã bàn | Phạm vi tám lớp, tinh chỉnh quy tắc, ground truth và kiểm chứng đếm |
+| [yazenemino/yolov8-object-detection-app](https://github.com/yazenemino/yolov8-object-detection-app) | Ứng dụng YOLO (gốc v8), webcam, dashboard, so model | Cách tách `src/detector.py`, `src/app.py`, `src/config.py`; cache model và log — port sang `yolo26n/s.pt` | Huấn luyện tám lớp YOLO26, tracking camera theo yêu cầu, evaluator dữ liệu riêng |
 | [richwu/yolov8-streamlit](https://github.com/richwu/yolov8-streamlit) | Prototype chọn nguồn ảnh/video/webcam và tracking (gốc v8) | Tham khảo luồng sidebar và `helper.py`, `persist=True` — áp cho YOLO26 | Tách module, dữ liệu/train, đếm/cảnh báo và đo đúng |
 
 Từ các nguồn [S10, S15–S17], lựa chọn hợp lý là **dùng Ultralytics như thư viện; đọc Crowd_Counter cho đếm; đọc Yazenemino cho cách tổ chức; dùng richwu để hiểu prototype**. Không cần fork Ultralytics; cũng không ghép nguyên ba ứng dụng vào một repo.
 
 ### Giới hạn cần giữ khi kế thừa
 
-- **Crowd_Counter:** bối cảnh chính là người; bốn lớp của nhóm cần được xem lại ở bộ lọc và analytics. Số liệu/mô tả repo không thay cho test trên clip nhóm.
+- **Crowd_Counter:** bối cảnh chính là người; tám lớp của nhóm cần được xem lại ở bộ lọc và analytics. Số liệu/mô tả repo không thay cho test trên clip nhóm.
 - **Yazenemino:** bảng so model có cả mAP COCO công bố sẵn; tách nó khỏi mAP thực nghiệm của nhóm. Theo đánh giá mã trong đoạn chat Mata cung cấp, webcam và video chưa đồng nhất khả năng tracking; phải kiểm tra trước khi lấy làm nền.
 - **richwu:** trang gốc chưa thấy LICENSE; README còn hướng dẫn clone repo khác. Chỉ đọc để học khi quyền tái sử dụng chưa rõ; không chọn làm nền sao chép mặc định.
 - **Ultralytics:** cung cấp AI và nhiều tiện ích, nhưng tính đúng của đếm/cảnh báo, split dữ liệu và báo cáo vẫn do nhóm chịu trách nhiệm.
@@ -637,7 +643,7 @@ Từ các nguồn [S10, S15–S17], lựa chọn hợp lý là **dùng Ultralyti
 
 | Có thể tái sử dụng theo license | Đóng góp nên thể hiện rõ của nhóm |
 |---|---|
-| Kiến trúc YOLO, pretrained weights, bộ huấn luyện | Dataset bốn lớp có nguồn gốc, nhãn và split |
+| Kiến trúc YOLO, pretrained weights, bộ huấn luyện | Dataset tám lớp có nguồn gốc, nhãn và split |
 | Tracker có sẵn | Chọn tham số, kiểm tra ID và trường hợp thất bại |
 | Cách bố trí UI, cache và xử lý camera | UI tiếng Việt, luồng sử dụng và xử lý lỗi cụ thể |
 | Ý tưởng tính vạch/vùng | Quy tắc sự kiện, chống lặp, timestamp, kiểm thử |
@@ -689,9 +695,9 @@ Nếu nhóm 4 người được duyệt: tách UI khỏi tích hợp/kiểm th�
 
 | Tuần | Việc chính | Đầu ra bắt buộc để sang bước tiếp | Chủ trì |
 |---|---|---|---|
-| 1 | Xin duyệt phạm vi; học detection; cài môi trường; webcam pretrained; đọc repo | Đề cương 1 trang, clip demo, máy/cấu hình được ghi, nhãn bốn lớp, 30–50 ảnh thử | C tích hợp; A/B cùng học |
+| 1 | Xin duyệt phạm vi; học detection; cài môi trường; webcam pretrained; đọc repo | Đề cương 1 trang, clip demo, máy/cấu hình được ghi, nhãn tám lớp, 30–50 ảnh thử | C tích hợp; A/B cùng học |
 | 2 | Thu/gán nhãn; review; chia theo phiên; chuẩn bị video có sự kiện đúng | Dataset v1, data card, split khóa, baseline **validation**, danh sách test chưa dùng tối ưu | A; cả nhóm gán nhãn |
-| 3 | Fine-tune 26n (máy chính) + 26s (Colab/máy khác); lưu cấu hình; kiểm overfit; viết evaluator chung (ghi head NMS) | Hai run có weights/log; so sánh validation; kiểm ánh xạ 80→4 lớp | A (26n) + thành viên khác/Colab (26s); B làm evaluator |
+| 3 | Fine-tune 26n (máy chính) + 26s (Colab/máy khác); lưu cấu hình; kiểm overfit; viết evaluator chung (ghi head NMS) | Hai run có weights/log; so sánh validation; kiểm ánh xạ 80→8 lớp | A (26n) + thành viên khác/Colab (26s); B làm evaluator |
 | 4 | Tracking; đếm qua vạch; vùng cảnh báo; UI local; export | Luồng end-to-end, tests đếm/reset/timestamp, log khớp UI | B và C |
 | 5 | Khóa model/config; chạy test cuối; đo tốc độ và cảnh khó; sửa lỗi app | Bảng kết quả ba cấu hình, video test, phân tích 10–20 ca lỗi, bản demo đóng băng | B điều phối; A/C phối hợp |
 | 6 | Viết PDF, 10–12 slide; cài lại; diễn tập; đóng gói | Bộ nộp đầy đủ, video dự phòng, vấn đáp từng người | C biên tập; cả nhóm bảo vệ |
@@ -702,7 +708,7 @@ Không tự mở rộng thành 7 tuần: PDF ghi 5–6 tuần. Nếu giảng vi�
 
 | Mốc | Bằng chứng cần có | Nếu chưa đạt |
 |---|---|---|
-| G1 — cuối tuần 1 | Camera và video chạy/dừng/mở lại; 30–50 ảnh review; quy chuẩn nhãn và 4 lớp | Ưu tiên nguồn hình/mapping; UI đẹp để sau |
+| G1 — cuối tuần 1 | Camera và video chạy/dừng/mở lại; 30–50 ảnh review; quy chuẩn nhãn và 8 lớp | Ưu tiên nguồn hình/mapping; UI đẹp để sau |
 | G2 — cuối tuần 2 | Dataset v1, manifest, video_dev/test tách phiên, nhãn kiểm hợp lệ | Chốt tập nhỏ hơn nhưng đa dạng; ghi số thật, không bù số bằng frame gần trùng |
 | G3 — cuối tuần 3 | Hai run fine-tune nếu đủ tài nguyên, validation chung, weights/config/log | Không bắt buộc fine-tune phải hơn pretrained; phải có đánh giá đúng và giải thích |
 | G4 — cuối tuần 4 | Vạch/vùng qua các ca nhân tạo và video_dev, Start/Stop, log khớp UI | Cắt tính năng C; giữ luồng local và kiểm logic |
@@ -724,7 +730,7 @@ Gộp tuần 5–6: bắt đầu viết báo cáo ngay tuần 2; dựng khung UI
 | Ngày | Việc | Hoàn thành khi |
 |---|---|---|
 | 1 | Tạo repo và môi trường; tải weights chính thức; đọc camera | Có hình camera với nhãn; ghi device và FPS ban đầu |
-| 2 | Thống nhất bốn lớp, quy tắc box, vạch/vùng và hợp đồng output | Cùng gán 20 ảnh, so lỗi nhãn; lớp và tọa độ không mâu thuẫn |
+| 2 | Thống nhất tám lớp, quy tắc box, vạch/vùng và hợp đồng output | Cùng gán 20 ảnh, so lỗi nhãn; lớp và tọa độ không mâu thuẫn |
 | 3 | Thu các phiên mẫu khác nhau; chạy video và camera; viết đề cương | Có 30–50 ảnh đã review, 2 clip, backlog và phân công |
 
 Một lệnh CLI chính thức có thể giúp kiểm webcam trước khi viết app: `yolo predict model=yolo26n.pt source=0 imgsz=640 device=cpu`. Thử head NMS-free: thêm `nms=False`; thử head accuracy: thêm `end2end=False`. Chạy sau khi cài môi trường và Ultralytics (`>=8.4.0`); tải weights cần internet lần đầu. Đây chỉ là bước kiểm công cụ, không phải ứng dụng hoàn chỉnh. [S2]
@@ -739,7 +745,7 @@ Một lệnh CLI chính thức có thể giúp kiểm webcam trước khi viết
 | T04 | Thu/gán dữ liệu | Manifest, nhãn, kiểm lỗi đầy đủ |
 | T05 | Khóa split | Không trùng/gần trùng xuyên tập theo phiên |
 | T06 | Fine-tune nano (máy chính) và small (Colab/máy khác) | Weights, config, seed, logs tồn tại |
-| T07 | Evaluator bốn lớp (ghi head nms True/False) | Kiểm đúng trên ví dụ hộp biết đáp án |
+| T07 | Evaluator tám lớp (ghi head nms True/False) | Kiểm đúng trên ví dụ hộp biết đáp án |
 | T08 | Tracking người | ID được duy trì và reset đúng phiên |
 | T09 | Đếm và vùng | Vượt vạch, quay lại, đứng sát vạch đều được kiểm |
 | T10 | UI và export | Điều khiển rõ ràng; CSV khớp màn hình |
@@ -766,7 +772,7 @@ Mỗi buổi 30–60 phút, học xong làm một ví dụ nhỏ liên quan modu
 
 ### Cấu trúc báo cáo đề xuất
 
-1. Bối cảnh và nhu cầu: ai sử dụng, đầu vào/đầu ra, phạm vi bốn lớp.
+1. Bối cảnh và nhu cầu: ai sử dụng, đầu vào/đầu ra, phạm vi tám lớp.
 2. Phân tích phương án: các cách tiếp cận, lý do YOLO26n (+26s Colab) + ByteTrack, PEAS, dual-head NMS-free vs NMS.
 3. Dữ liệu: nguồn, giấy phép/đồng ý, lớp, thống kê, gán nhãn, split, hạn chế.
 4. Thiết kế: sơ đồ, lớp OOP, YOLO/tracker, vạch/vùng, tham số thực.
@@ -800,11 +806,11 @@ Nếu làm 10 slide, gộp 2+3 và 11+12. Thời lượng nói theo yêu cầu g
 
 ### Demo khoảng ba phút để luyện nội bộ
 
-- 0:00–0:30: bật camera, giới thiệu bốn lớp, đưa chai/điện thoại/laptop vào cảnh.
+- 0:00–0:30: bật camera, giới thiệu tám lớp, đưa cốc/điện thoại/laptop vào cảnh.
 - 0:30–1:10: người đi qua vạch, đứng yên, quay lại; giải thích số hiện tại và số lượt.
 - 1:10–1:40: vào vùng đủ thời gian, cho thấy chỉ phát một sự kiện.
 - 1:40–2:20: chạy clip có che khuất, nêu một lỗi có thật và bảng định lượng.
-- 2:20–3:00: xuất CSV, chỉ cấu hình model và kết quả pretrained/fine-tuned.
+- 2:20–7:00: xuất CSV, chỉ cấu hình model và kết quả pretrained/fine-tuned.
 
 Camera đặt sẵn, weights tải sẵn, video dự phòng lưu local. Một clip quay trước hỗ trợ xử lý sự cố nhưng không được trình bày như đang chạy trực tiếp.
 
@@ -880,11 +886,11 @@ Nếu LMS giới hạn dung lượng, hỏi cách nộp weights/dataset; không 
 | Quyết định | Đề xuất hiện tại |
 |---|---|
 | Bối cảnh | Một phòng học/phòng thực hành, camera cố định |
-| Lớp | `person`, `bottle`, `cell phone`, `laptop` |
+| Lớp | `person`, `table`, `chair`, `laptop`, `cell phone`, `backpack`, `book`, `cup` |
 | Model | YOLO26n pretrained, YOLO26n fine-tuned (máy chính), YOLO26s fine-tuned (Colab/máy khác); head `nms=False` cho live, `nms=True` cho chấm chuẩn |
 | Tracker | ByteTrack; BoT-SORT là đối chứng nếu đủ thời gian |
 | Nghiệp vụ | Đếm người hiện tại, lượt qua một vạch, cảnh báo một vùng |
-| Dataset | Tự thu 1.000–1.500 ảnh; mốc 1.200; chia theo phiên |
+| Dataset | Draft 1.800 ảnh, 1.670 train/val; mục tiêu 2.500 ảnh phát triển; chia theo nhóm/nguồn |
 | Dữ liệu video | Khoảng 5–10 clip, ưu tiên 10 nếu đủ cảnh |
 | Demo | Local trước; webcam trình duyệt là phần mở rộng |
 | Chủ trì | Điền tên thật cho A/B/C và người review |
@@ -913,7 +919,7 @@ Chỉ cần nhóm thống nhất bảng này, hiểu tiêu chí hoàn thành và
 | Streamlit luôn rò RAM/tạo hàng nghìn WebSocket | Không dùng như dữ kiện | Cần đo; worker, cache, lịch sử và tốc độ render đều ảnh hưởng |
 | Resize tất cả ảnh 640×360, JPEG 75 | Giữ có điều kiện cho hiển thị | Giữ tỷ lệ nguồn; không bóp ảnh inference/GT; không cam kết chữa RAM |
 | --no-ui rồi gọi cv2.imshow | Đổi tên chế độ | OpenCV vẫn có cửa sổ; headless là không cửa sổ |
-| Adapter 80→4 lớp | Giữ và bổ sung OOP/evaluator | Profile, names, hộp, ảnh âm tính, matching, maxDets đều phải nhất quán |
+| Adapter 80→8 lớp | Giữ và bổ sung OOP/evaluator | Profile, names, hộp, ảnh âm tính, matching, maxDets đều phải nhất quán |
 | Video test dùng sửa thuật toán tuần 4 | Sửa | Dùng video_dev; video_test để tuần 5 sau khi khóa |
 | E1–E5 đều chạy test để chọn tốt nhất | Sửa | E3 chọn ngưỡng trên validation; test đo cấu hình đã chốt |
 | p95 ≤200 ms là “cam kết” | Sửa từ ngữ/phạm vi đo | Mục tiêu ban đầu, từ app nhận frame đến kết quả; chưa đo |
@@ -994,12 +1000,16 @@ val: images/val
 test: images/test
 names:
   0: person
-  1: bottle
-  2: cell phone
+  1: table
+  2: chair
   3: laptop
+  4: cell phone
+  5: backpack
+  6: book
+  7: cup
 ```
 
-Ảnh `images/train/s01_0001.jpg` đi cùng `labels/train/s01_0001.txt`. DatasetValidator kiểm class là số nguyên 0–3; box rộng/cao >0; tâm và biên hộp thuộc ảnh với dung sai đã chọn; ảnh đọc được; không trùng ID/phiên xuyên split. Điện thoại nhỏ hợp lệ vẫn có box nhỏ; không tự xóa bằng một ngưỡng diện tích chưa được thống nhất.
+Ảnh `images/train/s01_0001.jpg` đi cùng `labels/train/s01_0001.txt`. DatasetValidator kiểm class là số nguyên 0–7; box rộng/cao >0; tâm và biên hộp thuộc ảnh với dung sai đã chọn; ảnh đọc được; không trùng ID/phiên xuyên split. Điện thoại nhỏ hợp lệ vẫn có box nhỏ; không tự xóa bằng một ngưỡng diện tích chưa được thống nhất.
 
 ### Cấu hình huấn luyện ban đầu
 
@@ -1045,7 +1055,7 @@ Các ca này dùng dữ liệu nhân tạo hoặc `video_dev`; không cần hu�
 
 | ID | Đầu vào / tình huống | Kỳ vọng |
 |---|---|---|
-| QA01 | Cùng hộp chai: baseline class 39, fine-tuned class 1 | Đều map thành bottle ID 1; baseline class 1 không map thành bottle |
+| QA01 | Cùng hộp laptop: baseline class 63, fine-tuned class 3 | Đều map thành laptop ID 3; baseline class 3 không map thành laptop |
 | QA02 | ID mới xuất hiện sẵn ở A hoặc B | Không tạo lượt vượt vạch |
 | QA03 | A → dải đệm → B ổn định | Đúng một A→B |
 | QA04 | A → B trực tiếp, không có frame trong buffer | Vẫn một lượt nếu cắt đoạn và đủ xác nhận |
@@ -1073,7 +1083,7 @@ Nghiệm thu runtime: tối thiểu 10 phút theo mục 3; nếu đủ thời gi
 | Tệp/nhóm đầu ra | Nội dung tối thiểu | Chủ trì |
 |---|---|---|
 | `README.md` | Mục tiêu, môi trường, cài/chạy, input mẫu, kết quả mong đợi, xử lý lỗi | C |
-| `LABELING_GUIDE.md` | Bốn lớp, hộp che khuất, ví dụ đúng/sai, xử lý mơ hồ/negative | A |
+| `LABELING_GUIDE.md` | Tám lớp, hộp che khuất, ví dụ đúng/sai, xử lý mơ hồ/negative | A |
 | `DATA_CARD.md` + manifest | Nguồn/quyền, số ảnh/box/lớp/phiên, split, hạn chế | A |
 | `EVALUATION_PROTOCOL.md` | Mapping, GT, evaluator, thresholds, video/dev/test, metrics, timebase | B |
 | `MODEL_CARD.md` | Nguồn pretrained, dataset/run/seed, weights hash, kết quả và giới hạn | A |
@@ -1093,7 +1103,7 @@ Mẫu một ca lỗi: `case_id → model/run → clip/frame → GT → dự đo�
 - Sau mỗi mốc, bàn giao file + cấu hình + input kiểm + đầu ra mong đợi + hạn chế. Thành viên nhận chạy lại trước khi coi việc đã xong.
 - Hoàn thành dự án khi có bộ nộp, app tái lập trên máy khác, dữ liệu và thí nghiệm truy nguồn được, từng thành viên bảo vệ được; không chỉ khi đủ số tính năng.
 
-**Trạng thái hiện tại:** hoàn thiện tài liệu kế hoạch; chưa tạo app, chưa thu/gán dataset, chưa huấn luyện hay đo các repo. Các bảng kết quả giữ “Chưa đo”; các lệnh nội bộ và YAML là giao ước để triển khai. Không dùng bản kế hoạch này như báo cáo thành tích đã thực hiện.
+**Trạng thái hiện tại 03/10/2026:** app ảnh/video và webcam đã có; phần mềm webcam đã kiểm, còn kiểm thiết bị thật và review ảnh cho G1. Dataset chính draft project8_v0.2 có 1.800 ảnh, 5.862 box; đã kiểm kỹ thuật, tạo YAML/manifest/checksum và hồ sơ. Còn hoàn thiện nhãn/review, xác nhận nguồn/nhóm, khóa release, video thật, baseline và fine-tune. Các bảng mAP và kết quả tuần 3–6 giữ “Chưa đo”; kế hoạch không phải bằng chứng các phần đó đã hoàn thành.
 
 ## 22 Nguồn đối chiếu
 
@@ -1105,7 +1115,7 @@ Nguồn của bản gốc và lần cập nhật được đối chiếu ngày 2
 - `chủ-đề-cuối-kì.txt`: nhóm 3–5, tính thực tiễn, dữ liệu, đạo đức, tái lập và nội dung báo cáo.
 - `Chương 1.docx`, `Chương 1-tiếp.docx`, `Chương 2.docx`: tác tử/PEAS và các phương pháp tìm kiếm.
 - `Đã dán markdown (1).md`: tham khảo cách tiếp cận từng đề; không coi mọi mô tả kỹ thuật trong đó là yêu cầu chính thức.
-- Trao đổi cũ được truy xuất và đoạn đánh giá bốn repo/kế hoạch Mata cung cấp ngày 28/09/2026: dùng để giữ bốn lớp và hướng thực nghiệm (gốc YOLOv8, nay chuyển sang YOLO26n chính + 26s Colab).
+- Trao đổi cũ được truy xuất và đoạn đánh giá bốn repo/kế hoạch Mata cung cấp ngày 28/09/2026: dùng để giữ tám lớp và hướng thực nghiệm (gốc YOLOv8, nay chuyển sang YOLO26n chính + 26s Colab).
 - Hai bản góp ý Qwen đính kèm, gồm `Văn bản đã dán (1).txt` và bản đánh giá mở đầu “Bản kế hoạch trong file input_file_0.md…”: nguồn đề xuất, đã xử lý các điểm mâu thuẫn tại mục 19.
 
 | Mã | Nguồn chính |

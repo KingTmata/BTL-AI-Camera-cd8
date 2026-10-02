@@ -1,5 +1,7 @@
 # Cấu trúc và luồng hoạt động
 
+> Cập nhật 02/10/2026: dùng project8 và release YAML data/dataset/v1/data.yaml; pipeline/evaluator tuần 2 đã có. Xem [workflow hiện hành](WEEK2_WORKFLOW.md). Các lệnh/kết quả smoke COCO128 cũ là lịch sử kỹ thuật, không phải baseline dataset nhóm.
+
 ## 1. Chạy, train và test khác nhau thế nào?
 
 | Công việc | Đầu vào | Việc máy làm | Đầu ra | Nơi thực hiện |
@@ -9,7 +11,7 @@
 | **Training / huấn luyện** | Model pretrained + ảnh và nhãn train/val | Cập nhật trọng số qua nhiều epoch | `best.pt`, `last.pt`, loss và metric | Bộ train Ultralytics; `configs/train_n.yaml`; chỗ dành cho script nhóm: `src/training/` |
 | **Chuẩn bị dữ liệu** | Ảnh/nhãn gốc | Kiểm ghép cặp, lập danh sách/config | Manifest, image list, YAML | `scripts/data/` |
 | **Software test / kiểm mã** | Ca kiểm nhỏ có đáp án | Kiểm mapping, crop, trạng thái giao diện | Pass/fail | `tests/` |
-| **Validation/test chất lượng AI** | Checkpoint + ảnh có nhãn độc lập | Đối chiếu dự đoán với nhãn thật | Precision, recall, mAP… | Lệnh `yolo val`; evaluator bốn lớp dùng chung chưa triển khai |
+| **Validation/test chất lượng AI** | Checkpoint + ảnh có nhãn độc lập | Đối chiếu dự đoán với nhãn thật | Precision, recall, mAP… | Lệnh `yolo val`; evaluator chung tại src/evaluation.py |
 
 Ví dụ: bấm “Phân tích ảnh” 100 lần chỉ chạy inference, không làm model học ảnh đó. Muốn model học cần chuẩn bị nhãn và chạy lệnh train riêng. “Test giao diện chạy đúng” cũng không có nghĩa model đạt mAP mục tiêu.
 
@@ -34,7 +36,7 @@ BTL-AI-Camera-cd8/
 │   └── test_app.py                   AppTest chạy giao diện và YOLO thật
 ├── configs/                          THAM SỐ, KHÔNG PHẢI CODE
 │   ├── train_n.yaml                  Tham số train dự kiến, dùng với yolo train
-│   ├── data.yaml                     Đường dẫn/4 lớp trên máy này, không commit
+│   ├── data.yaml                     Đường dẫn/8 lớp trên máy này, không commit
 │   ├── data.yaml.example             Mẫu cho máy khác
 │   ├── app.yaml                      Đặc tả app tương lai, chưa được UI này đọc
 │   └── bytetrack.yaml                Tracker cho giai đoạn sau; chưa chạy trong UI
@@ -42,12 +44,11 @@ BTL-AI-Camera-cd8/
 ├── data/                             DỮ LIỆU ĐẦU VÀO
 │   ├── reference/coco128/            Ảnh/nhãn tham khảo 80 lớp, không commit
 │   ├── dataset/images/{train,val,test}/   Ảnh phòng học về sau
-│   ├── dataset/labels/{train,val,test}/   Nhãn 4 lớp tương ứng
+│   ├── dataset/labels/{train,val,test}/   Nhãn 8 lớp tương ứng
 │   ├── raw/                         Ảnh/video gốc có quyền sử dụng
 │   ├── video_dev/                   Video để phát triển/điều chỉnh
 │   ├── video_test/                  Video đánh giá cuối, tách phiên
 │   ├── week1_coco128_manifest.csv    50 ảnh chọn sẵn, đường dẫn nguồn
-│   └── week1_review_20.csv           20 ảnh cần người gán/review, đang pending
 ├── weights/                          MODEL ĐẦU VÀO, không phải code
 │   └── yolo26n.pt                   Trọng số pretrained tải sẵn
 ├── runs/                             KẾT QUẢ MÁY SINH, không commit
@@ -80,7 +81,7 @@ flowchart LR
 
 Model nạp một lần và được tái sử dụng. Bấm nút mới chạy inference. Đổi ảnh/checkpoint/confidence làm kết quả cũ không còn hợp lệ; giao diện yêu cầu chạy lại. Lọc “Lớp hiển thị” chỉ ẩn/hiện kết quả đã có. Việc chọn dòng/crop không chạy model lại. Các phiên cùng model dùng lock để tránh gọi predict đồng thời trên cùng đối tượng model; hiện không có trạng thái tracker.
 
-Đầu vào OpenCV là BGR. Ảnh upload được xử lý hướng EXIF và chuyển RGB→BGR. Hộp và crop dùng pixel của ảnh gốc; việc web thu nhỏ ảnh không thay đổi tọa độ. YOLO pretrained trả ID COCO (`0,39,67,63`); `detector.py` chuyển thành ID dự án (`0,1,2,3`). Model fine-tuned đúng bốn tên/thứ tự cũng được hỗ trợ; checkpoint khác bị từ chối để tránh nhầm nhãn.
+Đầu vào OpenCV là BGR. Ảnh upload được xử lý hướng EXIF và chuyển RGB→BGR. Hộp và crop dùng pixel của ảnh gốc; việc web thu nhỏ ảnh không thay đổi tọa độ. YOLO pretrained trả ID COCO (`0,60,56,63,67,24,73,41`); `detector.py` chuyển thành ID dự án (`0–7`). Model fine-tuned đúng bốn tên/thứ tự cũng được hỗ trợ; checkpoint khác bị từ chối để tránh nhầm nhãn.
 
 ```mermaid
 flowchart LR
@@ -92,7 +93,7 @@ flowchart LR
     E --> G[runs: summary và ảnh/video nếu bật save]
 ```
 
-CLI baseline hiện chỉ dùng profile pretrained COCO80 và CPU; web nhận cả checkpoint project4 hợp lệ. CLI chưa có worker latest-frame như kiến trúc đầy đủ trong kế hoạch. Khi webcam chậm, không dùng FPS baseline để khẳng định độ trễ live đã đạt mục tiêu.
+CLI baseline hiện chỉ dùng profile pretrained COCO80 và CPU; web nhận cả checkpoint project8 hợp lệ. CLI chưa có worker latest-frame như kiến trúc đầy đủ trong kế hoạch. Khi webcam chậm, không dùng FPS baseline để khẳng định độ trễ live đã đạt mục tiêu.
 
 ## 4. Luồng train trong tương lai
 
@@ -109,7 +110,7 @@ flowchart LR
     E --> H[Web nạp best.pt để xem dự đoán]
 ```
 
-Dataset test không tham gia tối ưu. Bảng so sánh checkpoint 80 lớp và 4 lớp cần evaluator chung có mapping; phần đó chưa được viết. Hướng dẫn chi tiết ở [TRAIN_VA_DANH_GIA.md](TRAIN_VA_DANH_GIA.md).
+Dataset test không tham gia tối ưu. Bảng so sánh checkpoint 80 lớp và 8 lớp cần evaluator chung có mapping; phần đó đã có tại src/evaluation.py; chưa chấm dữ liệu nhóm. Hướng dẫn chi tiết ở [TRAIN_VA_DANH_GIA.md](TRAIN_VA_DANH_GIA.md).
 
 ## 5. Dùng web hay terminal?
 

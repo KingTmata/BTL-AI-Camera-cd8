@@ -1,0 +1,1 @@
+event_id,video_id,event_type,object_local_id,line_or_zone_id,direction,timestamp_s,start_s,end_s,config_path,annotator,reviewer,status,notes

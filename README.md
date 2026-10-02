@@ -1,6 +1,16 @@
 # BTL AI Camera — chạy, xem kết quả và chuẩn bị train
 
-Repo hiện có **baseline tuần 1** theo [kế hoạch](Ke_hoach_De_8_Camera_AI.md): YOLO26n pretrained trên ảnh/video/webcam cho bốn lớp `person`, `bottle`, `cell phone`, `laptop`. Chưa có ứng dụng hoàn chỉnh, dữ liệu tự thu, fine-tune, tracking, đếm hay cảnh báo. Xem [bàn giao G1](WEEK1_G1.md) để biết phần đã kiểm và phần còn thiếu.
+
+> **Cập nhật 03/10/2026:** dataset chính `project8_v0.2` có **1.800 ảnh**: 500 COCO + 1.300 ảnh Roboflow do thành viên đóng góp; 1.310 train / 360 validation / 130 test theo split nguồn. Tám lớp; table gồm các loại bàn, book gồm sách/vở. Bộ thành viên hiện có nhãn book/laptop; tiếp tục hoàn thiện nhãn theo phân công và review. Chưa khóa release; chưa có video thật hoặc baseline dataset này. Các kết quả tuần 1 bên dưới là lịch sử theo phạm vi bốn lớp cũ.
+
+- [Thực hiện tuần 2 từ đầu đến cuối](docs/WEEK2_WORKFLOW.md)
+- [Protocol đánh giá](EVALUATION_PROTOCOL.md)
+- [Hồ sơ dataset chính 1.800 ảnh](docs/PROJECT8_V0_2_DATA_PROFILE.md)
+- [Đặc tính bộ Laptop thành viên](docs/LAPTOP_SUBMISSION_DATA_PROFILE.md)
+- [Đặc tính COCO500](docs/COCO500_DATA_PROFILE.md)
+- [Báo cáo triển khai tuần 2](docs/WEEK2_IMPLEMENTATION_REPORT.md)
+
+Repo hiện có **baseline tuần 1** theo [kế hoạch](WEEK1_2_3_PLAN.md): YOLO26n pretrained trên ảnh/video/webcam cho tám lớp hiện hành `person`, `table`, `chair`, `laptop`, `cell phone`, `backpack`, `book`, `cup`. Giao diện đã thêm webcam trực tiếp với bật/dừng/mở lại, chọn camera, FPS/p95 và tải kết quả kiểm. Có `setup-demo.cmd` và `run-demo.cmd` cho từng máy Windows. Xem [bàn giao webcam tuần 1](docs/WEEK1_HANDOFF.md): phần mềm đã kiểm, G1 còn chờ webcam thật trên máy thành viên và review người. Chưa có fine-tune, tracking, đếm lượt hay cảnh báo.
 
 ## Bắt đầu từ đâu?
 
@@ -41,7 +51,7 @@ Trên máy đã chuẩn bị, `.venv` dùng Python 3.11.16; các gói chính là
 ├── configs/
 │   ├── app.yaml                    # Tham số dự kiến cho ứng dụng
 │   ├── bytetrack.yaml              # Sao từ Ultralytics đã cài
-│   ├── data.yaml.example           # Mẫu cấu hình dataset bốn lớp
+│   ├── data.yaml.example           # Mẫu cấu hình dataset tám lớp hiện hành
 │   ├── data.yaml                   # Đường dẫn dataset của máy hiện tại, không commit
 │   └── train_n.yaml                # Cấu hình huấn luyện dự kiến
 ├── data/
@@ -70,7 +80,7 @@ Trên máy đã chuẩn bị, `.venv` dùng Python 3.11.16; các gói chính là
 └── THIRD_PARTY.md
 ```
 
-`data/reference/` đã có COCO128 và `runs/week1/` có kết quả thử trên máy này; dataset phòng học chưa có. Git không lưu thư mục rỗng hoặc dữ liệu/weights đã được ignore. `configs/app.yaml` là đặc tả app đầy đủ trong tương lai, chưa được UI/CLI hiện tại đọc. `configs/train_n.yaml` có thể truyền cho lệnh Ultralytics train khi dữ liệu sẵn sàng; chưa có run fine-tune.
+`data/reference/` đã có COCO128 và `runs/week1/` có kết quả thử trên máy này; dataset chính project8_v0.2 đã có 1.800 ảnh nguồn công khai; chưa có test phòng học độc lập. Git không lưu thư mục rỗng hoặc dữ liệu/weights đã được ignore. `configs/app.yaml` là đặc tả app đầy đủ trong tương lai, chưa được UI/CLI hiện tại đọc. `configs/train_n.yaml` có thể truyền cho lệnh Ultralytics train khi dữ liệu sẵn sàng; chưa có run fine-tune.
 
 ## Tái tạo môi trường trên máy Windows khác
 
@@ -86,6 +96,8 @@ py -3.11 -m venv .venv
 Muốn tái lập **đúng phiên bản của máy đã chuẩn bị**, dùng `requirements-demo-cpu.lock.txt` sau khi cài PyTorch CPU. Lock này ghi cả dependencies phụ và chỉ áp dụng cho Windows/Python 3.11 CPU; môi trường GPU/Colab cần lock riêng sau khi kiểm chạy.
 
 ## Dùng giữa các thành viên và Colab
+
+Chạy demo tuần 1 trên Windows: mở `setup-demo.cmd` một lần, sau đó mở `run-demo.cmd` và chọn **Webcam trực tiếp**. Hướng dẫn camera, macOS/Linux, log từng máy và review ảnh ở [docs/WEEK1_HANDOFF.md](docs/WEEK1_HANDOFF.md).
 
 - Chọn **một máy cá nhân làm máy demo chuẩn**. Chạy thử camera, tốc độ và độ trễ trên chính máy đó; không lấy số đo trên Colab hoặc máy bạn khác để gọi là tốc độ máy demo.
 - Các máy Windows CPU dùng cùng `requirements.in` hoặc lock CPU ở trên, nhưng tự tạo `.venv`. Không sao chép thư mục `.venv` qua máy khác.
@@ -113,15 +125,15 @@ Tạo `configs/data.yaml` từ `configs/data.yaml.example`, sửa `path` thành 
 ```powershell
 & .\.venv\Scripts\python.exe --version
 & .\.venv\Scripts\python.exe -c "import torch, cv2, ultralytics, streamlit, pandas, yaml; print(torch.__version__, cv2.__version__, ultralytics.__version__, streamlit.__version__)"
-& .\.venv\Scripts\python.exe -c "from ultralytics import YOLO; m=YOLO('weights/yolo26n.pt'); print({i:m.names[i] for i in (0,39,67,63)})"
+& .\.venv\Scripts\python.exe -c "from ultralytics import YOLO; m=YOLO('weights/yolo26n.pt'); print({i:m.names[i] for i in (0,60,56,63,67,24,73,41)})"
 ```
 
-Kỳ vọng bốn ID COCO lần lượt là `person`, `bottle`, `cell phone`, `laptop`. Lệnh này chỉ xác nhận có thể import và load model; **chưa xác nhận webcam, FPS, tracking hay chất lượng dự đoán**.
+Kỳ vọng tám ID COCO lần lượt là person, dining table, chair, laptop, cell phone, backpack, book, cup; dining table map về table của nhóm. Lệnh này chỉ xác nhận có thể import và load model; **chưa xác nhận webcam, FPS, tracking hay chất lượng dự đoán**.
 
 ## Việc nhóm còn phải làm
 
 1. Xin giảng viên duyệt phạm vi và xác nhận sĩ số, hạn nộp, phương án pretrained/fine-tune.
-2. Thu ảnh/clip có quyền sử dụng, gán nhãn bốn lớp, lập manifest và chia phiên train/val/test.
+2. Nhận ảnh/clip có quyền sử dụng, gán đủ tám lớp, lập manifest và chia theo nhóm bằng workflow tuần 2.
 3. Viết ứng dụng theo các module ở mục 10 của kế hoạch; kiểm camera, tracking, đếm và cảnh báo.
 4. Fine-tune, đánh giá trên test độc lập, đo FPS/độ trễ và ghi kết quả thật vào báo cáo.
 
@@ -142,11 +154,11 @@ Hai MP4 trong `demo/smoke/` là slideshow kỹ thuật được tạo cục bộ
 
 ### Tuần 1 — Baseline detection với YOLO26n pretrained
 
-- Đã chuẩn bị môi trường Python 3.11 CPU, tải checkpoint YOLO26n và chốt bốn lớp: `person`, `bottle`, `cell phone`, `laptop`.
+- Đã chuẩn bị môi trường Python 3.11 CPU, checkpoint YOLO26n pretrained COCO80; phạm vi hiện hành là tám lớp theo src/classes.py.
 - Đã chạy thử nhận dạng trên ảnh COCO128 và hai video slideshow kỹ thuật; có kết quả phát hiện người/chai, nhưng bỏ sót một số điện thoại/laptop. Đã thêm giao diện web để chọn ảnh/frame, xem bounding box, crop và tải kết quả.
-- Sáu bài kiểm thử mã đã chạy thành công. Chưa xác nhận webcam trên máy demo, video quay thật, dữ liệu tự thu hoặc chất lượng trên test độc lập. Chi tiết: [bàn giao G1](WEEK1_G1.md).
+- Sáu bài kiểm thử mã đã chạy thành công. Chưa xác nhận webcam trên máy demo, video quay thật, dữ liệu tự thu hoặc chất lượng trên test độc lập. Chi tiết: [bàn giao G1](docs/KIEM_THU.md).
 
 ### Tuần 2 — Chuẩn bị dataset v1
 
 - Đã ghi quy trình nhận ảnh từ thành viên, kiểm trùng, chuẩn hóa nhãn, review chéo và chia train/validation theo nguồn hoặc phiên; thêm các file CSV mẫu để bàn giao dữ liệu.
-- Mục tiêu hiện tại là ít nhất 2.500 ảnh gốc hợp lệ cho train và validation; bộ test sẽ được thu riêng gần cuối dự án. Chưa có dataset v1 được khóa hoặc lần fine-tune nào. Chi tiết: [kế hoạch G2](WEEK2_G2.md).
+- Mục tiêu hiện tại là ít nhất 2.500 ảnh cho train và validation; hiện có 1.670 ảnh phát triển và 130 test nguồn Laptop trong tổng 1.800 ảnh. Test đủ tám lớp/phòng học độc lập tiếp tục bổ sung; chưa khóa release hoặc fine-tune. Chi tiết: [kế hoạch G2](WEEK2_G2.md).

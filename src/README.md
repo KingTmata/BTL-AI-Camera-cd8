@@ -1,5 +1,7 @@
 # Mã nguồn: chọn đúng phần cần sửa
 
+Tuần 2 đã bổ sung `classes.py` (hợp đồng tám lớp), `dataset.py` (kiểm/chia/khóa), `evaluation.py` (COCO evaluator chung). Chạy qua [workflow tuần 2](../docs/WEEK2_WORKFLOW.md). Thư mục `training/` vẫn dùng bộ train Ultralytics khi dữ liệu sẵn sàng.
+
 | Thư mục/file | Dùng để làm gì | Có huấn luyện model không? |
 |---|---|---|
 | `inference/` | Đọc model có sẵn, đưa ảnh/frame vào, lấy hộp/lớp/confidence. CLI ảnh/video/webcam nằm ở đây. | Không; chỉ dự đoán |

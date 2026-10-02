@@ -1,5 +1,7 @@
 # Hướng dẫn train về sau
 
+> Cập nhật 02/10/2026: dùng project8 và release YAML data/dataset/v1/data.yaml; pipeline/evaluator tuần 2 đã có. Xem [workflow hiện hành](WEEK2_WORKFLOW.md). Các lệnh/kết quả smoke COCO128 cũ là lịch sử kỹ thuật, không phải baseline dataset nhóm.
+
 **Hiện tại chưa chạy fine-tune.** Các lệnh bên dưới là quy trình để dùng khi dữ liệu đã sẵn sàng. Mở web/chạy predict không cập nhật weights.
 
 ## 1. Ai thực hiện và file nào liên quan?
@@ -10,7 +12,7 @@
 - `scripts/data/prepare_smoke_dataset.py` chỉ chuẩn bị bộ thử, không train.
 - `weights/yolo26n.pt` là điểm bắt đầu. Kết quả train đi vào `runs/train/<tên_run>/`, không ghi đè weights gốc.
 
-## 2. Chuẩn bị dataset phòng học bốn lớp
+## 2. Chuẩn bị dataset phòng học tám lớp
 
 ```text
 data/dataset/
@@ -22,11 +24,11 @@ data/dataset/
 └── labels/test/s15_0001.txt
 ```
 
-Một ảnh tương ứng một TXT cùng stem. Dùng ID **0 person, 1 bottle, 2 cell phone, 3 laptop**. Một hộp là `class_id x_center y_center width height` chuẩn hóa 0–1. Ảnh âm tính có TXT rỗng theo quy ước nhóm. Thiếu TXT không được tự hiểu là ảnh âm tính.
+Một ảnh tương ứng một TXT cùng stem. Dùng ID **0 person, 1 table, 2 chair, 3 laptop, 4 cell phone, 5 backpack, 6 book, 7 cup**. Một hộp là `class_id x_center y_center width height` chuẩn hóa 0–1. Ảnh âm tính có TXT rỗng theo quy ước nhóm. Thiếu TXT không được tự hiểu là ảnh âm tính.
 
 Chia theo phiên quay trước khi train: cùng phiên/gần trùng không đi qua nhiều split. Chỉ augmentation tập train. Test chưa dùng để chọn confidence, epoch, model hay sửa logic. Ghi nguồn, quyền, session và hash trong manifest, review nhãn theo [LABELING_GUIDE.md](../LABELING_GUIDE.md).
 
-`configs/data.yaml` đã có đường dẫn tuyệt đối cho máy hiện tại. Trên máy khác/Colab sao từ `.example` và sửa `path` tới thư mục dataset thực. Không lấy file Windows có `C:/...` dùng nguyên trong Colab. COCO128 gốc dùng 80 ID, không đưa trực tiếp vào YAML bốn lớp. Chuyển sang bốn lớp đòi hỏi lọc/đổi ID nhãn và giữ đủ mọi hộp thuộc bốn lớp.
+`configs/data.yaml` đã có đường dẫn tuyệt đối cho máy hiện tại. Trên máy khác/Colab sao từ `.example` và sửa `path` tới thư mục dataset thực. Không lấy file Windows có `C:/...` dùng nguyên trong Colab. COCO128 gốc dùng 80 ID, không đưa trực tiếp vào YAML tám lớp. Chuyển sang tám lớp đòi hỏi lọc/đổi ID nhãn và giữ đủ mọi hộp thuộc tám lớp.
 
 ## 3. Train thử pipeline trên COCO128, nếu muốn
 
@@ -62,7 +64,7 @@ Nếu máy thành viên có PyTorch GPU phù hợp, kiểm `torch.cuda.is_availa
 
 ## 5. Fine-tune trên Colab GPU
 
-Đưa **mã, configs, weights và dataset được phép dùng** sang Colab/Drive; loại `.venv`, `.python`, cache và video không cần thiết. Nhánh Git hiện chỉ giữ local theo lựa chọn của bạn, nên không giả định Colab clone được các thay đổi mới từ GitHub.
+Đưa **mã, configs, weights và dataset được phép dùng** sang Colab/Drive; loại `.venv`, `.python`, cache và video không cần thiết. Mã và tài liệu được push trên nhánh `codex/week1-baseline`; clone đúng nhánh này để lấy cập nhật tuần 2. Dataset và weights được Git bỏ qua, cần chuyển riêng sang Colab/Drive.
 
 Trong notebook, chọn runtime GPU, cài Ultralytics cùng phiên bản rồi kiểm thiết bị:
 
@@ -112,7 +114,7 @@ Lấy đúng tên thư mục run thực vì Ultralytics có thể thêm hậu t�
 
 ## 7. Validation và test sau fine-tune
 
-Với checkpoint **đã train đúng project4**, chấm validation:
+Với checkpoint **đã train đúng project8**, chấm validation:
 
 ```powershell
 & .\.venv\Scripts\yolo.exe detect val model=runs/train/classroom_v1_26n_seed42/weights/best.pt data=configs/data.yaml split=val imgsz=640 device=cpu nms=False project=runs/val name=classroom_v1_val
@@ -120,6 +122,6 @@ Với checkpoint **đã train đúng project4**, chấm validation:
 
 Chỉ sau khi khóa model/ngưỡng/protocol mới đổi `split=test` và đặt tên output khác. Ghi `imgsz`, head `nms`, conf dùng cho AP, `max_det` và phiên bản evaluator. Không lấy conf hiển thị 0.25 làm conf tính AP một cách tự động.
 
-**Không chấm `yolo26n.pt` 80 lớp trực tiếp trên YAML bốn lớp rồi so với checkpoint4:** ID bottle/phone/laptop khác nhau. Evaluator chung của kế hoạch chưa được triển khai; cần mapping dự đoán về project4 và dùng cùng bộ chấm trước khi công bố so sánh pretrained/fine-tuned. Web hiện chỉ phục vụ xem và tìm lỗi, không cung cấp mAP.
+**Không chấm `yolo26n.pt` 80 lớp trực tiếp trên YAML tám lớp rồi so với checkpoint4:** ID các lớp khác nhau. Evaluator chung đã có ở src/evaluation.py; dùng lệnh trong docs/WEEK2_WORKFLOW.md với manifest release đã khóa để so sánh pretrained/fine-tuned. Web hiện chỉ phục vụ xem và tìm lỗi, không cung cấp mAP.
 
 Nguồn tham khảo: [Ultralytics Train](https://docs.ultralytics.com/modes/train/), [Validation](https://docs.ultralytics.com/modes/val/), [COCO128](https://docs.ultralytics.com/datasets/detect/coco128/), [Colab FAQ](https://research.google.com/colaboratory/faq.html). Cú pháp đã đối chiếu với Ultralytics 8.4.165 đang cài; chất lượng, thời gian train và cấu hình GPU chưa được kiểm chứng bằng run thật của nhóm.

@@ -1,6 +1,10 @@
 # Chạy kiểm thử và xem kết quả
 
+> Cập nhật 02/10/2026: dùng project8 và release YAML data/dataset/v1/data.yaml; pipeline/evaluator tuần 2 đã có. Xem [workflow hiện hành](WEEK2_WORKFLOW.md). Các lệnh/kết quả smoke COCO128 cũ là lịch sử kỹ thuật, không phải baseline dataset nhóm.
+
 Mở PowerShell ở gốc repo. Lệnh bên dưới dùng `.venv` đã cài; không cần activate hay có Python trong PATH.
+
+**Bổ sung 03/10/2026:** webcam trực tiếp đã có trong web, với Bật/Dừng/Mở lại, chọn camera và tải JSON kết quả kiểm. Dùng `run-demo.cmd`; máy mới cài bằng `setup-demo.cmd`. Xem [bàn giao tuần 1](WEEK1_HANDOFF.md) cho bài kiểm từng máy và phần G1 còn chờ.
 
 ## 1. Mở giao diện xem ảnh
 
@@ -28,7 +32,7 @@ Mở `http://127.0.0.1:8501`. Giữ terminal đang chạy; Ctrl+C để dừng s
 & .\.venv\Scripts\python.exe -m pip check
 ```
 
-`test_inspection.py` kiểm nhầm ID 80→4, tọa độ hộp, nhãn hỏng, crop ra ngoài ảnh, chuyển RGB/BGR. `test_app.py` mở app bằng Streamlit AppTest, chạy YOLO thật trên mẫu chai, kiểm lọc rỗng và việc ẩn kết quả cũ khi đổi confidence/nguồn. Bài integration tự skip nếu không có weights/COCO128; skip không được tính là đã test giao diện. AppTest không thay việc bấm thử bảng/crop trong trình duyệt.
+`test_inspection.py` kiểm ID 80→8, tọa độ hộp, nhãn hỏng, crop và RGB/BGR. `test_dataset.py` kiểm lỗi ảnh/nhãn, nhóm chia, review và checksum. `test_evaluation.py` kiểm COCO AP và mapping. `test_app.py` chạy giao diện/YOLO thật, kiểm đủ tám lớp, lọc rỗng và ẩn kết quả cũ. Integration tự skip nếu thiếu weights/COCO128; skip không được tính là đã kiểm giao diện. AppTest không thay thao tác bằng tay trong trình duyệt.
 
 Kiểm bằng tay sau sửa UI: chọn ảnh khác → chạy → chọn đối tượng → tải file → đổi confidence → chạy lại → mở nguồn upload khi chưa chọn file → đổi sang video và frame khác. Không được nhìn thấy dự đoán của ảnh/frame trước.
 
@@ -38,7 +42,7 @@ Kiểm bằng tay sau sửa UI: chọn ảnh khác → chạy → chọn đối 
 & .\.venv\Scripts\python.exe -m src.inference.demo --source data/reference/coco128/images/train2017/000000000283.jpg --no-window --save --output-dir runs/manual/image_bottle
 ```
 
-Kỳ vọng: `summary.json` và `000000000283_detected.jpg` trong thư mục output. Model cố định `conf=0.25`, CPU, `imgsz=640`, lọc bốn lớp. Lệnh cũ `-m src.week1_demo` vẫn dùng được. Output có thể thay đổi nếu đổi weights/phiên bản; không biến confidence cụ thể thành tiêu chí chất lượng.
+Kỳ vọng: `summary.json` và `000000000283_detected.jpg` trong thư mục output. Model cố định `conf=0.25`, CPU, `imgsz=640`, lọc tám lớp. Lệnh cũ `-m src.week1_demo` vẫn dùng được. Output có thể thay đổi nếu đổi weights/phiên bản; không biến confidence cụ thể thành tiêu chí chất lượng.
 
 ## 4. Test video và đóng/mở lại
 
@@ -54,7 +58,7 @@ Kỳ vọng trên file mẫu cục bộ: 12 frame được xử lý, `reopen_cou
 & .\.venv\Scripts\python.exe -m src.inference.demo --source 0
 ```
 
-Đưa người/chai/điện thoại/laptop vào cảnh; `r` đóng rồi mở lại camera, `q` dừng. Chạy lại lệnh để xác nhận mở lần nữa. Nếu camera không phải 0, thử chỉ số đúng của thiết bị. Hiện nhóm chưa có webcam nên chưa thể nghiệm thu mục này. Web đang hỗ trợ xem ảnh/frame; CLI mới là lệnh kiểm camera live.
+Đưa người/bàn/ghế/laptop/điện thoại/balo/sách-vở/cốc vào cảnh; `r` đóng rồi mở lại camera, `q` dừng. Chạy lại lệnh để xác nhận mở lần nữa. Nếu camera không phải 0, thử chỉ số đúng của thiết bị. Web nay cũng kiểm camera live qua nguồn **Webcam trực tiếp**. Lần kiểm 03/10 trên máy hiện tại chưa đọc được camera 0; cần kết quả thật từ máy có thiết bị trước khi nghiệm thu.
 
 ## 6. Đọc kết quả đúng nghĩa
 
@@ -73,6 +77,6 @@ Muốn đo FPS demo: dùng clip thật, cấu hình cố định, chạy đủ d
 - **No module named streamlit/ultralytics:** gọi sai Python; dùng đúng `.venv\Scripts\python.exe`.
 - **Không thấy ảnh mẫu:** tải lại COCO128 theo README. Không cần tải để dùng ảnh riêng.
 - **Không có hộp:** xem confidence, lớp hiển thị, kích thước vật và checkpoint. Có thể là model bỏ sót thật.
-- **Sai profile checkpoint:** checkpoint phải là COCO80 hoặc đúng thứ tự project4; kiểm `model.names`.
+- **Sai profile checkpoint:** checkpoint phải là COCO80 hoặc đúng thứ tự project8; kiểm `model.names`.
 - **Đổi ảnh vẫn thấy kết quả cũ:** phải là lỗi; ghi nguồn, confidence và bước tái hiện để sửa.
 - **Train/val/test trong data khác tests/:** đọc [cấu trúc](CAU_TRUC_VA_LUONG.md), không đưa ảnh test vào code test.

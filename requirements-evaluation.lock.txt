@@ -1,0 +1,2 @@
+# Add-on for requirements-demo-cpu.lock.txt; tested with Windows/Python 3.11.
+pycocotools==2.0.11

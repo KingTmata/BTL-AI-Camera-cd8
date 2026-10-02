@@ -2,9 +2,13 @@
 path: C:/PATH/TO/BTL-AI-Camera-cd8/data/dataset
 train: images/train
 val: images/val
-test: images/test
+# Chỉ thêm test khi có tập test độc lập đã khóa.
 names:
   0: person
-  1: bottle
-  2: cell phone
+  1: table
+  2: chair
   3: laptop
+  4: cell phone
+  5: backpack
+  6: book
+  7: cup

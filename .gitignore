@@ -2,6 +2,9 @@
 .python/
 .tools/
 .uv-cache/
+# Local AI coding assistant state and generated plugin cache
+.codex/
+.opencode/
 __pycache__/
 *.py[cod]
 .pytest_cache/
@@ -13,6 +16,10 @@ data/video_dev/
 data/video_test/
 data/raw/
 data/manifest.csv
+data/manifest_split.csv
+data/sources.csv
+data/review.csv
+data/videos.csv
 data/reference/
 demo/smoke/
 weights/*.pt
@@ -21,3 +28,31 @@ reports/results/
 reports/errors/
 demo/private/
 *.log
+
+# Python coverage, type-checker, and notebook caches
+.coverage
+.coverage.*
+htmlcov/
+.mypy_cache/
+.pyright/
+.ipynb_checkpoints/
+
+# Local tool/runtime caches
+.temp/
+.cache/
+
+# Machine-specific configuration and secrets
+.env
+.env.*
+!.env.example
+
+# Model checkpoints and generated inference/training outputs
+*.pt
+*.onnx
+*.engine
+*.torchscript
+*.tflite
+*.mlmodel
+*.plan
+
+# Local datasets, source media, and demo outputs

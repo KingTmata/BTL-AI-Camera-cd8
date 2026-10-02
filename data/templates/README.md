@@ -8,4 +8,4 @@ Các CSV chỉ có header, chưa có bản ghi hay kết quả review. Sao mẫu
 - `review.csv`: log người thứ hai; trường `status` như trên. Người gán không tự điền tên mình vào vai reviewer thứ hai.
 - `videos.csv`: `split` chỉ `dev` hoặc `test`; `events_file` trỏ tới file sự kiện có quy ước cụ thể của chức năng đếm/vùng. Khung này chưa định nghĩa evaluator tracking.
 
-`image_sha256` và `label_sha256` ghi checksum thật sau chuẩn hóa. Header này là hợp đồng bàn giao dự kiến; chưa có script tự đọc/kiểm toàn bộ schema. Tài liệu quy trình: [WEEK2_G2.md](../../WEEK2_G2.md).
+`image_sha256` và `label_sha256` ghi checksum thật sau chuẩn hóa. Công cụ scripts/data/week2.py đọc manifest và kiểm các trường cần thiết. near_duplicate_status=approved xác nhận nhóm đã kiểm gần trùng sau gộp; needs_review=yes/no đánh dấu ca nghi ngờ. Xem docs/WEEK2_WORKFLOW.md. Tài liệu quy trình: [WEEK2_G2.md](../../WEEK2_G2.md).

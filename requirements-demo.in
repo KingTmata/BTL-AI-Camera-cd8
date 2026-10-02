@@ -1,0 +1,10 @@
+# Các gói chính đã kiểm trên máy Windows; dùng cho bootstrap macOS/Linux.
+# PyTorch/torchvision được setup_demo.py cài trước theo nền tảng.
+ultralytics==8.4.165
+streamlit==1.64.0
+opencv-python==5.0.0.93
+numpy==2.4.6
+Pillow==12.3.0
+pandas==3.0.6
+PyYAML==6.0.3
+matplotlib==3.11.2

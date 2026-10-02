@@ -5,21 +5,21 @@ import numpy as np
 from PIL import Image
 
 from src.inference.detector import COCO_TO_PROJECT, PROJECT_NAMES, class_mapping, crop_box, decode_image, reference_boxes
+from src.classes import COCO_NAMES
 
 
 class InspectionTests(unittest.TestCase):
     def test_mapping_keeps_coco_and_project_ids_distinct(self):
         coco = {i: f"unused_{i}" for i in range(80)}
-        for source, target in COCO_TO_PROJECT.items():
-            coco[source] = PROJECT_NAMES[target]
-        self.assertEqual(class_mapping(coco)[39], 1)
+        coco.update(COCO_NAMES)
+        self.assertEqual(class_mapping(coco)[60], 1)
         self.assertNotIn(1, class_mapping(coco))
         self.assertEqual(class_mapping(dict(enumerate(PROJECT_NAMES)))[1], 1)
         with self.assertRaises(ValueError):
             class_mapping({0: "person", 1: "cell phone", 2: "bottle", 3: "laptop"})
 
     def test_reference_mapping_and_original_pixel_coordinates(self):
-        rows = reference_boxes("39 0.5 0.5 0.2 0.4\n1 0.5 0.5 0.1 0.1", 100, 200)
+        rows = reference_boxes("60 0.5 0.5 0.2 0.4\n1 0.5 0.5 0.1 0.1", 100, 200)
         self.assertEqual(len(rows), 1)
         self.assertEqual(rows[0]["class_id"], 1)
         self.assertEqual(rows[0]["bbox_xyxy"], [40, 60, 60, 140])

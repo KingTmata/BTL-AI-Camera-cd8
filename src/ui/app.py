@@ -5,7 +5,9 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import platform
 import sys
+from importlib.metadata import version
 from pathlib import Path
 
 import cv2
@@ -16,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[2]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from src.inference.detector import ImageInspector, PROJECT_NAMES, crop_box, decode_image, draw_boxes, reference_boxes
+from src.inference.camera import CameraSession
 
 
 @st.cache_resource
@@ -38,10 +41,16 @@ def sample_source():
         st.info("Chưa tải COCO128. Xem lệnh tải trong README, hoặc chọn ‘Ảnh của bạn’.")
         return None
     ids = list(samples)
+    # Manifest tuần 1 cũ có bốn lớp; lấy tên tám lớp từ nhãn gốc để hiển thị đúng.
+    sample_names = {}
+    for item, row in samples.items():
+        label = ROOT / row["label_path"]
+        names = {r["class_name"] for r in reference_boxes(label.read_text(), 1, 1)} if label.is_file() else set()
+        sample_names[item] = ", ".join(name for name in PROJECT_NAMES if name in names) or "không có tám lớp"
     if st.session_state.get("sample_picker") not in samples:
         st.session_state.sample_picker = "000000000283" if "000000000283" in samples else ids[0]
     image_id = st.selectbox("Chọn ảnh mẫu", ids, key="sample_picker",
-                            format_func=lambda i: f"{i} · {samples[i]['present_project_classes'] or 'không có 4 lớp'}")
+                            format_func=lambda i: f"{i} · {sample_names[i]}")
     with st.expander(f"Duyệt {len(samples)} ảnh thu nhỏ"):
         page = st.selectbox("Trang ảnh", range(1, (len(ids)+5)//6+1))
         cols = st.columns(3)
@@ -101,13 +110,89 @@ def detection_table(rows):
                          for i, r in enumerate(rows, 1)])
 
 
+@st.fragment(run_every=0.3)
+def webcam_panel(checkpoint, confidence, visible_classes):
+    st.subheader("Webcam trực tiếp")
+    st.caption("Mỗi thành viên chạy ứng dụng trên máy của mình để dùng webcam của chính máy đó.")
+    index = int(st.number_input("Chỉ số webcam", min_value=0, max_value=20, value=0, step=1,
+                                help="Thường là 0. Thử 1 hoặc 2 nếu dùng camera USB.", key="webcam_index"))
+    config = (index, str(checkpoint), checkpoint.stat().st_mtime_ns, confidence)
+    camera = st.session_state.get("camera_session")
+    if camera is not None and st.session_state.get("camera_config") != config:
+        if not camera.stop():
+            st.info("Đang giải phóng webcam trước khi áp dụng cấu hình mới…")
+            return
+        st.session_state.pop("camera_session", None)
+        camera = None
+        st.info("Cấu hình đã đổi. Bấm Bật webcam để chạy với cấu hình mới.")
+    snapshot = camera.snapshot() if camera else None
+    active = snapshot is not None and snapshot["status"] in {"starting", "running", "stopping"}
+    start_col, stop_col, reopen_col = st.columns(3)
+    start = start_col.button("Bật webcam", key="webcam_start", type="primary", disabled=active)
+    stop = stop_col.button("Dừng webcam", key="webcam_stop", disabled=not active)
+    reopen = reopen_col.button("Mở lại webcam", key="webcam_reopen", disabled=not active)
+    try:
+        if stop and camera:
+            camera.stop()
+        if reopen and camera:
+            if camera.stop():
+                camera.start()
+        if start:
+            if camera is None:
+                with st.spinner("Đang nạp mô hình…"):
+                    inspector = load_inspector(str(checkpoint), checkpoint.stat().st_mtime_ns)
+                camera = CameraSession(index, inspector.predict, confidence)
+                st.session_state.camera_session = camera
+                st.session_state.camera_config = config
+            camera.start()
+        if start or stop or reopen:
+            st.rerun()
+        snapshot = camera.snapshot() if camera else None
+    except Exception as exc:
+        st.error(f"Không bật được webcam: {exc}")
+        return
+    if snapshot is None:
+        st.info("Bấm Bật webcam. Hình được xử lý cục bộ; ứng dụng không tự lưu ảnh hay video.")
+        return
+    status = snapshot["status"]
+    if status == "error":
+        st.error(snapshot["error"])
+    elif status == "starting":
+        st.info("Đang mở webcam và xử lý khung hình đầu tiên…")
+    elif status == "stopping":
+        st.info("Đang dừng xử lý và giải phóng webcam…")
+    elif status == "stopped":
+        st.info("Webcam đã dừng. Bấm Bật webcam để mở lại.")
+    else:
+        rows = [row for row in snapshot["output"]["detections"] if row["class_name"] in visible_classes]
+        st.image(draw_boxes(snapshot["frame"], rows), channels="BGR", width="stretch")
+        counts = st.columns(4)
+        for i, name in enumerate(PROJECT_NAMES):
+            counts[i % 4].metric(name, sum(row["class_name"] == name for row in rows))
+        fps_col, latency_col, frame_col = st.columns(3)
+        fps_col.metric("FPS xử lý", f"{snapshot['processing_fps']:.1f}")
+        latency_col.metric("p95 xử lý frame", f"{snapshot['app_latency_p95_ms']:.0f} ms")
+        frame_col.metric("Frame đã xử lý", snapshot["frames_processed"])
+        st.caption("Số đối tượng trong frame hiện tại. p95 đo từ lúc Python nhận frame đến khi có dự đoán "
+                   "(tối đa 300 frame gần nhất), chưa gồm trễ camera và hiển thị trình duyệt.")
+    if snapshot["frames_processed"]:
+        report = {key: value for key, value in snapshot.items() if key not in {"frame", "output"}}
+        report.update({"weights": str(checkpoint.relative_to(ROOT)), "confidence": confidence,
+                       "device": "cpu", "imgsz": 640, "nms": False,
+                       "platform": platform.platform(), "python": platform.python_version(),
+                       "versions": {name: version(name) for name in ("ultralytics", "torch", "opencv-python", "streamlit")},
+                       "measurement_note": "FPS gồm mở camera và xử lý; p95 từ nhận frame đến kết quả, chưa gồm camera/browser."})
+        st.download_button("Tải kết quả kiểm webcam", json.dumps(report, ensure_ascii=False, indent=2),
+                           "webcam_summary.json", "application/json", key="webcam_report", on_click="ignore")
+
+
 def main():
     st.set_page_config(page_title="Camera AI · Xem kết quả", layout="wide")
     st.title("Phòng quan sát AI")
-    st.caption("Chọn một ảnh, chạy YOLO và xem từng đối tượng được phát hiện.")
+    st.caption("Nhận dạng tám lớp trên ảnh, video hoặc webcam của máy đang chạy ứng dụng.")
     with st.sidebar:
         st.header("Nguồn & mô hình")
-        source = st.radio("Nguồn dữ liệu", ["Bộ mẫu COCO128", "Ảnh của bạn", "Khung hình video"])
+        source = st.radio("Nguồn dữ liệu", ["Bộ mẫu COCO128", "Ảnh của bạn", "Khung hình video", "Webcam trực tiếp"])
         weights = sorted((ROOT / "weights").glob("*.pt"))
         weights += sorted((ROOT / "runs/train").glob("*/weights/best.pt"))
         if not weights:
@@ -119,6 +204,12 @@ def main():
         st.caption("CPU · ảnh suy luận 640 · NMS-free")
         st.caption("Confidence là điểm của dự đoán, không phải độ chính xác của toàn mô hình.")
     try:
+        if source == "Webcam trực tiếp":
+            webcam_panel(checkpoint, confidence, visible_classes)
+            return
+        camera = st.session_state.get("camera_session")
+        if camera is not None:
+            camera.stop()
         selected = {"Bộ mẫu COCO128": sample_source, "Ảnh của bạn": uploaded_source,
                     "Khung hình video": video_source}[source]()
         if selected is None:
@@ -150,10 +241,11 @@ def main():
             else:
                 st.info("Bấm ‘Phân tích ảnh’. Khi đổi nguồn, model hoặc confidence, cần chạy lại để xem kết quả mới.")
         if valid:
-            counts = st.columns(5)
-            for column, name in zip(counts, PROJECT_NAMES):
+            counts = st.columns(4)
+            for index, name in enumerate(PROJECT_NAMES):
+                column = counts[index % 4]
                 column.metric(name, sum(r["class_name"] == name for r in rows))
-            counts[4].metric("Xử lý ảnh", f"{output['processing_ms']:.0f} ms")
+            st.metric("Xử lý ảnh", f"{output['processing_ms']:.0f} ms")
             st.caption("Thời gian predict sau khi nạp model; lần đầu có thể gồm warmup. Không phải độ trễ webcam.")
             if rows:
                 table_col, crop_col = st.columns([3, 2])

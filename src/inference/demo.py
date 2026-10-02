@@ -18,7 +18,9 @@ from ultralytics import YOLO
 
 
 ROOT = Path(__file__).resolve().parents[2]
-COCO_CLASSES = {0: "person", 39: "bottle", 67: "cell phone", 63: "laptop"}
+from src.classes import COCO_NAMES, COCO_TO_PROJECT, PROJECT_NAMES
+from src.inference.capture import open_camera
+COCO_CLASSES = {i: PROJECT_NAMES[j] for i, j in COCO_TO_PROJECT.items()}
 IMAGE_SUFFIXES = {".jpg", ".jpeg", ".png", ".bmp", ".webp"}
 
 
@@ -36,14 +38,7 @@ def parse_args() -> argparse.Namespace:
 
 def open_capture(source: str) -> cv2.VideoCapture:
     if source.isdecimal():
-        camera_index = int(source)
-        backends = (cv2.CAP_DSHOW, cv2.CAP_MSMF, cv2.CAP_ANY)
-        for backend in backends:
-            capture = cv2.VideoCapture(camera_index, backend)
-            if capture.isOpened():
-                return capture
-            capture.release()
-        raise RuntimeError(f"Không mở được webcam {camera_index}. Kiểm tra camera, quyền truy cập và ứng dụng khác.")
+        return open_camera(int(source))
     path = Path(source).expanduser()
     if not path.is_file():
         raise FileNotFoundError(f"Không tìm thấy nguồn: {path}")
@@ -123,6 +118,8 @@ def run_stream(args: argparse.Namespace, model: YOLO, output_dir: Path) -> None:
                 print("Đã đóng và mở lại nguồn thành công.")
             ok, frame = capture.read()
             if not ok:
+                if is_camera:
+                    raise RuntimeError("Webcam ngừng trả hình. Kiểm tra cáp USB và quyền camera rồi chạy lại.")
                 break
             height, width = frame.shape[:2]
             start = time.perf_counter()
@@ -178,7 +175,7 @@ def main() -> None:
     if not weights.is_file():
         raise FileNotFoundError(f"Thiếu checkpoint: {weights}")
     model = YOLO(str(weights))
-    for class_id, expected in COCO_CLASSES.items():
+    for class_id, expected in COCO_NAMES.items():
         actual = model.names.get(class_id)
         if actual != expected:
             raise RuntimeError(f"Class {class_id}: checkpoint có {actual!r}, cần {expected!r}")
