@@ -56,3 +56,15 @@ htmlcov/
 *.plan
 
 # Local datasets, source media, and demo outputs
+
+# Ultralytics local runtime settings (may include account-specific configuration)
+/Ultralytics/
+
+# Packaging artefacts and operating-system metadata
+build/
+dist/
+*.egg-info/
+Thumbs.db
+Desktop.ini
+.DS_Store
+*.tmp
