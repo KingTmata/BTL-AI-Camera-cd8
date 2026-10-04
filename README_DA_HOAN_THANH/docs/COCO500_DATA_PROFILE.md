@@ -1,3 +1,5 @@
+> **Hồ sơ lưu trữ:** đợt công việc ghi trong file đã kết thúc. Xem [phạm vi hoàn thành](../README.md); số liệu và hạn chế bên dưới thuộc thời điểm lập hồ sơ.
+
 # COCO500 — Hồ sơ đặc tính dữ liệu
 
 Phiên bản: `coco500_v0.1`; cập nhật 02/10/2026. **500 ảnh thật, trạng thái draft chờ review người thứ hai.**

@@ -1,6 +1,8 @@
+> **Đối soát 05/10/2026:** xem [trạng thái hiện hành](README.md#trạng-thái-theo-tuần). Dataset project8_v0.3 đã duyệt/khóa; R1 và R2 hoàn tất tổng 5 epoch. Những mô tả trước đó trong tài liệu là lịch sử hoặc đề xuất; G1/G2/G3 chưa đủ nghiệm thu toàn bộ.
+
 # Kế hoạch đề tài 8 Nhận dạng đối tượng trong camera
 
-> **Cập nhật 04/10/2026:** dataset chính draft `project8_v0.3` có **5.002 ảnh / 5.002 TXT / 26.566 box**: 3.883 train, 798 validation, 321 test. Đã nhập classroom với `table` và `with-student` cùng map về table; dọn bản sao, ảnh tham khảo và 107 ảnh pending theo yêu cầu. Giữ hai ZIP hành vi gốc phục vụ tuần 4–6. Có 4.681 file ảnh phát triển; chưa coi augmentation/frame video là cảnh độc lập. Nhãn/review, quyền/gần trùng/phiên, khóa release, video thật, baseline và fine-tune chưa hoàn tất. Xem [hồ sơ dataset chính](docs/PROJECT8_V0_3_DATA_PROFILE.md) và [báo cáo hiện hành](reports/results/project_progress_20261004/REPORT.md).
+> **Cập nhật 04/10/2026:** dataset chính draft `project8_v0.3` có **5.002 ảnh / 5.002 TXT / 26.566 box**: 3.883 train, 798 validation, 321 test. Đã nhập classroom với `table` và `with-student` cùng map về table; dọn bản sao, ảnh tham khảo và 107 ảnh pending theo yêu cầu. Giữ hai ZIP hành vi gốc phục vụ tuần 4–6. Có 4.681 file ảnh phát triển; chưa coi augmentation/frame video là cảnh độc lập. Nhãn/review, quyền/gần trùng/phiên, khóa release, video thật, baseline và fine-tune chưa hoàn tất. Xem [hồ sơ dataset chính](docs/PROJECT8_V0_3_DATA_PROFILE.md) và [báo cáo hiện hành](../README_DA_HOAN_THANH/reports/results/project_progress_20261004/REPORT.md).
 **Cách đọc nhanh:** cả nhóm đọc mục 1–3 và 18 trước; dữ liệu/model đọc 6, 8, 9; tracking đọc 7, 9, 10; ứng dụng đọc 5, 10, 20; repo ở 11; phân công/tiến độ ở 12–13; bộ nộp/bảo vệ ở 15–17; đối soát Qwen ở 19; cấu hình ở 20; kiểm thử/bàn giao ở 21; nguồn ở 22.
 ## 1 Mọi thành viên cần hiểu gì trước tiên
 

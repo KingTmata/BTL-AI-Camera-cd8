@@ -1,9 +1,11 @@
+> **Đối soát 05/10/2026:** xem [trạng thái hiện hành](../README.md#trạng-thái-theo-tuần). Dataset project8_v0.3 đã duyệt/khóa; R1 và R2 hoàn tất tổng 5 epoch. Những mô tả trước đó trong tài liệu là lịch sử hoặc đề xuất; G1/G2/G3 chưa đủ nghiệm thu toàn bộ.
+
 # Dataset chính — project8_v0.3 sau dọn dữ liệu
 
 Cập nhật 04/10/2026 theo yêu cầu chỉ giữ 5.002 ảnh.
 
 Kho chính hiện có **5.002 ảnh / 5.002 TXT / 26.566 bounding box**. Train/val/test: **3.883 / 798 / 321**. Không còn ảnh pending.
-Tám lớp: person, table, chair, laptop, cell phone, backpack, book, cup. Nhãn vẫn là draft chưa review đầy đủ tám lớp; chưa khóa release, chưa train.
+Tám lớp: person, table, chair, laptop, cell phone, backpack, book, cup. Người dùng đã xác nhận review ảnh/hộp nhãn của toàn bộ 5.002 ảnh, đủ tám lớp, và chấp nhận nguồn/quyền cùng gần trùng/nhóm phiên. Metadata ghi human_user là người duyệt; giữ nguyên ảnh, nhãn và split. Snapshot đã khóa tại chỗ ngày 04/10/2026; chưa train.
 
 | Nguồn | Số ảnh |
 |---|---:|
@@ -34,6 +36,6 @@ Hai ZIP hành vi gốc giữ riêng cho tuần 4–6 theo phạm vi đã chọn 
 ## Hồ sơ và kiểm tra
 
 inventory_all.csv, manifest.csv và review.csv đều kê 5.002 ảnh; data/manifest.csv là bản điều hướng cho workflow mặc định. Không còn pending_review.csv.
-Kiểm cặp ảnh/TXT, giải mã, ID/hình học, hash media, nhóm split và checksum đạt. Hash ảnh/nhãn của 5.002 cặp giữ lại không đổi so với trước khi dọn. Chưa xác nhận độc lập video/cảnh hoặc loại hết gần trùng.
+Kiểm cặp ảnh/TXT, giải mã, ID/hình học, hash media, nhóm split và checksum đạt. Hash ảnh/nhãn của 5.002 cặp giữ lại không đổi so với trước khi dọn. Nguồn/quyền và gần trùng/nhóm phiên đã được người dùng xác nhận; mã phiên unknown của nguồn vẫn được giữ trung thực. Xác nhận này là review của người dùng, không phải metric chất lượng model.
 Giao diện đọc 50 ảnh train từ manifest chính và dùng profile nhãn project8; không cần ảnh mẫu COCO128 riêng.
 Audit việc xóa: reports/results/primary_cleanup_20261004/cleanup_plan.json và deleted_pending_metadata.csv. Báo cáo trước khi dọn là snapshot lịch sử, không dùng làm số liệu hiện hành.

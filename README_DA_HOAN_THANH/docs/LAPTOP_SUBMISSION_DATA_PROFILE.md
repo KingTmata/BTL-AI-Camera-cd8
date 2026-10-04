@@ -1,3 +1,5 @@
+> **Hồ sơ lưu trữ:** đợt công việc ghi trong file đã kết thúc. Xem [phạm vi hoàn thành](../README.md); số liệu và hạn chế bên dưới thuộc thời điểm lập hồ sơ.
+
 # Hồ sơ dữ liệu thành viên nộp — Laptop Roboflow v1
 
 Ngày tiếp nhận: 02/10/2026. **Dữ liệu chính do thành viên đóng góp**, ngang hàng COCO500; đã gộp vào bản draft project8_v0.2. Bản intake lưu riêng để đối chiếu nguồn. Các thành viên tiếp tục bổ sung nhãn theo phân công.

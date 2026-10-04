@@ -1,6 +1,8 @@
+> **Hồ sơ lưu trữ:** đợt công việc ghi trong file đã kết thúc. Xem [phạm vi hoàn thành](../README.md); số liệu và hạn chế bên dưới thuộc thời điểm lập hồ sơ.
+
 # Dataset chính — project8_v0.2
 
-> Hồ sơ phiên bản lịch sử. Bản sao media v0.2 đã dọn theo yêu cầu. Dataset chính hiện hành là [project8_v0.3](PROJECT8_V0_3_DATA_PROFILE.md): 5.002 ảnh, không còn pending.
+> Hồ sơ phiên bản lịch sử. Bản sao media v0.2 đã dọn theo yêu cầu. Dataset chính hiện hành là [project8_v0.3](../../README/docs/PROJECT8_V0_3_DATA_PROFILE.md): 5.002 ảnh, không còn pending.
 
 Cập nhật 03/10/2026. **Bản draft chính của dự án**, gồm hai nguồn ngang hàng: COCO500 và bộ Roboflow Laptop do thành viên đóng góp.
 

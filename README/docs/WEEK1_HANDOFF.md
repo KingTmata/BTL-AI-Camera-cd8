@@ -1,3 +1,5 @@
+> **Đối soát 05/10/2026:** xem [trạng thái hiện hành](../README.md#trạng-thái-theo-tuần). Dataset project8_v0.3 đã duyệt/khóa; R1 và R2 hoàn tất tổng 5 epoch. Những mô tả trước đó trong tài liệu là lịch sử hoặc đề xuất; G1/G2/G3 chưa đủ nghiệm thu toàn bộ.
+
 # Bàn giao phần mềm tuần 1 — 03/10/2026
 
 > Cập nhật 04/10/2026: các ảnh tham khảo/review COCO128 và gói ZIP demo cũ đã dọn theo yêu cầu. App hiện dùng ảnh train từ dataset chính; CLI dùng src.inference.demo. Các kết quả phần mềm dưới đây là bằng chứng lịch sử; G1 vẫn chờ webcam thật và review người.

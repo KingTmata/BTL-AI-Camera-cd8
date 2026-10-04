@@ -1,3 +1,5 @@
+> **Đối soát 05/10/2026:** xem [trạng thái hiện hành](README.md#trạng-thái-theo-tuần). Dataset project8_v0.3 đã duyệt/khóa; R1 và R2 hoàn tất tổng 5 epoch. Những mô tả trước đó trong tài liệu là lịch sử hoặc đề xuất; G1/G2/G3 chưa đủ nghiệm thu toàn bộ.
+
 # Tuần 2 — Dataset v1 từ ảnh do nhóm cung cấp
 
 **Cập nhật 04/10/2026:** dataset chính draft `project8_v0.3` có **5.002 ảnh / 26.566 box**: 3.883 train, 798 validation, 321 test; không còn pending. Đã dọn bản sao/ảnh tham khảo và 107 ảnh cần xử lý theo yêu cầu; giữ hai ZIP hành vi gốc tuần 4–6. Có 4.681 file ảnh phát triển, nhưng augmentation/frame video không chứng minh từng file là ảnh gốc độc lập. Nhãn còn một phần; review, quyền/gần trùng/phiên, khóa release, video thật, baseline validation và fine-tune chưa hoàn tất. Lớp bàn có 1.017 ảnh / 2.479 box. Hướng dẫn hiện hành: [hồ sơ dataset](docs/PROJECT8_V0_3_DATA_PROFILE.md), [workflow](docs/WEEK2_WORKFLOW.md), [protocol](EVALUATION_PROTOCOL.md).

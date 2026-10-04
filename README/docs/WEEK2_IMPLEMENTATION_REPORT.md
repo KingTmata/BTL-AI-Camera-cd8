@@ -1,10 +1,12 @@
+> **Đối soát 05/10/2026:** xem [trạng thái hiện hành](../README.md#trạng-thái-theo-tuần). Dataset project8_v0.3 đã duyệt/khóa; R1 và R2 hoàn tất tổng 5 epoch. Những mô tả trước đó trong tài liệu là lịch sử hoặc đề xuất; G1/G2/G3 chưa đủ nghiệm thu toàn bộ.
+
 # Báo cáo triển khai tuần 2 — cập nhật 04/10/2026
 
 ## Kết quả và phạm vi
 
 **Cập nhật 04/10/2026:** dataset chính draft `project8_v0.3` có **5.002 ảnh / 5.002 TXT / 26.566 box**: 3.883 train, 798 validation, 321 test. Nguồn: 1.800 ảnh v0.2, 566 COCO bổ sung, 600 sách/điện thoại và 2.036 classroom. Có 4.681 file ảnh phát triển; không coi đây là số cảnh/ảnh gốc độc lập vì nguồn có augmentation và frame video. `table` và `with-student` cùng map về table theo quyết định người dùng; lớp bàn có 1.017 ảnh / 2.479 box. Nhãn vẫn còn một phần/chưa review đầy đủ. **G2 chưa nghiệm thu:** còn nhãn/review, quyền/bối cảnh, gần trùng/phiên, khóa release, video thật và baseline validation. Chưa fine-tune.
 
-Kiểm manifest chính: **5.002 ảnh dữ liệu chính**, không còn pending. Bằng chứng hiện hành: `data/dataset/project8_v0.3/manifest.csv`, `statistics.json`, `validation.json`, `checksums.json` và [bảng báo cáo mới](../reports/results/project_progress_20261004/REPORT.md). Đã xóa 107 cặp pending, 6.566 bản sao ảnh, 189 ảnh tham khảo/kết quả thử và các ZIP sao lưu. Hai ZIP hành vi gốc tuần 4–6 giữ nguyên. Các số liệu/run smoke v0.2 và COCO128 bên dưới là lịch sử, không dùng làm kiểm kê hiện hành.
+Kiểm manifest chính: **5.002 ảnh dữ liệu chính**, không còn pending. Bằng chứng hiện hành: `data/dataset/project8_v0.3/manifest.csv`, `statistics.json`, `validation.json`, `checksums.json` và [bảng báo cáo mới](../../README_DA_HOAN_THANH/reports/results/project_progress_20261004/REPORT.md). Đã xóa 107 cặp pending, 6.566 bản sao ảnh, 189 ảnh tham khảo/kết quả thử và các ZIP sao lưu. Hai ZIP hành vi gốc tuần 4–6 giữ nguyên. Các số liệu/run smoke v0.2 và COCO128 bên dưới là lịch sử, không dùng làm kiểm kê hiện hành.
 
 Code hiện hành còn CLI/UI nhận dạng, setup demo, validator/evaluator, workflow tuần 2 và script báo cáo. Đã bỏ 11 file Python phục vụ nhập/gộp/chọn dữ liệu cũ và CLI tuần 1 trùng chức năng. Giao diện lấy 50 ảnh train từ manifest chính, dùng profile nhãn project8, không cần bản sao ảnh mẫu. Kiểm thử hiện hành: **27/27 pass**, không skip; các bảng 20 test trong phần triển khai gốc dưới đây là lịch sử.
 

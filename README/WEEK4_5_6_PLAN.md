@@ -1,3 +1,5 @@
+> **Đối soát 05/10/2026:** xem [trạng thái hiện hành](README.md#trạng-thái-theo-tuần). Dataset project8_v0.3 đã duyệt/khóa; R1 và R2 hoàn tất tổng 5 epoch. Những mô tả trước đó trong tài liệu là lịch sử hoặc đề xuất; G1/G2/G3 chưa đủ nghiệm thu toàn bộ.
+
 # Kế hoạch chi tiết tuần 4–5–6: Detection, Recognition và ứng dụng Webcam
 
 **File dự kiến:** `C:\Users\aawm8\Downloads\BTL-AI-Camera-cd8\WEEK4_5_6_PLAN.md`
@@ -10,7 +12,7 @@ Các thành viên được ký hiệu **TV1–TV5**. Chưa gán ký hiệu nào 
 
 **Cập nhật 03/10/2026:** dataset chính draft `project8_v0.2` có **1.800 ảnh / 5.862 box**: 1.310 train, 360 validation, 130 test. Nguồn COCO500 (500 ảnh) và Laptop Roboflow v1 do thành viên đóng góp (1.300 ảnh) ngang hàng. Có 1.670 ảnh phát triển; còn thiếu 830 ảnh so với mục tiêu 2.500 nếu giữ mục tiêu đó. Nhãn nguồn Laptop hiện chỉ book/laptop, các lớp khác bổ sung theo phân công. 130 ảnh test vẫn giữ riêng, chưa phải test đủ tám lớp hoặc phòng học độc lập. Review, khóa release, video thật, baseline và fine-tune chưa hoàn tất. G1 còn kiểm webcam thật/review ảnh; G2 có draft nhưng chưa nghiệm thu; G3 chưa train. Có thể chuẩn bị tuần 4 song song, tuần 5–6 chờ model và tập đánh giá hợp lệ.
 
-Kế hoạch này kế thừa [kế hoạch tổng](C:/Users/aawm8/Downloads/BTL-AI-Camera-cd8/WEEK1_2_3_PLAN.md) và áp dụng quy mô dữ liệu mới trong [kế hoạch tuần 2](C:/Users/aawm8/Downloads/BTL-AI-Camera-cd8/WEEK2_G2.md).
+Kế hoạch này kế thừa [kế hoạch tổng](WEEK1_2_3_PLAN.md) và áp dụng quy mô dữ liệu mới trong [kế hoạch tuần 2](WEEK2_G2.md).
 
 ### 1.1. Những gì hiện có
 
