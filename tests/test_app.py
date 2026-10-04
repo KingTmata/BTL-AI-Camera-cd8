@@ -1,6 +1,6 @@
 import unittest
 import time
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 import numpy as np
 
@@ -8,6 +8,7 @@ from streamlit.testing.v1 import AppTest
 
 from src.inference.detector import ROOT
 from src.inference.camera import CameraSession
+from src.training.options import ADVANCED_DEFAULTS
 
 
 @unittest.skipUnless((ROOT / "weights/yolo26n.pt").is_file() and
@@ -31,6 +32,63 @@ class AppTests(unittest.TestCase):
         self.assertFalse(app.exception)
         self.assertFalse(app.error)
         self.assertEqual(len(app.metric), 0)
+
+    def test_training_form_defaults_and_new_run_submission(self):
+        with patch("src.training.manager.RunManager.start", return_value=ROOT / "runs/train/ui_test") as start:
+            app = AppTest.from_file(str(ROOT / "src/app.py"), default_timeout=30).run()
+            camera = Mock()
+            camera.stop.return_value = True
+            app.session_state.camera_session = camera
+            app.selectbox(key="workspace_page").set_value("Training").run()
+            self.assertFalse(app.exception)
+            self.assertFalse(app.error)
+            camera.stop.assert_called_once()
+            self.assertEqual(app.number_input(key="train_epochs").value, 1)
+            self.assertEqual(app.number_input(key="train_batch").value, 2)
+            self.assertEqual(app.number_input(key="train_workers").value, 0)
+            self.assertEqual(app.selectbox(key="train_imgsz").value, 640)
+            self.assertFalse(app.checkbox(key="train_cache").value)
+            for key, value in ADVANCED_DEFAULTS.items():
+                self.assertEqual(app.number_input(key=f"train_{key}").value, value)
+            self.assertTrue(any("tắt từ epoch đầu" in w.value for w in app.warning))
+            app.text_input(key="train_name").set_value("reviewed_cpu")
+            app.button(key="train_start").click().run()
+            self.assertFalse(app.exception)
+            self.assertFalse(app.error)
+            start.assert_called_once_with(epochs=1, batch=2, imgsz=640, workers=0, cache=False,
+                                          run_name="reviewed_cpu", checkpoint=ROOT / "weights/yolo26n.pt",
+                                          advanced=ADVANCED_DEFAULTS)
+
+    def test_advanced_preview_does_not_train_and_submission_preserves_values(self):
+        with patch("src.training.manager.RunManager.start", return_value=ROOT / "runs/train/ui_test") as start:
+            app = AppTest.from_file(str(ROOT / "src/app.py"), default_timeout=30).run()
+            app.selectbox(key="workspace_page").set_value("Training").run()
+            app.number_input(key="train_cls_pw").set_value(.25)
+            app.number_input(key="train_mixup").set_value(.1)
+            app.number_input(key="train_close_mosaic").set_value(0)
+            app.button(key="train_preview").click().run()
+            self.assertFalse(app.exception)
+            self.assertFalse(app.error)
+            start.assert_not_called()
+            self.assertFalse(any("tắt từ epoch đầu" in w.value for w in app.warning))
+            app.button(key="train_start").click().run()
+            self.assertFalse(app.exception)
+            self.assertFalse(app.error)
+            self.assertEqual(start.call_args.kwargs["advanced"],
+                             {**ADVANCED_DEFAULTS, "cls_pw": .25, "mixup": .1, "close_mosaic": 0})
+
+    def test_active_training_blocks_recognition_and_new_start(self):
+        with patch("src.training.manager.RunManager.active", return_value={"run_id": "active_run"}), \
+             patch("src.training.manager.RunManager.history", return_value=[]):
+            app = AppTest.from_file(str(ROOT / "src/app.py"), default_timeout=30).run()
+            self.assertFalse(app.exception)
+            self.assertFalse(app.error)
+            self.assertEqual(len(app.radio), 0, "Active training must hide inference controls")
+            self.assertTrue(any("tạm dừng" in i.value for i in app.info))
+            app.selectbox(key="workspace_page").set_value("Training").run()
+            self.assertFalse(app.exception)
+            self.assertFalse(app.error)
+            self.assertTrue(app.button(key="train_start").disabled)
 
 
 @unittest.skipUnless((ROOT / "weights/yolo26n.pt").is_file(), "Cần weights để kiểm webcam với YOLO thật")

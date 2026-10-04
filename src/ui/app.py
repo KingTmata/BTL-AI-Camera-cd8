@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import csv
+import gc
 import hashlib
 import json
 import platform
@@ -19,11 +20,34 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 from src.inference.detector import ImageInspector, PROJECT_NAMES, crop_box, decode_image, draw_boxes, reference_boxes
 from src.inference.camera import CameraSession
+from src.training.manager import RunManager
+from src.ui.training import training_page
 
 
 @st.cache_resource
 def load_inspector(path: str, modified_ns: int) -> ImageInspector:
     return ImageInspector(Path(path))
+
+
+def stop_current_webcam():
+    camera = st.session_state.get("camera_session")
+    if camera and not camera.stop():
+        return False
+    st.session_state.pop("camera_session", None)
+    return True
+
+
+def clear_inference():
+    load_inspector.clear()
+    st.session_state.pop("inspection", None)
+    gc.collect()
+
+
+@st.fragment(run_every=2)
+def recognition_paused(manager):
+    if manager.active() is None:
+        st.rerun(scope="app")
+    st.info("Training đang chạy. Recognition tạm dừng để dành CPU/RAM. Chọn Training để theo dõi.")
 
 
 def choose_sample(image_id: str) -> None:
@@ -63,7 +87,7 @@ def sample_source():
     frame = decode_image((ROOT / row["image_path"]).read_bytes())
     label = ROOT / row["label_path"]
     refs = reference_boxes(label.read_text(), frame.shape[1], frame.shape[0], profile="project8") if label.is_file() else None
-    st.caption("Ảnh train từ dataset chính • nhãn project8 để đối chiếu • nhãn nguồn chưa được review đầy đủ")
+    st.caption("Ảnh train từ dataset chính • nhãn project8 • review được chủ dự án xác nhận")
     return frame, image_id, refs
 
 
@@ -112,7 +136,16 @@ def detection_table(rows):
 
 
 @st.fragment(run_every=0.3)
-def webcam_panel(checkpoint, confidence, visible_classes):
+def webcam_panel(checkpoint, confidence, visible_classes, manager):
+    try:
+        if manager.active():
+            stop_current_webcam()
+            st.info("Webcam tạm dừng trong lúc training.")
+            return
+    except ValueError as exc:
+        stop_current_webcam()
+        st.info(str(exc))
+        return
     st.subheader("Webcam trực tiếp")
     st.caption("Mỗi thành viên chạy ứng dụng trên máy của mình để dùng webcam của chính máy đó.")
     index = int(st.number_input("Chỉ số webcam", min_value=0, max_value=20, value=0, step=1,
@@ -142,7 +175,10 @@ def webcam_panel(checkpoint, confidence, visible_classes):
             if camera is None:
                 with st.spinner("Đang nạp mô hình…"):
                     inspector = load_inspector(str(checkpoint), checkpoint.stat().st_mtime_ns)
-                camera = CameraSession(index, inspector.predict, confidence)
+                def guarded_predict(frame, threshold):
+                    with manager.inference_slot():
+                        return inspector.predict(frame, threshold)
+                camera = CameraSession(index, guarded_predict, confidence)
                 st.session_state.camera_session = camera
                 st.session_state.camera_config = config
             camera.start()
@@ -189,6 +225,23 @@ def webcam_panel(checkpoint, confidence, visible_classes):
 
 def main():
     st.set_page_config(page_title="Camera AI · Xem kết quả", layout="wide")
+    manager = RunManager(ROOT)
+    with st.sidebar:
+        page = st.selectbox("Màn hình", ["Recognition", "Training"], key="workspace_page")
+    if page == "Training":
+        stop_current_webcam()
+        training_page(manager, stop_current_webcam, clear_inference)
+        return
+    try:
+        if manager.active():
+            stop_current_webcam()
+            st.title("Recognition")
+            recognition_paused(manager)
+            return
+    except ValueError as exc:
+        stop_current_webcam()
+        st.error(str(exc))
+        return
     st.title("Phòng quan sát AI")
     st.caption("Nhận dạng tám lớp trên ảnh, video hoặc webcam của máy đang chạy ứng dụng.")
     with st.sidebar:
@@ -206,7 +259,7 @@ def main():
         st.caption("Confidence là điểm của dự đoán, không phải độ chính xác của toàn mô hình.")
     try:
         if source == "Webcam trực tiếp":
-            webcam_panel(checkpoint, confidence, visible_classes)
+            webcam_panel(checkpoint, confidence, visible_classes, manager)
             return
         camera = st.session_state.get("camera_session")
         if camera is not None:
@@ -225,7 +278,8 @@ def main():
             st.session_state.pop("inspection", None)
             with st.spinner("Đang chạy YOLO26n…"):
                 engine = load_inspector(str(checkpoint), checkpoint.stat().st_mtime_ns)
-                output = engine.predict(frame, confidence)
+                with manager.inference_slot():
+                    output = engine.predict(frame, confidence)
                 st.session_state.inspection = {"fingerprint": fingerprint, **output}
         output = st.session_state.get("inspection")
         valid = output is not None and output["fingerprint"] == fingerprint
@@ -277,7 +331,7 @@ def main():
             downloads[1].download_button("Tải JSON", json.dumps(export, ensure_ascii=False, indent=2), "detection.json", "application/json")
             downloads[2].download_button("Tải bảng CSV", detection_table(rows).to_csv(index=False).encode("utf-8-sig"), "detection.csv", "text/csv")
         if refs is not None:
-            with st.expander("Đối chiếu nhãn gốc COCO128"):
+            with st.expander("Đối chiếu nhãn dataset"):
                 reference = [r for r in refs if r["class_name"] in visible_classes]
                 st.image(draw_boxes(frame, reference, reference=True), channels="BGR", width=640)
                 st.write(f"Nhãn tham khảo: {len(reference)} hộp thuộc các lớp đang hiển thị.")

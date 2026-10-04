@@ -7,4 +7,5 @@ numpy==2.4.6
 Pillow==12.3.0
 pandas==3.0.6
 PyYAML==6.0.3
+psutil==7.2.2
 matplotlib==3.11.2
