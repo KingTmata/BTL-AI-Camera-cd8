@@ -42,8 +42,12 @@ def crop_box(frame: np.ndarray, box: list[float]) -> np.ndarray:
     return frame[y1:y2, x1:x2].copy()
 
 
-def reference_boxes(label_text: str, width: int, height: int) -> list[dict]:
-    """Đọc nhãn COCO80; output ID luôn là project8, tọa độ là pixel."""
+def reference_boxes(label_text: str, width: int, height: int, profile: str = "coco80") -> list[dict]:
+    """Đọc nhãn theo profile tường minh; output ID project8, tọa độ pixel."""
+    if profile not in ("coco80", "project8"):
+        raise ValueError("Profile nhãn phải là coco80 hoặc project8")
+    mapping = COCO_TO_PROJECT if profile == "coco80" else {i: i for i in range(len(PROJECT_NAMES))}
+    class_count = 80 if profile == "coco80" else len(PROJECT_NAMES)
     rows = []
     for line_number, line in enumerate(label_text.splitlines(), 1):
         if not line.strip():
@@ -53,12 +57,12 @@ def reference_boxes(label_text: str, width: int, height: int) -> list[dict]:
             raise ValueError(f"Nhãn dòng {line_number} phải có 5 cột.")
         class_id = int(values[0])
         x, y, w, h = map(float, values[1:])
-        if not (0 <= class_id < 80 and all(math.isfinite(v) for v in (x, y, w, h))
+        if not (0 <= class_id < class_count and all(math.isfinite(v) for v in (x, y, w, h))
                 and w > 0 and h > 0 and x - w / 2 >= -0.0001 and y - h / 2 >= -0.0001
                 and x + w / 2 <= 1.0001 and y + h / 2 <= 1.0001):
             raise ValueError(f"Nhãn dòng {line_number} có ID hoặc tọa độ không hợp lệ.")
-        if class_id in COCO_TO_PROJECT:
-            project_id = COCO_TO_PROJECT[class_id]
+        if class_id in mapping:
+            project_id = mapping[class_id]
             rows.append({"class_id": project_id, "class_name": PROJECT_NAMES[project_id],
                          "bbox_xyxy": [(x-w/2)*width, (y-h/2)*height, (x+w/2)*width, (y+h/2)*height]})
     return rows

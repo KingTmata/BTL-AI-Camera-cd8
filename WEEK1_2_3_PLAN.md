@@ -1,6 +1,6 @@
 # Kế hoạch đề tài 8 Nhận dạng đối tượng trong camera
 
-> **Cập nhật 03/10/2026:** dataset chính draft `project8_v0.2` có **1.800 ảnh / 5.862 box**: 1.310 train, 360 validation, 130 test. Nguồn COCO500 (500 ảnh) và Laptop Roboflow v1 do thành viên đóng góp (1.300 ảnh) ngang hàng. Có 1.670 ảnh phát triển; còn thiếu 830 ảnh so với mục tiêu 2.500 nếu giữ mục tiêu đó. Nhãn nguồn Laptop hiện chỉ book/laptop, các lớp khác bổ sung theo phân công. 130 ảnh test vẫn giữ riêng, chưa phải test đủ tám lớp hoặc phòng học độc lập. Review, khóa release, video thật, baseline và fine-tune chưa hoàn tất. Xem [hồ sơ dataset chính](docs/PROJECT8_V0_2_DATA_PROFILE.md), [workflow](docs/WEEK2_WORKFLOW.md) và [protocol](EVALUATION_PROTOCOL.md).
+> **Cập nhật 04/10/2026:** dataset chính draft `project8_v0.3` có **5.002 ảnh / 5.002 TXT / 26.566 box**: 3.883 train, 798 validation, 321 test. Đã nhập classroom với `table` và `with-student` cùng map về table; dọn bản sao, ảnh tham khảo và 107 ảnh pending theo yêu cầu. Giữ hai ZIP hành vi gốc phục vụ tuần 4–6. Có 4.681 file ảnh phát triển; chưa coi augmentation/frame video là cảnh độc lập. Nhãn/review, quyền/gần trùng/phiên, khóa release, video thật, baseline và fine-tune chưa hoàn tất. Xem [hồ sơ dataset chính](docs/PROJECT8_V0_3_DATA_PROFILE.md) và [báo cáo hiện hành](reports/results/project_progress_20261004/REPORT.md).
 **Cách đọc nhanh:** cả nhóm đọc mục 1–3 và 18 trước; dữ liệu/model đọc 6, 8, 9; tracking đọc 7, 9, 10; ứng dụng đọc 5, 10, 20; repo ở 11; phân công/tiến độ ở 12–13; bộ nộp/bảo vệ ở 15–17; đối soát Qwen ở 19; cấu hình ở 20; kiểm thử/bàn giao ở 21; nguồn ở 22.
 ## 1 Mọi thành viên cần hiểu gì trước tiên
 
@@ -215,7 +215,7 @@ Không có cơ sở trong tài liệu đã kiểm tra để khẳng định mọ
 
 ### Quy mô và nguồn đề xuất
 
-**Mục tiêu hiện hành:** 2.500 ảnh phát triển train/validation theo WEEK2_G2.md; nhóm có thể điều chỉnh và ghi rõ quy mô thật. Hiện có 1.800 ảnh chính: 1.670 ảnh phát triển và 130 test, chưa tính ảnh mẫu/augmentation. Nguồn hiện tại là COCO và Roboflow, chưa chứng minh đó là ảnh tự thu phòng học.
+**Mục tiêu hiện hành:** 2.500 ảnh phát triển hợp lệ theo WEEK2_G2.md; nhóm có thể điều chỉnh và ghi rõ quy mô thật. Hiện có 5.002 file ảnh chính: 4.681 train/validation và 321 test. Nguồn COCO và Roboflow có augmentation/frame video; số file chưa chứng minh số cảnh độc lập hay ảnh tự thu phòng học.
 
 Thu 15–24 phiên quay/chụp ngắn, nhiều vị trí, ít nhất vài ngày hoặc buổi khác nhau; nếu làm được, dùng nhiều điện thoại/chai/người tình nguyện. Cố gắng có ít nhất 3 phiên độc lập cho validation và 3 phiên cho test. Số ảnh không thay thế được sự đa dạng.
 
@@ -890,7 +890,7 @@ Nếu LMS giới hạn dung lượng, hỏi cách nộp weights/dataset; không 
 | Model | YOLO26n pretrained, YOLO26n fine-tuned (máy chính), YOLO26s fine-tuned (Colab/máy khác); head `nms=False` cho live, `nms=True` cho chấm chuẩn |
 | Tracker | ByteTrack; BoT-SORT là đối chứng nếu đủ thời gian |
 | Nghiệp vụ | Đếm người hiện tại, lượt qua một vạch, cảnh báo một vùng |
-| Dataset | Draft 1.800 ảnh, 1.670 train/val; mục tiêu 2.500 ảnh phát triển; chia theo nhóm/nguồn |
+| Dataset | Draft 5.002 ảnh, 4.681 train/val và 321 test; mục tiêu 2.500 ảnh phát triển hợp lệ; xác nhận nhóm/nguồn và nhãn |
 | Dữ liệu video | Khoảng 5–10 clip, ưu tiên 10 nếu đủ cảnh |
 | Demo | Local trước; webcam trình duyệt là phần mở rộng |
 | Chủ trì | Điền tên thật cho A/B/C và người review |
@@ -1103,7 +1103,7 @@ Mẫu một ca lỗi: `case_id → model/run → clip/frame → GT → dự đo�
 - Sau mỗi mốc, bàn giao file + cấu hình + input kiểm + đầu ra mong đợi + hạn chế. Thành viên nhận chạy lại trước khi coi việc đã xong.
 - Hoàn thành dự án khi có bộ nộp, app tái lập trên máy khác, dữ liệu và thí nghiệm truy nguồn được, từng thành viên bảo vệ được; không chỉ khi đủ số tính năng.
 
-**Trạng thái hiện tại 03/10/2026:** app ảnh/video và webcam đã có; phần mềm webcam đã kiểm, còn kiểm thiết bị thật và review ảnh cho G1. Dataset chính draft project8_v0.2 có 1.800 ảnh, 5.862 box; đã kiểm kỹ thuật, tạo YAML/manifest/checksum và hồ sơ. Còn hoàn thiện nhãn/review, xác nhận nguồn/nhóm, khóa release, video thật, baseline và fine-tune. Các bảng mAP và kết quả tuần 3–6 giữ “Chưa đo”; kế hoạch không phải bằng chứng các phần đó đã hoàn thành.
+**Trạng thái hiện tại 04/10/2026:** app ảnh/video và webcam đã có; còn kiểm thiết bị thật và review người cho G1. Dataset chính draft project8_v0.3 có 5.002 ảnh, 5.002 TXT và 26.566 box; train/val/test 3.883/798/321. Đã dọn bản sao và 107 ảnh pending theo yêu cầu, giữ hai ZIP hành vi nguồn tuần 4–6. YAML/manifest/checksum và hồ sơ đã cập nhật. Code cũ đã dọn, 27 test hiện hành pass; UI dùng ảnh train chính. Còn hoàn thiện nhãn/review, xác nhận nguồn/gần trùng/phiên, khóa release, video thật, baseline validation và fine-tune. Các bảng mAP/tuần 3–6 giữ “Chưa đo”.
 
 ## 22 Nguồn đối chiếu
 

@@ -1,5 +1,7 @@
 # Dataset chính — project8_v0.2
 
+> Hồ sơ phiên bản lịch sử. Bản sao media v0.2 đã dọn theo yêu cầu. Dataset chính hiện hành là [project8_v0.3](PROJECT8_V0_3_DATA_PROFILE.md): 5.002 ảnh, không còn pending.
+
 Cập nhật 03/10/2026. **Bản draft chính của dự án**, gồm hai nguồn ngang hàng: COCO500 và bộ Roboflow Laptop do thành viên đóng góp.
 
 Tổng **1800 ảnh duy nhất**, **5862 box**; COCO 500 ảnh, thành viên 1.300 ảnh. Không tính COCO128 hoặc ảnh smoke/mẫu.
@@ -45,4 +47,4 @@ Kiểm định dạng thành công không xác nhận đầy đủ/đúng ngữ 
 
 Đặc tính chi tiết: [COCO500](COCO500_DATA_PROFILE.md), [bộ Laptop thành viên](LAPTOP_SUBMISSION_DATA_PROFILE.md).
 
-Tái tạo bản gộp trên workspace chưa có project8_v0.2: `.venv/Scripts/python.exe scripts/data/merge_project_dataset.py`. Không ghi đè phiên bản đã có; sau chỉnh nhãn tạo phiên bản mới.
+Script gộp v0.2 và các bản sao nguồn đã được bỏ sau khi chốt kho chính. Số liệu trong hồ sơ này là snapshot lịch sử, không phải kiểm kê hiện hành.

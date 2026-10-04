@@ -30,6 +30,15 @@ class InspectionTests(unittest.TestCase):
             with self.subTest(text=text), self.assertRaises(ValueError):
                 reference_boxes(text, 100, 100)
 
+    def test_project8_reference_labels_keep_table_and_chair_ids(self):
+        rows = reference_boxes("1 .5 .5 .2 .2\n2 .5 .5 .4 .4", 100, 200, profile="project8")
+        self.assertEqual([r["class_name"] for r in rows], ["table", "chair"])
+        self.assertEqual(rows[0]["bbox_xyxy"], [40, 80, 60, 120])
+        with self.assertRaises(ValueError):
+            reference_boxes("8 .5 .5 .2 .2", 100, 200, profile="project8")
+        with self.assertRaises(ValueError):
+            reference_boxes("1 .5 .5 .2 .2", 100, 200, profile="unknown")
+
     def test_crop_clips_to_image_and_rejects_empty_box(self):
         frame = np.zeros((20, 30, 3), np.uint8)
         self.assertEqual(crop_box(frame, [-3, 5, 40, 25]).shape, (15, 30, 3))

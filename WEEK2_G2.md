@@ -1,8 +1,8 @@
 # Tuần 2 — Dataset v1 từ ảnh do nhóm cung cấp
 
-**Cập nhật 03/10/2026:** dataset chính draft `project8_v0.2` có **1.800 ảnh / 5.862 box**: 1.310 train, 360 validation, 130 test. Nguồn COCO500 (500 ảnh) và Laptop Roboflow v1 do thành viên đóng góp (1.300 ảnh) ngang hàng. Có 1.670 ảnh phát triển; còn thiếu 830 ảnh so với mục tiêu 2.500 nếu giữ mục tiêu đó. Nhãn nguồn Laptop hiện chỉ book/laptop, các lớp khác bổ sung theo phân công. 130 ảnh test vẫn giữ riêng, chưa phải test đủ tám lớp hoặc phòng học độc lập. Review, khóa release, video thật, baseline và fine-tune chưa hoàn tất. Đã có công cụ inventory/check/split/lock/verify và evaluator; không gọi draft là G2 đã nghiệm thu. Hướng dẫn hiện hành: [docs/WEEK2_WORKFLOW.md](docs/WEEK2_WORKFLOW.md), [EVALUATION_PROTOCOL.md](EVALUATION_PROTOCOL.md).
+**Cập nhật 04/10/2026:** dataset chính draft `project8_v0.3` có **5.002 ảnh / 26.566 box**: 3.883 train, 798 validation, 321 test; không còn pending. Đã dọn bản sao/ảnh tham khảo và 107 ảnh cần xử lý theo yêu cầu; giữ hai ZIP hành vi gốc tuần 4–6. Có 4.681 file ảnh phát triển, nhưng augmentation/frame video không chứng minh từng file là ảnh gốc độc lập. Nhãn còn một phần; review, quyền/gần trùng/phiên, khóa release, video thật, baseline validation và fine-tune chưa hoàn tất. Lớp bàn có 1.017 ảnh / 2.479 box. Hướng dẫn hiện hành: [hồ sơ dataset](docs/PROJECT8_V0_3_DATA_PROFILE.md), [workflow](docs/WEEK2_WORKFLOW.md), [protocol](EVALUATION_PROTOCOL.md).
 
-**Cập nhật 29/09/2026 theo quyết định của nhóm:** thành viên tự tìm và bàn giao ảnh; tối thiểu **2.500 ảnh gốc hợp lệ sau lọc trùng** cho train + validation. Test được bổ sung gần cuối dự án, ngoài số lượng này. Đã có dataset draft project8_v0.2 thực tế; chưa có release v1 đã review/khóa. Mục tiêu 2.500 là mục tiêu kế hoạch, không phải số đang có.
+**Mục tiêu kế hoạch 29/09/2026:** thành viên tự tìm và bàn giao ảnh; tối thiểu **2.500 ảnh gốc hợp lệ sau lọc trùng** cho train + validation. Test ngoài số lượng này. Hiện có draft v0.3; chưa có release v1 đã review/khóa. Số file hiện hành không tự chứng minh đạt chỉ tiêu ảnh gốc hợp lệ và độc lập cảnh.
 
 ## 1. Quy mô và cách chia
 

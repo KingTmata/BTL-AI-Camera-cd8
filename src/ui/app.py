@@ -31,24 +31,25 @@ def choose_sample(image_id: str) -> None:
 
 
 def sample_source():
-    manifest = ROOT / "data/week1_coco128_manifest.csv"
+    manifest = ROOT / "data/manifest.csv"
     if not manifest.is_file():
         st.info("Chưa có danh sách ảnh mẫu. Chọn ‘Ảnh của bạn’ để mở ảnh riêng.")
         return None
     with manifest.open(encoding="utf-8") as file:
-        samples = {r["image_id"]: r for r in csv.DictReader(file) if (ROOT / r["image_path"]).is_file()}
+        available = [r for r in csv.DictReader(file) if r.get("split") == "train" and (ROOT / r["image_path"]).is_file()]
+        samples = {r["image_id"]: r for r in available[:50]}
     if not samples:
-        st.info("Chưa tải COCO128. Xem lệnh tải trong README, hoặc chọn ‘Ảnh của bạn’.")
+        st.info("Chưa có ảnh train trong manifest chính. Chọn ‘Ảnh của bạn’ để mở ảnh riêng.")
         return None
     ids = list(samples)
-    # Manifest tuần 1 cũ có bốn lớp; lấy tên tám lớp từ nhãn gốc để hiển thị đúng.
+    # Nhãn dataset chính dùng ID project8; không đọc chúng như raw ID COCO80.
     sample_names = {}
     for item, row in samples.items():
         label = ROOT / row["label_path"]
-        names = {r["class_name"] for r in reference_boxes(label.read_text(), 1, 1)} if label.is_file() else set()
+        names = {r["class_name"] for r in reference_boxes(label.read_text(), 1, 1, profile="project8")} if label.is_file() else set()
         sample_names[item] = ", ".join(name for name in PROJECT_NAMES if name in names) or "không có tám lớp"
     if st.session_state.get("sample_picker") not in samples:
-        st.session_state.sample_picker = "000000000283" if "000000000283" in samples else ids[0]
+        st.session_state.sample_picker = ids[0]
     image_id = st.selectbox("Chọn ảnh mẫu", ids, key="sample_picker",
                             format_func=lambda i: f"{i} · {sample_names[i]}")
     with st.expander(f"Duyệt {len(samples)} ảnh thu nhỏ"):
@@ -61,8 +62,8 @@ def sample_source():
     row = samples[image_id]
     frame = decode_image((ROOT / row["image_path"]).read_bytes())
     label = ROOT / row["label_path"]
-    refs = reference_boxes(label.read_text(), frame.shape[1], frame.shape[0]) if label.is_file() else None
-    st.caption("COCO128 • nhãn gốc để đối chiếu • chưa phải dữ liệu phòng học đã review")
+    refs = reference_boxes(label.read_text(), frame.shape[1], frame.shape[0], profile="project8") if label.is_file() else None
+    st.caption("Ảnh train từ dataset chính • nhãn project8 để đối chiếu • nhãn nguồn chưa được review đầy đủ")
     return frame, image_id, refs
 
 
@@ -192,7 +193,7 @@ def main():
     st.caption("Nhận dạng tám lớp trên ảnh, video hoặc webcam của máy đang chạy ứng dụng.")
     with st.sidebar:
         st.header("Nguồn & mô hình")
-        source = st.radio("Nguồn dữ liệu", ["Bộ mẫu COCO128", "Ảnh của bạn", "Khung hình video", "Webcam trực tiếp"])
+        source = st.radio("Nguồn dữ liệu", ["Ảnh dữ liệu chính", "Ảnh của bạn", "Khung hình video", "Webcam trực tiếp"])
         weights = sorted((ROOT / "weights").glob("*.pt"))
         weights += sorted((ROOT / "runs/train").glob("*/weights/best.pt"))
         if not weights:
@@ -210,7 +211,7 @@ def main():
         camera = st.session_state.get("camera_session")
         if camera is not None:
             camera.stop()
-        selected = {"Bộ mẫu COCO128": sample_source, "Ảnh của bạn": uploaded_source,
+        selected = {"Ảnh dữ liệu chính": sample_source, "Ảnh của bạn": uploaded_source,
                     "Khung hình video": video_source}[source]()
         if selected is None:
             st.stop()

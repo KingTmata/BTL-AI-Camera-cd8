@@ -28,9 +28,11 @@ BTL-AI-Camera-cd8/
 │   ├── training/
 │   │   └── README.md                 Chưa có trainer tự viết; dùng Ultralytics
 │   ├── app.py                        Lối vào web, gọi ui/app.py
-│   └── week1_demo.py                 Lối vào CLI cũ, gọi inference/demo.py
+│   └── dataset.py                    Kiểm nhãn, chia nhóm và khóa release
 ├── scripts/data/
-│   └── prepare_smoke_dataset.py      Tạo list/YAML COCO128 để train thử
+│   ├── week2.py                     Inventory/check/split/lock/verify
+│   ├── smoke_week2.py               Kiểm phần mềm bằng dữ liệu nhân tạo khi cần
+│   └── report_project_progress.py   Bảng kiểm kê từ artifact hiện hành
 ├── tests/                            KIỂM CODE, KHÔNG CHỨA DATASET TEST
 │   ├── test_inspection.py            Mapping, nhãn, màu ảnh, crop
 │   └── test_app.py                   AppTest chạy giao diện và YOLO thật
@@ -42,13 +44,12 @@ BTL-AI-Camera-cd8/
 │   └── bytetrack.yaml                Tracker cho giai đoạn sau; chưa chạy trong UI
 ├── .streamlit/config.toml            Địa chỉ local, giới hạn upload, màu giao diện
 ├── data/                             DỮ LIỆU ĐẦU VÀO
-│   ├── reference/coco128/            Ảnh/nhãn tham khảo 80 lớp, không commit
-│   ├── dataset/images/{train,val,test}/   Ảnh phòng học về sau
-│   ├── dataset/labels/{train,val,test}/   Nhãn 8 lớp tương ứng
-│   ├── raw/                         Ảnh/video gốc có quyền sử dụng
+│   ├── dataset/project8_v0.3/images/{train,val,test}/  5.002 ảnh chính
+│   ├── dataset/project8_v0.3/labels/{train,val,test}/  Nhãn 8 lớp tương ứng
+│   ├── raw/week456_behavior/        Hai ZIP hành vi gốc cho tuần 4–6
 │   ├── video_dev/                   Video để phát triển/điều chỉnh
 │   ├── video_test/                  Video đánh giá cuối, tách phiên
-│   ├── week1_coco128_manifest.csv    50 ảnh chọn sẵn, đường dẫn nguồn
+│   ├── manifest.csv                Manifest dataset chính cho CLI/UI
 ├── weights/                          MODEL ĐẦU VÀO, không phải code
 │   └── yolo26n.pt                   Trọng số pretrained tải sẵn
 ├── runs/                             KẾT QUẢ MÁY SINH, không commit

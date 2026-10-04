@@ -5,4 +5,4 @@
 - `detector.py`: bộ nhận dạng dùng trong web, mapping COCO80/project8, đọc nhãn tham khảo, vẽ/crop ảnh.
 - `demo.py`: baseline CLI đọc ảnh/video/webcam, vòng lặp frame, giải phóng nguồn và ghi `summary.json`.
 
-Chạy CLI: `.venv\Scripts\python.exe -m src.inference.demo --source <ảnh|video|0>` từ gốc repo. Lệnh cũ `-m src.week1_demo` vẫn hoạt động. UI gọi bộ nhận dạng này; không gọi train.
+Chạy CLI: `.venv\Scripts\python.exe -m src.inference.demo --source <ảnh|video|0>` từ gốc repo. UI gọi bộ nhận dạng này; không gọi train. Lối vào CLI cũ tuần 1 đã được bỏ.

@@ -1,5 +1,7 @@
 # Bàn giao phần mềm tuần 1 — 03/10/2026
 
+> Cập nhật 04/10/2026: các ảnh tham khảo/review COCO128 và gói ZIP demo cũ đã dọn theo yêu cầu. App hiện dùng ảnh train từ dataset chính; CLI dùng src.inference.demo. Các kết quả phần mềm dưới đây là bằng chứng lịch sử; G1 vẫn chờ webcam thật và review người.
+
 Đã hoàn thiện phần mềm webcam cục bộ. **G1 vẫn chờ kiểm webcam thật và review ảnh của người trong nhóm.** Không dùng kiểm thử mô phỏng hoặc kết quả COCO128 để thay bằng chứng đó.
 
 ## Chạy trên từng máy Windows
@@ -44,11 +46,7 @@ FPS là số frame xử lý / thời gian phiên, có gồm thời gian mở cam
 
 Trên workspace này đã tạo `runs/week1/project8_review40/index.html`: 40 ảnh COCO128 tham khảo, có đủ tám lớp trong cả bộ, mỗi ảnh có nhãn nguồn và dự đoán YOLO26n pretrained để đối chiếu. Mở HTML trên trình duyệt; người trong nhóm xem từng ảnh và ghi tên, vật bỏ sót, báo sai, lỗi hộp/lớp vào `review.csv` cùng thư mục. Chỉ đổi trạng thái sau khi thực sự xem. Nhãn COCO có thể thiếu/khác phạm vi table/book của nhóm; ghi nhận khi phát hiện.
 
-Để tạo bộ review ở máy có COCO128:
-
-```powershell
-& .\.venv\Scripts\python.exe scripts/prepare_week1_review.py
-```
+Ảnh review COCO128 và script tạo review cũ đã dọn theo yêu cầu ngày 04/10/2026. Để review hiện hành, mở giao diện **Ảnh dữ liệu chính**, chọn ảnh train và ghi review trong hồ sơ dataset chính. Không tạo bản sao ảnh để làm thư viện riêng.
 
 Script từ chối ghi đè output đã có. Tất cả trạng thái ban đầu là `pending`; dự đoán ở confidence 0.25 không tự tạo số TP/FP/FN hoặc mAP. COCO128 là tham khảo kỹ thuật, không phải validation độc lập. Bộ demo ZIP không kèm dữ liệu ảnh; bộ review nằm trong workspace hiện tại.
 

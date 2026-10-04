@@ -1,17 +1,19 @@
-# Báo cáo triển khai tuần 2 — cập nhật 03/10/2026
+# Báo cáo triển khai tuần 2 — cập nhật 04/10/2026
 
 ## Kết quả và phạm vi
 
-**Cập nhật 03/10/2026:** dataset chính draft `project8_v0.2` có **1.800 ảnh / 5.862 box**: 1.310 train, 360 validation, 130 test. Nguồn COCO500 (500 ảnh) và Laptop Roboflow v1 do thành viên đóng góp (1.300 ảnh) ngang hàng. Có 1.670 ảnh phát triển; còn thiếu 830 ảnh so với mục tiêu 2.500 nếu giữ mục tiêu đó. Nhãn nguồn Laptop hiện chỉ book/laptop, các lớp khác bổ sung theo phân công. 130 ảnh test vẫn giữ riêng, chưa phải test đủ tám lớp hoặc phòng học độc lập. Review, khóa release, video thật, baseline và fine-tune chưa hoàn tất. **G2 chưa nghiệm thu:** còn nhãn/review, quyền/bối cảnh, kiểm nhóm, khóa release, video và baseline.
+**Cập nhật 04/10/2026:** dataset chính draft `project8_v0.3` có **5.002 ảnh / 5.002 TXT / 26.566 box**: 3.883 train, 798 validation, 321 test. Nguồn: 1.800 ảnh v0.2, 566 COCO bổ sung, 600 sách/điện thoại và 2.036 classroom. Có 4.681 file ảnh phát triển; không coi đây là số cảnh/ảnh gốc độc lập vì nguồn có augmentation và frame video. `table` và `with-student` cùng map về table theo quyết định người dùng; lớp bàn có 1.017 ảnh / 2.479 box. Nhãn vẫn còn một phần/chưa review đầy đủ. **G2 chưa nghiệm thu:** còn nhãn/review, quyền/bối cảnh, gần trùng/phiên, khóa release, video thật và baseline validation. Chưa fine-tune.
 
-Kiểm manifest chính: **1.800 ảnh dữ liệu chính**, không cộng COCO128, ảnh output/fixture hay các bản sao raw/intake. Bằng chứng hiện hành: `data/dataset/project8_v0.2/manifest.csv`, `statistics.json`, `validation.json`. `runs/week2/image_inventory.json` là snapshot lịch sử trước khi nhập dữ liệu, không dùng làm số đếm hiện tại.
+Kiểm manifest chính: **5.002 ảnh dữ liệu chính**, không còn pending. Bằng chứng hiện hành: `data/dataset/project8_v0.3/manifest.csv`, `statistics.json`, `validation.json`, `checksums.json` và [bảng báo cáo mới](../reports/results/project_progress_20261004/REPORT.md). Đã xóa 107 cặp pending, 6.566 bản sao ảnh, 189 ảnh tham khảo/kết quả thử và các ZIP sao lưu. Hai ZIP hành vi gốc tuần 4–6 giữ nguyên. Các số liệu/run smoke v0.2 và COCO128 bên dưới là lịch sử, không dùng làm kiểm kê hiện hành.
+
+Code hiện hành còn CLI/UI nhận dạng, setup demo, validator/evaluator, workflow tuần 2 và script báo cáo. Đã bỏ 11 file Python phục vụ nhập/gộp/chọn dữ liệu cũ và CLI tuần 1 trùng chức năng. Giao diện lấy 50 ảnh train từ manifest chính, dùng profile nhãn project8, không cần bản sao ảnh mẫu. Kiểm thử hiện hành: **27/27 pass**, không skip; các bảng 20 test trong phần triển khai gốc dưới đây là lịch sử.
 
 ## Quyết định đã áp dụng
 
 - Tám lớp theo đúng thứ tự: person, table, chair, laptop, cell phone, backpack, book, cup.
 - Table gồm các loại bàn; baseline COCO dùng dining table làm đối chứng gần đúng. Book gồm sách/vở; không tạo lớp notebook riêng.
 - Giữ checkpoint pretrained80, lọc/mapping tám lớp khi inference. Không cắt file weights thành model tám lớp. Fine-tune sẽ dùng YAML tám lớp của release khi ảnh/nhãn đã sẵn sàng.
-- Quy mô mục tiêu trong WEEK2_G2.md: ≥2.500 ảnh phát triển hợp lệ, train/val khoảng 80/20 theo phiên/nhóm. Hiện có 1.670 ảnh phát triển và 130 test nguồn Laptop; tiếp tục bổ sung test độc lập đủ lớp. Kế hoạch hiện hành đã cập nhật tám lớp và số liệu draft.
+- Quy mô mục tiêu trong WEEK2_G2.md: ≥2.500 ảnh phát triển hợp lệ, chia theo phiên/nhóm. Hiện có 4.681 file train/val và 321 test; chưa xác nhận số cảnh độc lập. Tiếp tục hoàn thiện nhãn và test đủ lớp; test hiện thiếu backpack/cup.
 - Không xây công cụ tìm gần trùng riêng. Thành viên xác nhận việc kiểm gần trùng sau khi gộp dữ liệu; giữ kiểm trùng tuyệt đối bằng SHA-256.
 
 ## Công cụ đã hoàn thành
@@ -54,12 +56,12 @@ Dùng pycocotools 2.0.11 đã cài vào .venv và pin trong requirements-evaluat
 
 | Checklist G2 | Trạng thái thực tế |
 |---|---|
-| Ảnh đủ quy mô, nguồn/quyền và bối cảnh | 1.800 ảnh chính; 1.670 phát triển, mục tiêu 2.500; quyền/bối cảnh còn cần xác minh |
+| Ảnh đủ quy mô, nguồn/quyền và bối cảnh | 5.002 file ảnh chính; 4.681 phát triển, mục tiêu 2.500 ảnh hợp lệ; quyền/bối cảnh/độc lập cảnh còn cần xác minh |
 | Lọc ảnh hỏng/trùng/gần trùng sau gộp | Đã kiểm giải mã/trùng bytes và pixel nguồn mới; xác nhận gần trùng/phiên còn chờ |
-| Nhãn YOLO đầy đủ tám lớp | COCO có tám lớp; nguồn Laptop có book/laptop, còn bổ sung theo phân công |
-| Kiểm 100% và review người thứ hai | Đã kiểm kỹ thuật 1.800 ảnh; review người thứ hai chưa duyệt |
+| Nhãn YOLO đầy đủ tám lớp | Có nhãn cả tám lớp trong bộ chính; nhãn nguồn còn một phần, cần bổ sung/review; test thiếu backpack/cup |
+| Kiểm 100% và review người thứ hai | Đã kiểm kỹ thuật 5.002 ảnh; review người thứ hai chưa duyệt |
 | Split train/val khóa, đủ lớp, checksum | Draft có split và checksum; chưa khóa release đã duyệt |
-| YAML/manifest/data card thật | Có YAML/manifest/data card draft project8_v0.2 thực tế |
+| YAML/manifest/data card thật | Có YAML/manifest/data card draft project8_v0.3 thực tế |
 | 3–5 video_dev và sự kiện, kế hoạch test độc lập | Mẫu/quy ước sẵn; chưa có clip thật |
 | Baseline validation pretrained | Evaluator sẵn; chưa chạy được trên val nhóm |
 

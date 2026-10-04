@@ -1,6 +1,6 @@
 """Baseline tuần 1: YOLO26n pretrained trên ảnh, video hoặc webcam.
 
-Chạy từ thư mục gốc: python -m src.week1_demo --source <ảnh|video|số camera>
+Chạy từ thư mục gốc: python -m src.inference.demo --source <ảnh|video|số camera>
 Đây là demo detection; tracking, đếm và cảnh báo thuộc các tuần sau.
 """
 

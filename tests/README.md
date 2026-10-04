@@ -4,4 +4,4 @@
 
 Chạy từ gốc repo: `.venv\Scripts\python.exe -m unittest discover -s tests -v`.
 
-`test_inspection.py` kiểm mapping, nhãn, pixel và crop. `test_app.py` chạy giao diện Streamlit bằng AppTest và suy luận thật; tự skip nếu thiếu dữ liệu/weights tương ứng. `test_camera.py` kiểm camera mô phỏng: backend fallback, bật/dừng/mở lại, độc quyền phiên, mất kết nối và hết heartbeat. Test UI webcam dùng camera mô phỏng + YOLO thật. Tổng 30 test đã pass trên máy chuẩn; không thay kiểm thiết bị thật hoặc chất lượng test set. Hướng dẫn ở [docs/WEEK1_HANDOFF.md](../docs/WEEK1_HANDOFF.md).
+`test_inspection.py` kiểm mapping, profile nhãn COCO80/project8, pixel và crop. `test_app.py` dùng manifest chính và YOLO thật; tự skip nếu thiếu dữ liệu/weights. `test_camera.py` kiểm camera mô phỏng: backend fallback, bật/dừng/mở lại, độc quyền phiên, mất kết nối và hết heartbeat. Các test gắn với script chuẩn bị COCO/gộp classroom đã bỏ cùng code cũ. **27/27 test hiện hành pass, không skip**, sau khi dọn dữ liệu/code ngày 04/10/2026; không thay kiểm thiết bị thật hoặc chất lượng test set. Hướng dẫn ở [docs/WEEK1_HANDOFF.md](../docs/WEEK1_HANDOFF.md).

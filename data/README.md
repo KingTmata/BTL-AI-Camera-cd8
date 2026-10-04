@@ -1,9 +1,14 @@
-# Dữ liệu
+# Dữ liệu hiện hành
 
-**Phạm vi hiện tại 03/10/2026:** tám lớp `person, table, chair, laptop, cell phone, backpack, book, cup`. Dataset chính draft ở `dataset/project8_v0.2/`; [hồ sơ 1.800 ảnh](../docs/PROJECT8_V0_2_DATA_PROFILE.md). Thực hiện [workflow tuần 2](../docs/WEEK2_WORKFLOW.md); `DATA_CARD.md` đã có số liệu và hạn chế của draft hiện tại. Chưa khóa release. Hồ sơ COCO128 tuần 1 dưới đây là lịch sử kỹ thuật; không coi là dataset/review hiện hành.
+Cập nhật 04/10/2026: chỉ giữ **5.002 ảnh / 5.002 TXT / 26.566 box** ở `dataset/project8_v0.3/`. Train/val/test: **3.883 / 798 / 321**. [Hồ sơ đầy đủ](../docs/PROJECT8_V0_3_DATA_PROFILE.md).
 
-`dataset/images/{train,val,test}` chứa ảnh; `dataset/labels/{train,val,test}` chứa nhãn YOLO cùng tên. `raw/` giữ dữ liệu gốc được phép sử dụng. `video_dev/` và `video_test/` là các phiên độc lập. `manifest.csv` cần ghi nguồn, quyền, session và split cho từng ảnh.
+- `dataset/project8_v0.3/images/{train,val,test}`: một bản chuẩn của mỗi ảnh.
+- `dataset/project8_v0.3/labels/{train,val,test}`: nhãn project8 cùng stem.
+- `manifest.csv`: manifest chính cho CLI/UI mặc định; `statistics.json`, review, validation và checksum nằm trong phiên bản chính.
+- `raw/week456_behavior/`: giữ hai ZIP hành vi gốc cho tuần 4–6, tổng 4.844 lượt ảnh. 600 ảnh chọn từ nguồn đó đã có trong dataset chính; không cộng lại.
+- `video_dev/`, `video_test/`: chờ video thật từ các phiên độc lập.
+- `templates/`: mẫu metadata, review và video/sự kiện.
 
-Hiện có **1.800 ảnh duy nhất không tính ảnh mẫu**: 500 COCO và 1.300 ảnh Roboflow Laptop do thành viên cung cấp. Split chính: 1.310 train, 360 validation, 130 test. Nguồn thành viên chỉ có nhãn book/laptop; nhãn các lớp khác được hoàn thiện theo phân công. YAML tại `dataset/project8_v0.2/data.yaml`; manifest, review và checksum cùng thư mục. Giữ COCO500 và bản intake riêng để truy nguồn. Ảnh/nhãn/raw được Git bỏ qua; hồ sơ `.md` và script được lưu trong repo.
+Các bản raw/intake/dataset cũ bị lặp, ảnh tham khảo/kết quả thử, ZIP classroom/Laptop/COCO128 và 107 ảnh pending đã xóa theo yêu cầu. Thư mục lịch sử còn metadata để truy nguồn; không coi là dataset đầy đủ có thể train.
 
-Tuần 1 đã tải COCO128 vào `reference/coco128/` (không commit), tạo danh sách 50 ảnh ở `week1_coco128_manifest.csv` phục vụ UI. Bộ review hiện hành có 40 ảnh tám lớp theo [bàn giao tuần 1](../docs/WEEK1_HANDOFF.md); danh sách 20 ảnh bốn lớp cũ chưa có kết quả đã được bỏ. Đây là ảnh tham khảo, chưa phải ảnh tự thu trong phòng học. Gói COCO128 tải về có 128 ảnh và 128 nhãn nhưng chỉ 126 cặp trùng tên; hai nhãn `000000000656`, `000000000659` không có ảnh tương ứng và hai ảnh `000000000250`, `000000000508` không có nhãn tương ứng. Danh sách 50 ảnh chỉ lấy các cặp đầy đủ.
+Mapping classroom: Student→person, chair→chair, table và with-student→table theo quyết định người dùng. Nhãn còn cần bổ sung đủ vật và review; chưa khóa release hoặc train. Giao diện dùng ảnh train trong kho chính, không cần thư viện ảnh mẫu riêng.

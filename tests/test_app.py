@@ -11,8 +11,8 @@ from src.inference.camera import CameraSession
 
 
 @unittest.skipUnless((ROOT / "weights/yolo26n.pt").is_file() and
-                     (ROOT / "data/reference/coco128/images/train2017/000000000283.jpg").is_file(),
-                     "Cần tải weights và COCO128 để chạy integration test")
+                     (ROOT / "data/manifest.csv").is_file(),
+                     "Cần weights và dataset chính để chạy integration test")
 class AppTests(unittest.TestCase):
     def test_real_inference_filters_and_stale_results(self):
         app = AppTest.from_file(str(ROOT / "src/app.py"), default_timeout=30).run()

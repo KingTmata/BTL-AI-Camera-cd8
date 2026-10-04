@@ -1,12 +1,10 @@
-# Scripts = tiện ích chuẩn bị, không phải ứng dụng
+# Tiện ích đang dùng
 
-Dataset chính hiện tại: [project8_v0.2](../docs/PROJECT8_V0_2_DATA_PROFILE.md), 1.800 ảnh.
+Dataset chính: [project8_v0.3](../docs/PROJECT8_V0_3_DATA_PROFILE.md), 5.002 ảnh / 26.566 box; không còn pending.
 
-- `data/import_laptop_submission.py <ZIP>`: lưu raw, kiểm ảnh/nhãn, đổi Book 0→book 6 và Laptop 1→laptop 3, lập inventory/review và hồ sơ nguồn. Chạy một lần trên đường dẫn mới; không ghi đè bản đã nhập.
-- `data/merge_project_dataset.py`: gộp COCO500 và nguồn thành viên thành `data/dataset/project8_v0.2/`, giữ split nguồn, tạo YAML tám lớp, manifest, thống kê và checksum. Đây là draft, chưa xác nhận review/nhãn đầy đủ.
+- `setup_demo.py`: tạo môi trường và chạy kiểm môi trường cho demo Windows; được `setup-demo.cmd` gọi.
+- `data/week2.py`: inventory/check/split/lock/verify theo workflow dataset tám lớp. Manifest mặc định là `data/manifest.csv`; nhãn/review phải hoàn thiện trước lock.
+- `data/smoke_week2.py`: kiểm phần mềm dataset/evaluator bằng dữ liệu nhân tạo tách biệt; không phải baseline chất lượng. Chỉ chạy khi chủ động cần kiểm lại pipeline.
+- `data/report_project_progress.py`: xuất bảng Markdown/CSV/JSON từ manifest, statistics, checksum và artifact đang có; `--output` phải là thư mục mới.
 
-Tuần 2: `data/week2.py` cung cấp inventory/check/split/lock/verify cho dataset tám lớp. Hướng dẫn từng lệnh và trường manifest ở [docs/WEEK2_WORKFLOW.md](../docs/WEEK2_WORKFLOW.md). `data/smoke_week2.py` kiểm toàn luồng bằng dữ liệu nhân tạo và pretrained thật; không sinh baseline dataset nhóm.
-
-`data/prepare_smoke_dataset.py` tìm các cặp ảnh/nhãn COCO128 và tạo list/YAML cho một lần train thử nhỏ. Script này **không train và không chạy nhận dạng**.
-
-Chạy: `.venv\Scripts\python.exe scripts/data/prepare_smoke_dataset.py --limit 8`. Đầu ra nằm trong `runs/week1/coco128_smoke/`. `--limit 0` lấy mọi cặp đầy đủ. Dữ liệu đó dùng chung train/val nên chỉ kiểm pipeline, không chứng minh chất lượng.
+Các script nhập Laptop, gộp v0.2/classroom, tải/chọn COCO500 và tạo mẫu/review COCO128 đã được bỏ sau khi chốt kho chính. CLI cũ tuần 1 được thay bằng `python -m src.inference.demo`. Không cần tải lại dữ liệu tham khảo để mở giao diện.

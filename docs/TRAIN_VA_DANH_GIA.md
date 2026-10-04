@@ -9,7 +9,7 @@
 - Bộ train nằm trong thư viện **Ultralytics đã cài**. Hiện nhóm dùng `yolo.exe detect train`; chưa có `src.training.train` của nhóm.
 - `src/training/` dành cho script điều phối khi cần thêm sau này.
 - `configs/train_n.yaml` chứa hyperparameter; `configs/data.yaml` chứa vị trí và thứ tự lớp.
-- `scripts/data/prepare_smoke_dataset.py` chỉ chuẩn bị bộ thử, không train.
+- `scripts/data/week2.py` kiểm/khóa dataset; `scripts/data/smoke_week2.py` kiểm phần mềm khi cần, không phải baseline.
 - `weights/yolo26n.pt` là điểm bắt đầu. Kết quả train đi vào `runs/train/<tên_run>/`, không ghi đè weights gốc.
 
 ## 2. Chuẩn bị dataset phòng học tám lớp
@@ -30,23 +30,15 @@ Chia theo phiên quay trước khi train: cùng phiên/gần trùng không đi q
 
 `configs/data.yaml` đã có đường dẫn tuyệt đối cho máy hiện tại. Trên máy khác/Colab sao từ `.example` và sửa `path` tới thư mục dataset thực. Không lấy file Windows có `C:/...` dùng nguyên trong Colab. COCO128 gốc dùng 80 ID, không đưa trực tiếp vào YAML tám lớp. Chuyển sang tám lớp đòi hỏi lọc/đổi ID nhãn và giữ đủ mọi hộp thuộc tám lớp.
 
-## 3. Train thử pipeline trên COCO128, nếu muốn
+## 3. Kiểm dataset trước khi chủ động train
 
-Chuẩn bị 8 ảnh có cặp nhãn đầy đủ, giữ nguyên 80 lớp COCO:
-
-```powershell
-& .\.venv\Scripts\python.exe scripts/data/prepare_smoke_dataset.py --limit 8
-```
-
-Đầu ra: `runs/week1/coco128_smoke/data.yaml` và `images.txt`. Script tránh các file không ghép được cặp trong bản COCO128 đã tải. Train và val cố ý dùng cùng danh sách để thử công cụ; kết quả metric ở đây không dùng trong báo cáo chất lượng.
-
-Khi chủ động muốn bắt đầu train thử một epoch:
+Thư viện ảnh và script smoke COCO128 đã dọn theo yêu cầu. Kiểm dataset chính bằng manifest hiện hành:
 
 ```powershell
-& .\.venv\Scripts\yolo.exe detect train model=weights/yolo26n.pt data=runs/week1/coco128_smoke/data.yaml epochs=1 imgsz=320 batch=2 device=cpu workers=0 cache=False optimizer=AdamW seed=42 nms=False project=runs/smoke name=coco128_8images
+& .\.venv\Scripts\python.exe scripts/data/week2.py check --manifest data/manifest.csv
 ```
 
-`320`, 8 ảnh, một epoch chỉ để giảm chi phí thử. Không lấy cấu hình đó làm bằng chứng nhận điện thoại nhỏ tốt. Script chuẩn bị đã có thể chạy; lệnh train này chưa được thực thi trong lần thêm tài liệu/UI.
+Check chỉ xác nhận kỹ thuật; cần hoàn thiện nhãn tám lớp, review và khóa release trước training chính thức. Không dùng test để kiểm/chọn cấu hình train. Các kết quả smoke cũ là lịch sử, không phải baseline chất lượng.
 
 ## 4. Fine-tune dữ liệu phòng học trên máy CPU
 

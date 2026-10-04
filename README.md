@@ -1,11 +1,15 @@
 # BTL AI Camera — chạy, xem kết quả và chuẩn bị train
 
+> **Dataset chính hiện hành 04/10/2026: [project8_v0.3](docs/PROJECT8_V0_3_DATA_PROFILE.md).** Chỉ giữ **5.002 ảnh / 5.002 TXT / 26.566 box**, không còn pending. Train/val/test: **3.883 / 798 / 321**. `table` và `with-student` classroom cùng map về `table`; lớp bàn có **1.017 ảnh / 2.479 box**. Bản sao raw/dataset cũ, ảnh tham khảo/kết quả thử và ZIP sao lưu đã dọn theo yêu cầu; giữ riêng hai ZIP hành vi cho tuần 4–6. Nhãn chưa duyệt đầy đủ, chưa khóa release hoặc train. Số liệu v0.2 và thử nghiệm tuần 1 bên dưới là lịch sử.
 
-> **Cập nhật 03/10/2026:** dataset chính `project8_v0.2` có **1.800 ảnh**: 500 COCO + 1.300 ảnh Roboflow do thành viên đóng góp; 1.310 train / 360 validation / 130 test theo split nguồn. Tám lớp; table gồm các loại bàn, book gồm sách/vở. Bộ thành viên hiện có nhãn book/laptop; tiếp tục hoàn thiện nhãn theo phân công và review. Chưa khóa release; chưa có video thật hoặc baseline dataset này. Các kết quả tuần 1 bên dưới là lịch sử theo phạm vi bốn lớp cũ.
+- [Bảng báo cáo tiến độ sau khi dọn dữ liệu/code](reports/results/project_progress_20261004/REPORT.md)
+- [Hồ sơ dataset chính mới](docs/PROJECT8_V0_3_DATA_PROFILE.md)
+
+> **Lịch sử 03/10/2026:** dataset `project8_v0.2` từng có **1.800 ảnh**: 500 COCO + 1.300 ảnh Roboflow do thành viên đóng góp; 1.310 train / 360 validation / 130 test theo split nguồn. Ảnh và nhãn nay đã gộp vào v0.3; không còn bộ media v0.2 riêng. Các kết quả tuần 1 bên dưới là lịch sử theo phạm vi bốn lớp cũ.
 
 - [Thực hiện tuần 2 từ đầu đến cuối](docs/WEEK2_WORKFLOW.md)
 - [Protocol đánh giá](EVALUATION_PROTOCOL.md)
-- [Hồ sơ dataset chính 1.800 ảnh](docs/PROJECT8_V0_2_DATA_PROFILE.md)
+- [Hồ sơ lịch sử v0.2 — 1.800 ảnh](docs/PROJECT8_V0_2_DATA_PROFILE.md)
 - [Đặc tính bộ Laptop thành viên](docs/LAPTOP_SUBMISSION_DATA_PROFILE.md)
 - [Đặc tính COCO500](docs/COCO500_DATA_PROFILE.md)
 - [Báo cáo triển khai tuần 2](docs/WEEK2_IMPLEMENTATION_REPORT.md)
@@ -137,15 +141,12 @@ Kỳ vọng tám ID COCO lần lượt là person, dining table, chair, laptop, 
 3. Viết ứng dụng theo các module ở mục 10 của kế hoạch; kiểm camera, tracking, đếm và cảnh báo.
 4. Fine-tune, đánh giá trên test độc lập, đo FPS/độ trễ và ghi kết quả thật vào báo cáo.
 
-Baseline ảnh/video/webcam chạy bằng `python -m src.inference.demo --source <ảnh|video|0>`; lệnh cũ `-m src.week1_demo` vẫn dùng được. Web `streamlit run src/app.py` đã triển khai để xem ảnh/frame. Các lệnh `python -m src.cli`, `src.train`, `src.evaluate` trong kế hoạch vẫn chưa có; hướng dẫn train hiện dùng CLI Ultralytics.
+Baseline ảnh/video/webcam chạy bằng `python -m src.inference.demo --source <ảnh|video|0>`. Web `streamlit run src/app.py` dùng ảnh train của dataset chính, upload hoặc frame video. Lối vào CLI tuần 1 cũ và script chuẩn bị dữ liệu cũ đã bỏ. Các lệnh `python -m src.cli`, `src.train`, `src.evaluate` trong kế hoạch vẫn chưa có; hướng dẫn train hiện dùng CLI Ultralytics.
 
-Ảnh tham khảo COCO128 không nằm trong Git. Để chạy lại mẫu tuần 1 trên máy khác, tải [COCO128 theo tài liệu Ultralytics](https://docs.ultralytics.com/datasets/detect/coco128/) rồi giải nén đúng vị trí:
+Chạy một ảnh đã có trong dataset chính, không cần tải thư viện ảnh tham khảo riêng:
 
 ```powershell
-New-Item -ItemType Directory -Path data\reference -Force | Out-Null
-Invoke-WebRequest -Uri 'https://github.com/ultralytics/assets/releases/download/v0.0.0/coco128.zip' -OutFile data\reference\coco128.zip
-Expand-Archive -LiteralPath data\reference\coco128.zip -DestinationPath data\reference -Force
-& .\.venv\Scripts\python.exe -m src.week1_demo --source data\reference\coco128\images\train2017\000000000283.jpg --no-window --save --output-dir runs\week1\image_bottle
+& .\.venv\Scripts\python.exe -m src.inference.demo --source data/dataset/project8_v0.3/images/train/coco_train_000000002782.jpg --no-window
 ```
 
 Hai MP4 trong `demo/smoke/` là slideshow kỹ thuật được tạo cục bộ từ ảnh COCO128 và không nằm trong Git. Chúng không thay video quay thật cần cho G1.
@@ -161,4 +162,4 @@ Hai MP4 trong `demo/smoke/` là slideshow kỹ thuật được tạo cục bộ
 ### Tuần 2 — Chuẩn bị dataset v1
 
 - Đã ghi quy trình nhận ảnh từ thành viên, kiểm trùng, chuẩn hóa nhãn, review chéo và chia train/validation theo nguồn hoặc phiên; thêm các file CSV mẫu để bàn giao dữ liệu.
-- Mục tiêu hiện tại là ít nhất 2.500 ảnh cho train và validation; hiện có 1.670 ảnh phát triển và 130 test nguồn Laptop trong tổng 1.800 ảnh. Test đủ tám lớp/phòng học độc lập tiếp tục bổ sung; chưa khóa release hoặc fine-tune. Chi tiết: [kế hoạch G2](WEEK2_G2.md).
+- Mục tiêu là ít nhất 2.500 ảnh phát triển hợp lệ; hiện có 4.681 file train/validation và 321 test trong tổng 5.002 ảnh. Augmentation/frame video chưa chứng minh số cảnh độc lập; nhãn và test đủ tám lớp còn cần bổ sung, chưa khóa release hoặc fine-tune. Chi tiết: [kế hoạch G2](WEEK2_G2.md).

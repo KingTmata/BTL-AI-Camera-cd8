@@ -39,10 +39,10 @@ Kiểm bằng tay sau sửa UI: chọn ảnh khác → chạy → chọn đối 
 ## 3. Test ảnh bằng CLI
 
 ```powershell
-& .\.venv\Scripts\python.exe -m src.inference.demo --source data/reference/coco128/images/train2017/000000000283.jpg --no-window --save --output-dir runs/manual/image_bottle
+& .\.venv\Scripts\python.exe -m src.inference.demo --source data/dataset/project8_v0.3/images/train/coco_train_000000002782.jpg --no-window --save --output-dir runs/manual/image_check
 ```
 
-Kỳ vọng: `summary.json` và `000000000283_detected.jpg` trong thư mục output. Model cố định `conf=0.25`, CPU, `imgsz=640`, lọc tám lớp. Lệnh cũ `-m src.week1_demo` vẫn dùng được. Output có thể thay đổi nếu đổi weights/phiên bản; không biến confidence cụ thể thành tiêu chí chất lượng.
+Kỳ vọng: `summary.json` và `coco_train_000000002782_detected.jpg` trong thư mục output. Model cố định `conf=0.25`, CPU, `imgsz=640`, lọc tám lớp. Output có thể thay đổi nếu đổi weights/phiên bản; không biến confidence cụ thể thành tiêu chí chất lượng. Lối vào CLI tuần 1 cũ đã bỏ.
 
 ## 4. Test video và đóng/mở lại
 
