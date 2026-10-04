@@ -330,7 +330,20 @@ def verify_release(destination):
     if (destination / "INCOMPLETE").exists():
         raise ValueError("incomplete release")
     entries = json.loads((destination / "checksums.json").read_text(encoding="utf-8"))
-    actual = {p.relative_to(destination).as_posix() for p in destination.rglob("*") if p.is_file() and p != destination / "checksums.json"}
+    ignored = set()
+    if "RELEASE.json" in entries:
+        marker = destination / "RELEASE.json"
+        if sha256(marker) != entries["RELEASE.json"]:
+            raise ValueError("checksum changed: RELEASE.json")
+        release = json.loads(marker.read_text(encoding="utf-8"))
+        if (isinstance(release, dict) and release.get("schema_version") == 1
+                and release.get("storage") == "in_place" and release.get("status") == "locked"):
+            # Trainer label caches are derived files. Images, TXT and all other
+            # metadata remain covered by the immutable snapshot.
+            ignored = {f"labels/{split}.cache" for split in ("train", "val", "test")}
+    actual = {p.relative_to(destination).as_posix() for p in destination.rglob("*")
+              if p.is_file() and p != destination / "checksums.json"
+              and p.relative_to(destination).as_posix() not in ignored}
     if actual != set(entries):
         raise ValueError("release file list changed")
     for name, digest in entries.items():

@@ -1,10 +1,11 @@
+import json
 import tempfile
 import unittest
 from pathlib import Path
 
 from PIL import Image
 
-from src.dataset import NAMES, assign_splits, groups, inventory, labels, lock_release, validate, verify_release
+from src.dataset import NAMES, assign_splits, groups, inventory, labels, lock_release, sha256, validate, verify_release
 
 
 class DatasetTests(unittest.TestCase):
@@ -103,6 +104,40 @@ class DatasetTests(unittest.TestCase):
             verify_release(destination)
         label.write_bytes(original)
         label.unlink()
+        with self.assertRaises(ValueError):
+            verify_release(destination)
+
+    def test_in_place_snapshot_ignores_only_known_trainer_caches(self):
+        destination = self.root / "dataset/primary"
+        lock_release(assign_splits(self.rows), destination, self.root)
+        marker = destination / "RELEASE.json"
+        marker.write_text(json.dumps({"schema_version": 1, "storage": "in_place", "status": "locked"}))
+        checksums = destination / "checksums.json"
+        entries = json.loads(checksums.read_text())
+        entries["RELEASE.json"] = sha256(marker)
+        checksums.write_text(json.dumps(entries))
+        original_digest = verify_release(destination)
+
+        cache = destination / "labels/train.cache"
+        cache.write_bytes(b"trainer cache")
+        self.assertEqual(verify_release(destination), original_digest)
+        cache.write_bytes(b"regenerated cache")
+        self.assertEqual(verify_release(destination), original_digest)
+
+        unknown = destination / "labels/extra.cache"
+        unknown.write_bytes(b"unlisted file")
+        with self.assertRaises(ValueError):
+            verify_release(destination)
+        unknown.unlink()
+        label = next((destination / "labels").rglob("*.txt"))
+        label.write_text("")
+        with self.assertRaises(ValueError):
+            verify_release(destination)
+
+    def test_copied_release_does_not_ignore_trainer_cache(self):
+        destination = self.root / "dataset/v1"
+        lock_release(assign_splits(self.rows), destination, self.root)
+        (destination / "labels/train.cache").write_bytes(b"new file")
         with self.assertRaises(ValueError):
             verify_release(destination)
 
