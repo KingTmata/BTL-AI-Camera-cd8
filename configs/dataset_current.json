@@ -1,0 +1,12 @@
+{
+  "path": "data/dataset/project8_v0.5_merged_20261008",
+  "data_yaml": "configs/data_v05.yaml",
+  "images": 15000,
+  "train": 12000,
+  "val": 2500,
+  "test": 500,
+  "target_images": 15000,
+  "pending_unique_train_images": 0,
+  "full_visual_review_complete": false,
+  "training_ready": false
+}

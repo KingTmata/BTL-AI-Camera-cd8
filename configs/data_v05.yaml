@@ -1,0 +1,14 @@
+path: C:/Users/aawm8/Downloads/BTL-AI-Camera-cd8/data/dataset/project8_v0.5_merged_20261008
+train: images/train
+val: images/val
+test: images/test
+nc: 8
+names:
+  0: person
+  1: table
+  2: chair
+  3: laptop
+  4: cell phone
+  5: backpack
+  6: book
+  7: bottle

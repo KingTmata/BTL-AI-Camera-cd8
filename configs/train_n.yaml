@@ -1,4 +1,4 @@
-model: weights/yolo26n.pt
+model: weights/campaign_20261010/R04_YOLO26n_Project8_v05_finetuned_default.pt
 data: configs/data.yaml
 imgsz: 640
 epochs: 50

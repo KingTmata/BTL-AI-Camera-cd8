@@ -141,7 +141,7 @@ def evaluate(manifest, weights, output, split="val", device="cpu", nms=True, roo
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--manifest", type=Path, default=ROOT / "data/dataset/v1/manifest.csv")
-    parser.add_argument("--weights", type=Path, default=ROOT / "weights/yolo26n.pt")
+    parser.add_argument("--weights", type=Path, default=ROOT / "weights/campaign_20261010/R04_YOLO26n_Project8_v05_finetuned_default.pt")
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--split", choices=("val", "test"), default="val")
     parser.add_argument("--device", default="cpu")

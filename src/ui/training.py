@@ -1,6 +1,9 @@
 """CPU training controls and process-backed monitoring for Streamlit."""
 
 import time
+import datetime
+import json
+import zipfile
 from pathlib import Path
 
 import pandas as pd
@@ -10,6 +13,7 @@ import yaml
 
 from src.training.manager import checkpoint_label, read_json
 from src.training.options import ADVANCED_DEFAULTS, mosaic_active_epochs
+from src.training.kaggle_export import NOTEBOOK, build_bundle, import_kaggle_result
 
 PHASES = {"preflight": "Kiểm dữ liệu và checkpoint", "setup": "Chuẩn bị trainer",
           "train": "Train", "val": "Validation", "final_val": "Final validation",
@@ -165,7 +169,8 @@ def monitor(manager):
 
 def training_page(manager, stop_webcam, clear_inference):
     st.title("Huấn luyện YOLO")
-    st.caption("CPU local · run mới từ checkpoint · tiếp tục chạy khi tải lại hoặc đóng trình duyệt")
+    st.caption("CPU local chạy trên máy này; Kaggle nhận gói/notebook để bạn tải lên và bấm chạy trên tài khoản của mình.")
+    st.info("Màn hình này dùng dataset v0.3 và nhãn cup. Dataset v0.4 12k với nhãn bottle dùng notebook project8_v04_12k_from_best50.ipynb; Recognition đã dùng best v0.4.")
     try:
         active = manager.active()
         data = yaml.safe_load((manager.root / "configs/data.yaml").read_text(encoding="utf-8"))
@@ -178,13 +183,108 @@ def training_page(manager, stop_webcam, clear_inference):
             column.metric(f"Ảnh {split}", marker["counts"][split]["images"])
         columns[3].metric("RAM khả dụng", f"{psutil.virtual_memory().available/1024**3:.2f} GiB")
         st.caption("Tám lớp project8 · test nằm ngoài huấn luyện/tối ưu. Preflight kiểm checksum trước khi chạy.")
-        weights = sorted({* (manager.root / "weights").glob("*.pt"), *manager.runs.glob("*/weights/*.pt")})
+        weights = sorted({* (manager.root / "weights").rglob("*.pt"), *manager.runs.glob("*/weights/*.pt")})
         weights = [p for p in weights if p.is_file()]
         preferred = manager.root / "weights/yolo26n.pt"
+        if not weights:
+            st.error("Chưa có checkpoint .pt trong weights/ hoặc runs/train/.")
+            return
+        verified = []
+        for candidate in manager.runs.glob("*/weights/best.pt"):
+            state = read_json(candidate.parents[1] / "state.json")
+            validation = read_json(candidate.parents[1] / "checkpoint_validation.json")
+            if state and validation and state.get("status") in {"completed", "stopped"} and validation.get("valid"):
+                verified.append((state.get("finished_at", 0), candidate))
+        preferred = max(verified, default=(0, manager.root / "weights/yolo26n.pt"), key=lambda item: item[0])[1]
+        selected_checkpoint = st.selectbox("Checkpoint khởi tạo", weights,
+            index=weights.index(preferred) if preferred in weights else 0,
+            format_func=lambda p: str(p.relative_to(manager.root)), key="train_checkpoint")
+        execution_mode = st.radio("Nơi huấn luyện", ["CPU local", "Kaggle Notebook"], horizontal=True,
+                                  key="training_execution_mode")
+        if execution_mode == "Kaggle Notebook":
+            st.markdown("### Chuẩn bị gói chuyển sang Kaggle")
+            st.write("Tạo ZIP train+val, checkpoint đã chọn, baseline pretrained, manifest/hash và notebook. "
+                     "Nút này **không điều khiển accelerator hoặc mở job cloud**; tải ZIP lên Kaggle Dataset, gắn vào notebook rồi chạy cell trên Kaggle.")
+            st.caption("Nếu run local đang hoạt động, tạo gói sẽ bị khóa để tránh đọc/nén dataset trong lúc CPU train. "
+                       "Chỉ checkpoint từ run completed/stopped đã qua kiểm cuối mới được đóng gói.")
+            notebook_bytes = NOTEBOOK.read_bytes()
+            download_col, open_col = st.columns(2)
+            download_col.download_button("Tải notebook Kaggle", notebook_bytes, "project8_training.ipynb",
+                "application/x-ipynb+json", key="kaggle_notebook_download")
+            open_col.link_button("Mở Kaggle Notebooks", "https://www.kaggle.com/code/new")
+            st.markdown("1. Tải ZIP lên Kaggle như một Dataset; tạo notebook Kaggle và gắn Dataset ở Input.\n"
+                        "2. Trên thanh đầu trang mở Settings → Accelerator → None (CPU) hoặc GPU; bật Internet nếu cần pip.\n"
+                        "3. Mở notebook đã tải, sửa `BUNDLE_ZIP` theo `/kaggle/input/<slug>/...`, chạy các cell kiểm tra.\n"
+                        "4. Cell train mặc định tắt; bật `START_TRAINING` khi sẵn sàng. Đầu ra nằm ở `/kaggle/working`.\n"
+                        "5. Dùng Save Version → Save & Run All để lưu output của version đã chạy xong, hoặc tải result ZIP/checkpoint về trước khi đóng session.")
+            st.info("CPU/GPU trong giao diện chỉ chọn nơi chuẩn bị gói; app này không khởi động hoặc điều khiển Kaggle. "
+                    "GPU/quota phụ thuộc tài khoản và thời điểm. Gói chứa train+val, không có test media.")
+            export_key = "kaggle_export_result"
+            if st.button("Tạo gói Kaggle", type="primary", disabled=active is not None,
+                         key="kaggle_export_create"):
+                try:
+                    stamp = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
+                    target = manager.root / ".temp" / f"kaggle_export_{stamp}"
+                    with st.spinner("Đang xác minh checkpoint/hash và đóng gói train+val…"):
+                        result = build_bundle(selected_checkpoint, target)
+                    st.session_state[export_key] = result
+                except (ValueError, OSError, KeyError, json.JSONDecodeError) as exc:
+                    st.error(f"Không tạo được gói Kaggle: {exc}")
+            result = st.session_state.get(export_key)
+            if result:
+                sizes = result["sizes"]
+                rows = []
+                for label, key in (("Ảnh train", "train_images"), ("Nhãn train", "train_labels"),
+                                   ("Ảnh validation", "val_images"), ("Nhãn validation", "val_labels"),
+                                   ("Metadata + YAML", "metadata_and_yaml"), ("Checkpoint project8 + baseline", "checkpoints"),
+                                   ("Code + notebook", "code_and_notebook"), ("Tổng chưa nén", "uncompressed_total")):
+                    count = sizes[key]
+                    rows.append({"Thành phần": label, "Byte": count, "MB": round(count/1_000_000, 3),
+                                 "MiB": round(count/1_048_576, 3)})
+                st.dataframe(pd.DataFrame(rows), hide_index=True, width="stretch")
+                st.caption(f"ZIP: {result['zip_bytes']:,} byte · {result['zip_bytes']/1_000_000:.3f} MB · "
+                           f"{result['zip_bytes']/1_048_576:.3f} MiB · SHA-256 `{result['zip_sha256']}` · "
+                           f"{result['files']:,} file trong gói. Bản gốc release không bị sửa; export chỉ có train/val.")
+                st.download_button("Tải ZIP dữ liệu + checkpoint + code", Path(result["zip"]).read_bytes(),
+                    "project8_kaggle_bundle.zip", "application/zip", key="kaggle_bundle_download")
+            st.markdown("### Nhập kết quả Kaggle về ứng dụng")
+            st.caption("Tải `<run_id>_result.zip` từ notebook output. Ứng dụng kiểm SHA-256, protocol val, "
+                       "checkpoint detect và thứ tự lớp trước khi lưu weights vào weights/kaggle/.")
+            result_upload = st.file_uploader("Result ZIP do notebook tạo", type=["zip"],
+                                             key="kaggle_result_upload")
+            if st.button("Xác minh và nhập checkpoint", disabled=active is not None or result_upload is None,
+                         key="kaggle_result_import"):
+                try:
+                    with st.spinner("Đang xác minh hash và nạp checkpoint trên CPU…"):
+                        imported = import_kaggle_result(result_upload.getvalue())
+                    st.session_state["kaggle_imported_result"] = imported
+                except (ValueError, OSError, KeyError, json.JSONDecodeError, zipfile.BadZipFile) as exc:
+                    st.error(f"Không nhập được kết quả: {exc}")
+            imported = st.session_state.get("kaggle_imported_result")
+            if imported:
+                st.success(f"Đã nhập `{imported['run_id']}` · SHA-256 `{imported['checkpoint_sha256']}` · "
+                           f"weights: `{imported['checkpoint']}`. Chọn checkpoint này trong Recognition hoặc run local.")
+                metrics = imported["metrics"]
+                baseline = imported["baseline_metrics"]
+                st.write(f"Validation NMS chung · mAP50 {metrics['mAP50']:.4f} · "
+                         f"mAP50–95 {metrics['mAP50_95']:.4f}; baseline mAP50 {baseline['mAP50']:.4f} · "
+                         f"mAP50–95 {baseline['mAP50_95']:.4f}. Giá trị được nạp từ result đã hash; đây không phải kết quả app tự chạy.")
+                per_class = []
+                for class_name, values in metrics["per_class"].items():
+                    base = baseline["per_class"][class_name]
+                    per_class.append({"Lớp": class_name, "GT val": values["GT_boxes"],
+                                      "AP50 fine-tuned": values["AP50"], "AP50 baseline": base["AP50"],
+                                      "AP50–95 fine-tuned": values["AP50_95"],
+                                      "AP50–95 baseline": base["AP50_95"]})
+                st.dataframe(pd.DataFrame(per_class), hide_index=True, width="stretch")
+            st.markdown("Nguồn: [Kaggle Efficient GPU Usage](https://www.kaggle.com/docs/efficient-gpu-usage) · "
+                        "[Kaggle Notebooks](https://www.kaggle.com/docs/notebooks)")
+            if active:
+                st.warning("Training CPU local đang chạy; chờ run terminal trước khi tạo gói để tránh tranh tài nguyên.")
+            monitor(manager)
+            return
+
         with st.form("training_form"):
-            checkpoint = st.selectbox("Checkpoint khởi tạo", weights,
-                                      index=weights.index(preferred) if preferred in weights else 0,
-                                      format_func=lambda p: str(p.relative_to(manager.root)), key="train_checkpoint")
             cols = st.columns(3)
             epochs = cols[0].number_input("Số epoch", min_value=1, max_value=1000, value=1, key="train_epochs")
             batch = cols[1].number_input("Batch size", min_value=1, max_value=16, value=2, key="train_batch")
@@ -220,7 +320,7 @@ def training_page(manager, stop_webcam, clear_inference):
             else:
                 clear_inference()
                 run = manager.start(epochs=int(epochs), batch=int(batch), imgsz=int(imgsz),
-                                    workers=int(workers), cache=cache, run_name=name, checkpoint=checkpoint,
+                                    workers=int(workers), cache=cache, run_name=name, checkpoint=selected_checkpoint,
                                     advanced=advanced)
                 st.session_state.training_run = run.name
                 st.rerun()

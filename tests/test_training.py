@@ -14,7 +14,7 @@ from unittest.mock import patch
 import yaml
 from PIL import Image
 
-from src.classes import PROJECT_NAMES
+from src.classes import LEGACY_PROJECT_NAMES as PROJECT_NAMES
 from src.dataset import lock_release, sha256
 from src.training.manager import RunManager, atomic_json, read_json, read_metrics, checkpoint_label
 from src.training.progress import TrainingProgress

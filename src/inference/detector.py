@@ -13,14 +13,15 @@ import numpy as np
 from PIL import Image, ImageOps
 
 ROOT = Path(__file__).resolve().parents[2]
-from src.classes import COCO_NAMES, COCO_TO_PROJECT, PROJECT_NAMES
+from src.classes import COCO_NAMES, COCO_TO_PROJECT, LEGACY_PROJECT_NAMES, PROJECT_NAMES
 
 
 def class_mapping(names: dict[int, str]) -> dict[int, int]:
     """Từ chối checkpoint không đúng profile để không âm thầm đổi ID."""
     if len(names) == 80 and all(names.get(i) == name for i, name in COCO_NAMES.items()):
         return dict(COCO_TO_PROJECT)
-    if len(names) == len(PROJECT_NAMES) and [names.get(i) for i in range(len(PROJECT_NAMES))] == list(PROJECT_NAMES):
+    ordered = tuple(names.get(i) for i in range(len(PROJECT_NAMES)))
+    if len(names) == len(PROJECT_NAMES) and ordered in (PROJECT_NAMES, LEGACY_PROJECT_NAMES):
         return {i: i for i in range(len(PROJECT_NAMES))}
     raise ValueError("Checkpoint phải là COCO80 hoặc project8 đúng thứ tự: " + ", ".join(PROJECT_NAMES))
 
@@ -91,14 +92,45 @@ class ImageInspector:
         if not weights.is_file():
             raise FileNotFoundError(f"Không thấy weights: {weights}")
         self.model = YOLO(str(weights))
+        self.weights = weights
+        self.multi_engine = None
         self.mapping = class_mapping(self.model.names)
         self.lock = threading.Lock()
 
-    def predict(self, frame: np.ndarray, confidence: float) -> dict:
+    def predict(self, frame: np.ndarray, confidence: float, *, imgsz: int = 640,
+                extra_nms_iou: float | None = None, passes: int = 1) -> dict:
+        if not isinstance(imgsz, int) or imgsz <= 0:
+            raise ValueError("Kích thước suy luận phải là số nguyên dương.")
+        if extra_nms_iou is not None and not 0 <= extra_nms_iou <= 1:
+            raise ValueError("Ngưỡng NMS phải nằm trong khoảng 0–1.")
+        if passes not in (1, 3):
+            raise ValueError("Chọn một hoặc ba lượt suy luận.")
+        if passes == 3 and extra_nms_iou is None:
+            raise ValueError("Ba lượt suy luận cần NMS để gộp kết quả.")
         with self.lock:
             started = time.perf_counter()
-            result = self.model.predict(frame, device="cpu", imgsz=640, conf=confidence,
-                                        classes=list(self.mapping), nms=False, verbose=False)[0]
+            engine = self.model
+            if passes == 3:
+                from ultralytics import YOLO
+                from kaggle_tools.inference_variants import EndToEndViews
+                if self.multi_engine is None:
+                    self.multi_engine = YOLO(str(self.weights))
+                    native = self.multi_engine.model
+                    wrapper = EndToEndViews([native], views=((1., False), (.83, True), (.67, False)),
+                                           iou=extra_nms_iou, conf=confidence)
+                    wrapper.args = native.args
+                    wrapper.pt_path = str(self.weights)
+                    self.multi_engine.model = wrapper
+                wrapper = self.multi_engine.model
+                wrapper.iou, wrapper.conf = extra_nms_iou, confidence
+                engine = self.multi_engine
+            result = engine.predict(frame, device="cpu", imgsz=imgsz, conf=confidence,
+                                        classes=list(self.mapping), nms=False, augment=False,
+                                        verbose=False)[0]
+            if extra_nms_iou is not None and passes == 1:
+                from kaggle_tools.inference_variants import merge_detections
+                result.boxes.data = merge_detections([result.boxes.data], iou=extra_nms_iou,
+                                                    conf=confidence)
             rows = []
             for box, score, class_id in zip(result.boxes.xyxy.tolist(), result.boxes.conf.tolist(), result.boxes.cls.tolist()):
                 project_id = self.mapping[int(class_id)]

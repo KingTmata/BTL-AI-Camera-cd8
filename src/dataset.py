@@ -16,7 +16,7 @@ from pathlib import Path
 from PIL import Image
 import yaml
 
-from src.classes import PROJECT_NAMES as NAMES
+from src.classes import LEGACY_PROJECT_NAMES as NAMES
 IMAGE_EXTENSIONS = {".jpg", ".jpeg", ".png", ".webp", ".bmp"}
 ROOT = Path(__file__).resolve().parents[1]
 

@@ -1,6 +1,6 @@
 model:
-  weights: weights/yolo26n.pt
-  class_profile: coco80
+  weights: weights/campaign_20261010/R04_YOLO26n_Project8_v05_finetuned_default.pt
+  class_profile: project8
   device: cpu
   imgsz: 640
   nms: false

@@ -14,7 +14,7 @@ from pathlib import Path
 import psutil
 import yaml
 
-from src.classes import PROJECT_NAMES
+from src.classes import LEGACY_PROJECT_NAMES as PROJECT_NAMES
 from src.dataset import read_manifest, sha256, validate, verify_release
 from src.inference.detector import class_mapping
 from src.training.manager import RunManager, atomic_json, read_json
