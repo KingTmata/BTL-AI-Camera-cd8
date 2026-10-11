@@ -1,0 +1,457 @@
+{
+  "status": "complete",
+  "gpu": "Tesla T4",
+  "visible_gpu_count": 1,
+  "gpu_used": 0,
+  "torch_version": "2.11.0+cu128",
+  "cpu_threads": 2,
+  "imgsz": 640,
+  "batch": 1,
+  "forward_passes": 1,
+  "conf": 0.25,
+  "nms_iou": 0.6,
+  "images": 200,
+  "repeats": 10,
+  "warmups": 20,
+  "training_executed": false,
+  "test_used": false,
+  "checkpoint_sha256": "2fedf0ef4cab22911ea9786b86cbb0ec37a0802012a8cb0982ec76d3c73c2105",
+  "source_counts": {
+    "coco2017_val": 19,
+    "laptop_roboflow_v1": 23,
+    "student_behaviour_detection_v6": 13,
+    "classroom_roboflow_v1": 15,
+    "bag": 18,
+    "celulares": 15,
+    "classroom_objects": 2,
+    "items_in_room": 2,
+    "study_desk": 3,
+    "backpacks_v7": 7,
+    "classroom_phone_v18": 4,
+    "cup_v2_v3": 1,
+    "ron88": 24,
+    "smartphone_v1": 11,
+    "merged_3k_local": 43
+  },
+  "results": {
+    "cpu_fp32": {
+      "measurements": 2000,
+      "p50_ms": 71.08999150000272,
+      "p95_ms": 79.1251299000777,
+      "p99_ms": 84.95516979994079,
+      "mean_ms": 69.04528528099979,
+      "max_ms": 108.78756899995778,
+      "over100ms_count": 7,
+      "over100ms_percent": 0.35,
+      "offline_serial_fps": 14.483248145477425
+    },
+    "t4_fp32": {
+      "measurements": 2000,
+      "p50_ms": 13.99820750000913,
+      "p95_ms": 20.783358249997264,
+      "p99_ms": 25.4883744700669,
+      "mean_ms": 14.771612525000707,
+      "max_ms": 64.99580799999194,
+      "over100ms_count": 0,
+      "over100ms_percent": 0,
+      "offline_serial_fps": 67.69741612891055
+    },
+    "t4_fp16": {
+      "measurements": 2000,
+      "p50_ms": 14.971387999992203,
+      "p95_ms": 21.38578340000663,
+      "p99_ms": 26.359772850008767,
+      "mean_ms": 21.238673659500417,
+      "max_ms": 2870.2694830000155,
+      "over100ms_count": 4,
+      "over100ms_percent": 0.2,
+      "offline_serial_fps": 47.08391945900459
+    }
+  },
+  "rounds": [
+    {
+      "round": 1,
+      "results": {
+        "cpu_fp32": {
+          "measurements": 200,
+          "p50_ms": 71.13738850003415,
+          "p95_ms": 81.11228204997474,
+          "p99_ms": 93.57327990996848,
+          "mean_ms": 70.29485296000075,
+          "max_ms": 104.3230320000248,
+          "over100ms_count": 1,
+          "over100ms_percent": 0.5,
+          "offline_serial_fps": 14.225792613422508
+        },
+        "t4_fp32": {
+          "measurements": 200,
+          "p50_ms": 14.024068499992381,
+          "p95_ms": 22.046588499992474,
+          "p99_ms": 61.817157779998965,
+          "mean_ms": 15.547146695000151,
+          "max_ms": 64.99580799999194,
+          "over100ms_count": 0,
+          "over100ms_percent": 0,
+          "offline_serial_fps": 64.32048398447239
+        },
+        "t4_fp16": {
+          "measurements": 200,
+          "p50_ms": 15.12864049996665,
+          "p95_ms": 21.67752355002505,
+          "p99_ms": 2812.0903812600413,
+          "mean_ms": 71.69465858500077,
+          "max_ms": 2870.2694830000155,
+          "over100ms_count": 4,
+          "over100ms_percent": 2,
+          "offline_serial_fps": 13.948040478000266
+        }
+      }
+    },
+    {
+      "round": 2,
+      "results": {
+        "cpu_fp32": {
+          "measurements": 200,
+          "p50_ms": 70.68587300000218,
+          "p95_ms": 78.20071970000129,
+          "p99_ms": 80.99810383001511,
+          "mean_ms": 68.96257244499708,
+          "max_ms": 81.79642199996806,
+          "over100ms_count": 0,
+          "over100ms_percent": 0,
+          "offline_serial_fps": 14.500619169877638
+        },
+        "t4_fp32": {
+          "measurements": 200,
+          "p50_ms": 14.133466499998804,
+          "p95_ms": 21.275313349974564,
+          "p99_ms": 24.89536202003194,
+          "mean_ms": 14.79862385999894,
+          "max_ms": 25.6107879999945,
+          "over100ms_count": 0,
+          "over100ms_percent": 0,
+          "offline_serial_fps": 67.57385074858384
+        },
+        "t4_fp16": {
+          "measurements": 200,
+          "p50_ms": 15.014659500025118,
+          "p95_ms": 21.260877150015745,
+          "p99_ms": 25.97574195001641,
+          "mean_ms": 15.760505204999902,
+          "max_ms": 27.295741000045837,
+          "over100ms_count": 0,
+          "over100ms_percent": 0,
+          "offline_serial_fps": 63.44974269497132
+        }
+      }
+    },
+    {
+      "round": 3,
+      "results": {
+        "cpu_fp32": {
+          "measurements": 200,
+          "p50_ms": 74.32914650001976,
+          "p95_ms": 79.49802234999765,
+          "p99_ms": 84.61879863998433,
+          "mean_ms": 70.78018287499901,
+          "max_ms": 108.78756899995778,
+          "over100ms_count": 1,
+          "over100ms_percent": 0.5,
+          "offline_serial_fps": 14.128248322924582
+        },
+        "t4_fp32": {
+          "measurements": 200,
+          "p50_ms": 14.169953999981999,
+          "p95_ms": 21.237635850002327,
+          "p99_ms": 26.547462100000374,
+          "mean_ms": 14.95724323500184,
+          "max_ms": 31.128550999994786,
+          "over100ms_count": 0,
+          "over100ms_percent": 0,
+          "offline_serial_fps": 66.85723995314014
+        },
+        "t4_fp16": {
+          "measurements": 200,
+          "p50_ms": 15.022781499993698,
+          "p95_ms": 21.172818099969955,
+          "p99_ms": 25.797889790052288,
+          "mean_ms": 15.729762999998798,
+          "max_ms": 26.809393999997155,
+          "over100ms_count": 0,
+          "over100ms_percent": 0,
+          "offline_serial_fps": 63.57374869539207
+        }
+      }
+    },
+    {
+      "round": 4,
+      "results": {
+        "cpu_fp32": {
+          "measurements": 200,
+          "p50_ms": 70.56617949999122,
+          "p95_ms": 80.30432124997162,
+          "p99_ms": 85.64850456998784,
+          "mean_ms": 69.04393559499852,
+          "max_ms": 104.06271600004402,
+          "over100ms_count": 1,
+          "over100ms_percent": 0.5,
+          "offline_serial_fps": 14.483531267189804
+        },
+        "t4_fp32": {
+          "measurements": 200,
+          "p50_ms": 13.952726500008339,
+          "p95_ms": 21.62882494995983,
+          "p99_ms": 24.990714530039195,
+          "mean_ms": 14.79962205499703,
+          "max_ms": 28.8820909999572,
+          "over100ms_count": 0,
+          "over100ms_percent": 0,
+          "offline_serial_fps": 67.56929307274804
+        },
+        "t4_fp16": {
+          "measurements": 200,
+          "p50_ms": 15.04846849999808,
+          "p95_ms": 21.426269800039677,
+          "p99_ms": 24.066783290037378,
+          "mean_ms": 15.758351644999493,
+          "max_ms": 27.24712700000964,
+          "over100ms_count": 0,
+          "over100ms_percent": 0,
+          "offline_serial_fps": 63.458413832091644
+        }
+      }
+    },
+    {
+      "round": 5,
+      "results": {
+        "cpu_fp32": {
+          "measurements": 200,
+          "p50_ms": 70.18035000001532,
+          "p95_ms": 77.79831205008065,
+          "p99_ms": 80.99867618000637,
+          "mean_ms": 67.90537012000215,
+          "max_ms": 101.52809299995624,
+          "over100ms_count": 1,
+          "over100ms_percent": 0.5,
+          "offline_serial_fps": 14.726375811409367
+        },
+        "t4_fp32": {
+          "measurements": 200,
+          "p50_ms": 13.803291500011028,
+          "p95_ms": 20.565200349986412,
+          "p99_ms": 27.831760480046334,
+          "mean_ms": 14.617518004997692,
+          "max_ms": 30.576045999964663,
+          "over100ms_count": 0,
+          "over100ms_percent": 0,
+          "offline_serial_fps": 68.41106675278954
+        },
+        "t4_fp16": {
+          "measurements": 200,
+          "p50_ms": 15.000459500015495,
+          "p95_ms": 20.303218200029935,
+          "p99_ms": 25.089820310034263,
+          "mean_ms": 15.542712910001057,
+          "max_ms": 26.113200999930086,
+          "over100ms_count": 0,
+          "over100ms_percent": 0,
+          "offline_serial_fps": 64.33883233837149
+        }
+      }
+    },
+    {
+      "round": 6,
+      "results": {
+        "cpu_fp32": {
+          "measurements": 200,
+          "p50_ms": 73.04852050003774,
+          "p95_ms": 79.13059705007868,
+          "p99_ms": 83.09480010999891,
+          "mean_ms": 69.76572332000217,
+          "max_ms": 97.22497300003852,
+          "over100ms_count": 0,
+          "over100ms_percent": 0,
+          "offline_serial_fps": 14.333686406621046
+        },
+        "t4_fp32": {
+          "measurements": 200,
+          "p50_ms": 14.090854000016861,
+          "p95_ms": 21.49297649994537,
+          "p99_ms": 24.241454449994524,
+          "mean_ms": 14.71430429999657,
+          "max_ms": 25.495252000041546,
+          "over100ms_count": 0,
+          "over100ms_percent": 0,
+          "offline_serial_fps": 67.9610792064585
+        },
+        "t4_fp16": {
+          "measurements": 200,
+          "p50_ms": 15.163421500005825,
+          "p95_ms": 20.879334899996138,
+          "p99_ms": 25.96999106999646,
+          "mean_ms": 15.817532129999563,
+          "max_ms": 27.31641100001525,
+          "over100ms_count": 0,
+          "over100ms_percent": 0,
+          "offline_serial_fps": 63.220987432255505
+        }
+      }
+    },
+    {
+      "round": 7,
+      "results": {
+        "cpu_fp32": {
+          "measurements": 200,
+          "p50_ms": 73.10526049997179,
+          "p95_ms": 78.63113424994594,
+          "p99_ms": 83.47259144999042,
+          "mean_ms": 69.59555120500113,
+          "max_ms": 100.47507299998415,
+          "over100ms_count": 1,
+          "over100ms_percent": 0.5,
+          "offline_serial_fps": 14.368734533826641
+        },
+        "t4_fp32": {
+          "measurements": 200,
+          "p50_ms": 14.080916000011712,
+          "p95_ms": 20.2822644999685,
+          "p99_ms": 24.116389990086862,
+          "mean_ms": 14.740204410005049,
+          "max_ms": 31.02790200000527,
+          "over100ms_count": 0,
+          "over100ms_percent": 0,
+          "offline_serial_fps": 67.84166434769662
+        },
+        "t4_fp16": {
+          "measurements": 200,
+          "p50_ms": 14.895873499995105,
+          "p95_ms": 21.150400450005684,
+          "p99_ms": 26.52680537001515,
+          "mean_ms": 15.520109969998543,
+          "max_ms": 27.377249999972264,
+          "over100ms_count": 0,
+          "over100ms_percent": 0,
+          "offline_serial_fps": 64.43253314139332
+        }
+      }
+    },
+    {
+      "round": 8,
+      "results": {
+        "cpu_fp32": {
+          "measurements": 200,
+          "p50_ms": 69.06199699994886,
+          "p95_ms": 78.4610976999204,
+          "p99_ms": 81.95463095002866,
+          "mean_ms": 68.22411799999941,
+          "max_ms": 102.36960999998246,
+          "over100ms_count": 1,
+          "over100ms_percent": 0.5,
+          "offline_serial_fps": 14.657573147373025
+        },
+        "t4_fp32": {
+          "measurements": 200,
+          "p50_ms": 13.787773000046855,
+          "p95_ms": 20.065360300020522,
+          "p99_ms": 24.01422420003768,
+          "mean_ms": 14.452944815003548,
+          "max_ms": 26.31094799994571,
+          "over100ms_count": 0,
+          "over100ms_percent": 0,
+          "offline_serial_fps": 69.19005177144963
+        },
+        "t4_fp16": {
+          "measurements": 200,
+          "p50_ms": 14.70848050001905,
+          "p95_ms": 21.015144549983233,
+          "p99_ms": 27.20993652999482,
+          "mean_ms": 15.391869745001259,
+          "max_ms": 27.971812000032514,
+          "over100ms_count": 0,
+          "over100ms_percent": 0,
+          "offline_serial_fps": 64.96936477290325
+        }
+      }
+    },
+    {
+      "round": 9,
+      "results": {
+        "cpu_fp32": {
+          "measurements": 200,
+          "p50_ms": 71.8945864999796,
+          "p95_ms": 77.77833380005177,
+          "p99_ms": 85.82640243998519,
+          "mean_ms": 68.7784849999997,
+          "max_ms": 106.1353349999763,
+          "over100ms_count": 1,
+          "over100ms_percent": 0.5,
+          "offline_serial_fps": 14.539430462883914
+        },
+        "t4_fp32": {
+          "measurements": 200,
+          "p50_ms": 14.169945500043468,
+          "p95_ms": 19.94371574993465,
+          "p99_ms": 23.09990975001822,
+          "mean_ms": 14.641911399999117,
+          "max_ms": 28.450259000010192,
+          "over100ms_count": 0,
+          "over100ms_percent": 0,
+          "offline_serial_fps": 68.29709405290215
+        },
+        "t4_fp16": {
+          "measurements": 200,
+          "p50_ms": 14.947211999981391,
+          "p95_ms": 22.16513569999847,
+          "p99_ms": 25.24660371004983,
+          "mean_ms": 15.665608905005683,
+          "max_ms": 26.432522999925823,
+          "over100ms_count": 0,
+          "over100ms_percent": 0,
+          "offline_serial_fps": 63.834097101739005
+        }
+      }
+    },
+    {
+      "round": 10,
+      "results": {
+        "cpu_fp32": {
+          "measurements": 200,
+          "p50_ms": 69.24172200001522,
+          "p95_ms": 77.00927420000312,
+          "p99_ms": 82.56102810008993,
+          "mean_ms": 67.102061289998,
+          "max_ms": 97.42644499999642,
+          "over100ms_count": 0,
+          "over100ms_percent": 0,
+          "offline_serial_fps": 14.902671852035288
+        },
+        "t4_fp32": {
+          "measurements": 200,
+          "p50_ms": 13.726735499972165,
+          "p95_ms": 20.31224255006236,
+          "p99_ms": 24.524889869934437,
+          "mean_ms": 14.446606475007115,
+          "max_ms": 26.660283000069285,
+          "over100ms_count": 0,
+          "over100ms_percent": 0,
+          "offline_serial_fps": 69.22040838656592
+        },
+        "t4_fp16": {
+          "measurements": 200,
+          "p50_ms": 14.870406000000003,
+          "p95_ms": 21.218935900066064,
+          "p99_ms": 24.4948400600549,
+          "mean_ms": 15.505624499999158,
+          "max_ms": 26.609292999978607,
+          "over100ms_count": 0,
+          "over100ms_percent": 0,
+          "offline_serial_fps": 64.49272649418631
+        }
+      }
+    }
+  ],
+  "elapsed_seconds": 210.321888881,
+  "cuda_peak_allocated_MiB": 69.90966796875,
+  "cuda_peak_reserved_MiB": 96,
+  "note": "Predict+class-aware NMS+plot, predecoded validation images. CUDA synchronized. Excludes capture, tracker, UI, image decode and network. One physical T4 used; not a simulation of RTX 5060 Laptop. Modes interleaved on same VM. CUDA peak memory includes both resident GPU model variants."
+}

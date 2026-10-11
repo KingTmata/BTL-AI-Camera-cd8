@@ -1,0 +1,20 @@
+[
+  {
+    "old": "weights/campaign_20261010/BEST_Project8_v05.pt",
+    "bytes": 15723106,
+    "new": "weights/campaign_20261010/R04_YOLO26n_Project8_v05_finetuned_default.pt",
+    "sha256": "087EACA77696EB323464F4294FCE43B877DE430E0BB26EFB55E18322A3C02758"
+  },
+  {
+    "old": "weights/kaggle/BEST_Project8_v05_20261009.pt",
+    "bytes": 5544517,
+    "new": "weights/kaggle/Baseline_YOLO26n_Project8_v05_20261009.pt",
+    "sha256": "92ADFEB2516861A6958E8ADC4A15CF764FAA3956078DA1EBC81DB1FBB7014E31"
+  },
+  {
+    "old": "weights/recovered_20261010/R01_epoch0.pt",
+    "bytes": 15722211,
+    "new": "weights/recovered_20261010/R01_YOLO26n_Project8_v05_recovered_epoch0.pt",
+    "sha256": "3323FB2F72A91E2B827D4D7DC696FA66E57ED168D6E138E9E8AF9A7C41EE5ECE"
+  }
+]

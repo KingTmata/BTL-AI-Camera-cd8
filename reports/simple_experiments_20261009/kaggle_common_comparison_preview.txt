@@ -1,0 +1,210 @@
+menu
+Skip to
+content
+Create
+explore
+
+Home
+
+emoji_events
+
+Competitions
+
+leaderboard
+
+Benchmarks
+
+smart_toy
+
+Game Arena
+
+code
+
+Data Hub
+
+expand_more
+format_list_bulleted
+
+More
+
+expand_more
+note_alt
+
+Your Work
+
+expand_less
+
+Viewed
+
+expand_less
+
+Project8 v05 fast archive from BEST v04
+
+Project8 v0.5 TrainVal 15k and Best v04
+
+Project8 v05 best checkpoint pilots 20261009
+
+Project8 v05 single archive and best v04
+
+Project8 v0.4 12k and Best 50 Epoch
+
+Edited
+
+expand_less
+
+Project8 v05 fast archive from BEST v04
+
+notebook62890cba86
+
+Project8 v0.5 - 15k from best v04
+
+Project8 v0.4 - 12k from best50
+
+auto_awesome_motion
+1
+
+View Active Events
+
+search
+​
+A W M · 5M AGO · 29 VIEWS · PRIVATE
+Project8 v05 fast archive from BEST v04
+edit
+Project8 v05 fast archive from BEST v04
+arrow_drop_up
+0
+lock
+Share
+edit
+Edit
+file_download
+Download
+more_vert
+Notebook
+Input
+Output
+Logs
+Comments (0)
+Settings
+Output Data
+arrow_back
+pilot_comparison.json(7.8 kB)
+get_app
+chevron_right
+"root":{7 items
+"parent_sha256":string"92adfeb2516861a6958e8adc4a15cf764faa3956078da1ebc81db1fbb7014e31"
+"manifest_sha256":string"22a0140ab5e4d454d7e0c46ab24145c6d52d8b949db67ab8142fdd3bb8bb9ccd"
+"full_visual_review_complete":boolfalse
+"protocol":{14 items
+"data":string"/tmp/project8_v05_15k_runtime/training_data.yaml"
+"split":string"val"
+"imgsz":int1280
+"batch":int8
+"device":int0
+"conf":float0.001
+"iou":float0.7
+"nms":boolfalse
+"max_det":int300
+"augment":boolfalse
+"rect":booltrue
+"quantize":int16
+"workers":int2
+"plots":booltrue
+}
+"unavailable_runs":[1 item
+0:string"L0A0_control"
+]
+"runs":{3 items
+"BEST_v05_before":{8 items
+"checkpoint_sha256":string"92adfeb2516861a6958e8adc4a15cf764faa3956078da1ebc81db1fbb7014e31"
+"dataset_manifest_sha256":string"22a0140ab5e4d454d7e0c46ab24145c6d52d8b949db67ab8142fdd3bb8bb9ccd"
+"protocol":{...}14 items
+"mAP50":float0.7470987622615815
+"mAP50_95":float0.5328123332667083
+"precision":float0.8063281344756426
+"recall":float0.6631223166573559
+"per_class":{...}8 items
+}
+"L1A0_half_lr":{10 items
+"checkpoint_sha256":string"393eaea3799429a4e64bd9831c79758845956ff8bb678bb39dec3bc23c72f5e1"
+"dataset_manifest_sha256":string"22a0140ab5e4d454d7e0c46ab24145c6d52d8b949db67ab8142fdd3bb8bb9ccd"
+"protocol":{...}14 items
+"mAP50":float0.7482859178698713
+"mAP50_95":float0.5303210788821652
+"precision":float0.7775139766250128
+"recall":float0.6825469695264194
+"per_class":{...}8 items
+"delta_mAP50_percentage_points":float0.11871556082898582
+"selected_epoch":int2
+}
+"L0A1_light_aug":{10 items
+"checkpoint_sha256":string"805a6a058b2dfa93c14991f4d8b06e353cfaab12c6d88e37b5f24ece81282111"
+"dataset_manifest_sha256":string"22a0140ab5e4d454d7e0c46ab24145c6d52d8b949db67ab8142fdd3bb8bb9ccd"
+"protocol":{...}14 items
+"mAP50":float0.7431833019489926
+"mAP50_95":float0.5196465791238418
+"precision":float0.7717186501005053
+"recall":float0.6711039410690085
+"per_class":{...}8 items
+"delta_mAP50_percentage_points":float-0.39154603125888254
+"selected_epoch":int2
+}
+}
+"status":string"complete"
+}
+Output
+more_vert
+arrow_drop_down
+folder
+
+BTL-AI-Camera-v05-pilots
+
+arrow_right
+folder
+
+comparison
+
+arrow_right
+folder
+
+kaggle_runs
+
+arrow_right
+folder
+
+weights
+
+BEST_v05_before_val_metrics.json
+
+insert_photo
+
+dataset_boxes_preview.jpg
+
+insert_drive_file
+
+L0A1_light_aug_config.yaml
+
+L0A1_light_aug_val_metrics.json
+
+insert_drive_file
+
+L1A0_half_lr_config.yaml
+
+L1A0_half_lr_val_metrics.json
+
+pilot_comparison.json
+
+pilot_progress.json
+
+prepared.json
+
+drive_zip
+
+project8_v05_three_pilots_e2_20261009_170119_result.zip
+
+DOWNLOAD NOTEBOOK OUTPUT
+navigate_next
+minimize
+content_copy
+help
+DOWNLOAD NOTEBOOK OUTPUT

@@ -1,0 +1,1906 @@
+{
+  "panels": 16,
+  "unique_images": 15,
+  "full_visual_review_complete": false,
+  "selection": "top model FP/FN; deliberately difficult, not representative",
+  "checkpoint": "BEST_v05_initial",
+  "findings": [
+    {
+      "index": 1,
+      "name": "chair",
+      "kind": "FP",
+      "image_id": 60,
+      "manifest_image_id": "addition1__d5ae293ad18ba642",
+      "source_id": "items_in_room",
+      "file_name": "images/val/addition1__items_in_room__salon_jpg.rf.c4ce39b2290e4cb7eb698a0e445da043__d5ae293ad18ba642.jpg",
+      "GT": [],
+      "predictions": [
+        {
+          "image_id": 60,
+          "category_id": 3,
+          "bbox": [
+            390.8587646484375,
+            307.4956970214844,
+            111.51507568359375,
+            315.3047180175781
+          ],
+          "score": 0.46162039041519165
+        },
+        {
+          "image_id": 60,
+          "category_id": 3,
+          "bbox": [
+            16.49560546875,
+            340.9715576171875,
+            126.79293823242188,
+            294.392822265625
+          ],
+          "score": 0.3110688626766205
+        },
+        {
+          "image_id": 60,
+          "category_id": 3,
+          "bbox": [
+            249.27244567871094,
+            450.22430419921875,
+            92.50736999511719,
+            146.33221435546875
+          ],
+          "score": 0.2549891471862793
+        }
+      ],
+      "preview": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\simple_experiments_20261009\\visual_audit\\01_chair_FP_60.jpg",
+      "issue": "confirmed_missing_chair_candidate",
+      "observation": "Có ghế rõ ràng nhưng GT chair bằng 0; đồng thời có box nhầm vào bàn. Cần kiểm chính sách gắn nhãn đủ tám lớp.",
+      "visual_confidence": "high",
+      "action": "Review corresponding TRAIN examples; do not move val into train or auto-edit ambiguous labels",
+      "label_changed": false
+    },
+    {
+      "index": 2,
+      "name": "chair",
+      "kind": "FP",
+      "image_id": 154,
+      "manifest_image_id": "base__0a3f4696771b619a",
+      "source_id": "coco2017_val",
+      "file_name": "images/val/base__coco_val_000000013923__0a3f4696771b619a.jpg",
+      "GT": [
+        {
+          "id": 284,
+          "image_id": 154,
+          "category_id": 3,
+          "bbox": [
+            213.50016,
+            232.3701975,
+            122.38976,
+            138.029885
+          ],
+          "area": 16893.444497977598,
+          "iscrowd": 0
+        },
+        {
+          "id": 285,
+          "image_id": 154,
+          "category_id": 3,
+          "bbox": [
+            244.23008,
+            286.669866,
+            93.42016,
+            123.75997199999999
+          ],
+          "area": 11561.676385835519,
+          "iscrowd": 0
+        },
+        {
+          "id": 286,
+          "image_id": 154,
+          "category_id": 3,
+          "bbox": [
+            444.64992,
+            313.010215,
+            126.16,
+            109.399962
+          ],
+          "area": 13801.899205919999,
+          "iscrowd": 0
+        },
+        {
+          "id": 287,
+          "image_id": 154,
+          "category_id": 3,
+          "bbox": [
+            406.70976,
+            244.160308,
+            85.77024,
+            94.069808
+          ],
+          "area": 8068.390008913921,
+          "iscrowd": 0
+        },
+        {
+          "id": 289,
+          "image_id": 154,
+          "category_id": 3,
+          "bbox": [
+            240.48000000000002,
+            369.4098695,
+            98.81984,
+            57.58991699999999
+          ],
+          "area": 5691.02638355328,
+          "iscrowd": 0
+        }
+      ],
+      "predictions": [
+        {
+          "image_id": 154,
+          "category_id": 3,
+          "bbox": [
+            285.0269470214844,
+            313.6021728515625,
+            286.4831237792969,
+            113.3978271484375
+          ],
+          "score": 0.7865133285522461
+        },
+        {
+          "image_id": 154,
+          "category_id": 3,
+          "bbox": [
+            402.9347839355469,
+            259.2724914550781,
+            90.41995239257812,
+            95.11221313476562
+          ],
+          "score": 0.6495475769042969
+        },
+        {
+          "image_id": 154,
+          "category_id": 3,
+          "bbox": [
+            211.31842041015625,
+            232.90185546875,
+            129.02294921875,
+            187.11605834960938
+          ],
+          "score": 0.5507845878601074
+        },
+        {
+          "image_id": 154,
+          "category_id": 3,
+          "bbox": [
+            14.557571411132812,
+            198.44943237304688,
+            164.49977111816406,
+            140.59344482421875
+          ],
+          "score": 0.5197465419769287
+        },
+        {
+          "image_id": 154,
+          "category_id": 3,
+          "bbox": [
+            210.00912475585938,
+            232.79759216308594,
+            128.137939453125,
+            154.7803497314453
+          ],
+          "score": 0.46317368745803833
+        },
+        {
+          "image_id": 154,
+          "category_id": 3,
+          "bbox": [
+            239.75657653808594,
+            370.5745849609375,
+            100.55039978027344,
+            56.4254150390625
+          ],
+          "score": 0.44758597016334534
+        }
+      ],
+      "preview": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\simple_experiments_20261009\\visual_audit\\02_chair_FP_154.jpg",
+      "issue": "mixed_chair_sofa_and_localization",
+      "observation": "Ghế, sofa và box bị che; có nhầm sofa thành chair và sai phạm vi box.",
+      "visual_confidence": "medium",
+      "action": "Review corresponding TRAIN examples; do not move val into train or auto-edit ambiguous labels",
+      "label_changed": false
+    },
+    {
+      "index": 3,
+      "name": "chair",
+      "kind": "FP",
+      "image_id": 261,
+      "manifest_image_id": "merge3k__7c2d480db6666f224be9",
+      "source_id": "merged_3k_local",
+      "file_name": "images/val/merge3k__7c2d480db6666f224be9.jpg",
+      "GT": [
+        {
+          "id": 819,
+          "image_id": 261,
+          "category_id": 3,
+          "bbox": [
+            1483.5,
+            528.0,
+            115.99999999999999,
+            372.0
+          ],
+          "area": 43151.99999999999,
+          "iscrowd": 0
+        },
+        {
+          "id": 820,
+          "image_id": 261,
+          "category_id": 3,
+          "bbox": [
+            1309.0,
+            675.5,
+            214.0,
+            223.0
+          ],
+          "area": 47722.0,
+          "iscrowd": 0
+        }
+      ],
+      "predictions": [
+        {
+          "image_id": 261,
+          "category_id": 3,
+          "bbox": [
+            42.7918815612793,
+            452.4006652832031,
+            183.45941543579102,
+            180.89096069335938
+          ],
+          "score": 0.7306062579154968
+        },
+        {
+          "image_id": 261,
+          "category_id": 3,
+          "bbox": [
+            1337.21142578125,
+            684.8170166015625,
+            180.7530517578125,
+            213.24603271484375
+          ],
+          "score": 0.6391456723213196
+        },
+        {
+          "image_id": 261,
+          "category_id": 3,
+          "bbox": [
+            420.7786865234375,
+            442.5361633300781,
+            79.63348388671875,
+            187.00540161132812
+          ],
+          "score": 0.5255336165428162
+        },
+        {
+          "image_id": 261,
+          "category_id": 3,
+          "bbox": [
+            1486.0020751953125,
+            531.4849853515625,
+            113.9979248046875,
+            360.1962890625
+          ],
+          "score": 0.48484882712364197
+        },
+        {
+          "image_id": 261,
+          "category_id": 3,
+          "bbox": [
+            1486.173828125,
+            805.0081787109375,
+            112.8314208984375,
+            94.9918212890625
+          ],
+          "score": 0.25589385628700256
+        }
+      ],
+      "preview": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\simple_experiments_20261009\\visual_audit\\03_chair_FP_261.jpg",
+      "issue": "possible_missing_chairs",
+      "observation": "Ghế sau người xuất hiện ngoài hai GT chair; cần xác nhận ghế bị che có thuộc chính sách nhãn.",
+      "visual_confidence": "medium",
+      "action": "Review corresponding TRAIN examples; do not move val into train or auto-edit ambiguous labels",
+      "label_changed": false
+    },
+    {
+      "index": 4,
+      "name": "chair",
+      "kind": "FP",
+      "image_id": 175,
+      "manifest_image_id": "base__5aa4d6b7905ae08b",
+      "source_id": "classroom_roboflow_v1",
+      "file_name": "images/val/base__classroom_roboflow_v1_ebbd4cd6b8983e112780__5aa4d6b7905ae08b.jpg",
+      "GT": [
+        {
+          "id": 456,
+          "image_id": 175,
+          "category_id": 3,
+          "bbox": [
+            157.42499999999995,
+            16.005000000000003,
+            394.07000000000005,
+            600.91
+          ],
+          "area": 236800.60369999998,
+          "iscrowd": 0
+        }
+      ],
+      "predictions": [
+        {
+          "image_id": 175,
+          "category_id": 3,
+          "bbox": [
+            153.75784301757812,
+            22.697998046875,
+            400.1280212402344,
+            562.533203125
+          ],
+          "score": 0.8106711506843567
+        },
+        {
+          "image_id": 175,
+          "category_id": 3,
+          "bbox": [
+            161.20965576171875,
+            20.933364868164062,
+            388.6734619140625,
+            561.4061126708984
+          ],
+          "score": 0.2685639560222626
+        },
+        {
+          "image_id": 175,
+          "category_id": 3,
+          "bbox": [
+            244.05914306640625,
+            46.17596435546875,
+            391.25384521484375,
+            556.0484008789062
+          ],
+          "score": 0.2606304883956909
+        }
+      ],
+      "preview": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\simple_experiments_20261009\\visual_audit\\04_chair_FP_175.jpg",
+      "issue": "duplicate_chair_boxes",
+      "observation": "Một ghế rõ, ba dự đoán chồng nhau; thử lọc box trùng.",
+      "visual_confidence": "high",
+      "action": "Review corresponding TRAIN examples; do not move val into train or auto-edit ambiguous labels",
+      "label_changed": false
+    },
+    {
+      "index": 5,
+      "name": "chair",
+      "kind": "FN",
+      "image_id": 282,
+      "manifest_image_id": "merge3k__c8852720a92b1b763e0c",
+      "source_id": "merged_3k_local",
+      "file_name": "images/val/merge3k__c8852720a92b1b763e0c.jpg",
+      "GT": [
+        {
+          "id": 848,
+          "image_id": 282,
+          "category_id": 3,
+          "bbox": [
+            392.5,
+            235.0,
+            238.0,
+            300.0
+          ],
+          "area": 71400.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 849,
+          "image_id": 282,
+          "category_id": 3,
+          "bbox": [
+            50.50000000000001,
+            274.5,
+            277.0,
+            302.0
+          ],
+          "area": 83654.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 850,
+          "image_id": 282,
+          "category_id": 3,
+          "bbox": [
+            575.5,
+            164.5,
+            115.0,
+            168.0
+          ],
+          "area": 19320.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 851,
+          "image_id": 282,
+          "category_id": 3,
+          "bbox": [
+            500.5,
+            198.49999999999997,
+            154.0,
+            206.0
+          ],
+          "area": 31723.999999999996,
+          "iscrowd": 0
+        },
+        {
+          "id": 852,
+          "image_id": 282,
+          "category_id": 3,
+          "bbox": [
+            381.0,
+            146.00000000000003,
+            51.0,
+            59.0
+          ],
+          "area": 3009.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 853,
+          "image_id": 282,
+          "category_id": 3,
+          "bbox": [
+            534.0,
+            196.50000000000003,
+            141.0,
+            208.0
+          ],
+          "area": 29328.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 854,
+          "image_id": 282,
+          "category_id": 3,
+          "bbox": [
+            536.5,
+            141.0,
+            75.0,
+            66.0
+          ],
+          "area": 4950.000000000001,
+          "iscrowd": 0
+        },
+        {
+          "id": 855,
+          "image_id": 282,
+          "category_id": 3,
+          "bbox": [
+            295.0,
+            161.5,
+            82.0,
+            114.0
+          ],
+          "area": 9348.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 856,
+          "image_id": 282,
+          "category_id": 3,
+          "bbox": [
+            156.0,
+            183.5,
+            106.0,
+            194.0
+          ],
+          "area": 20564.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 857,
+          "image_id": 282,
+          "category_id": 3,
+          "bbox": [
+            121.49999999999997,
+            185.0,
+            140.0,
+            230.0
+          ],
+          "area": 32200.0,
+          "iscrowd": 0
+        }
+      ],
+      "predictions": [
+        {
+          "image_id": 282,
+          "category_id": 3,
+          "bbox": [
+            60.516136169433594,
+            281.45843505859375,
+            275.4805374145508,
+            296.3519287109375
+          ],
+          "score": 0.8317200541496277
+        },
+        {
+          "image_id": 282,
+          "category_id": 3,
+          "bbox": [
+            495.1758728027344,
+            178.6290740966797,
+            191.02951049804688,
+            152.21046447753906
+          ],
+          "score": 0.45749858021736145
+        },
+        {
+          "image_id": 282,
+          "category_id": 3,
+          "bbox": [
+            407.991455078125,
+            261.0404357910156,
+            215.29901123046875,
+            267.3266296386719
+          ],
+          "score": 0.44402652978897095
+        }
+      ],
+      "preview": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\simple_experiments_20261009\\visual_audit\\05_chair_FN_282.jpg",
+      "issue": "occlusion_box_policy",
+      "observation": "Ghế bàn hội nghị bị che; GT có box lưng ghế và toàn ghế. Kiểm thống nhất phạm vi box.",
+      "visual_confidence": "medium",
+      "action": "Review corresponding TRAIN examples; do not move val into train or auto-edit ambiguous labels",
+      "label_changed": false
+    },
+    {
+      "index": 6,
+      "name": "chair",
+      "kind": "FN",
+      "image_id": 285,
+      "manifest_image_id": "merge3k__d265625452731ea5c490",
+      "source_id": "merged_3k_local",
+      "file_name": "images/val/merge3k__d265625452731ea5c490.jpg",
+      "GT": [
+        {
+          "id": 864,
+          "image_id": 285,
+          "category_id": 3,
+          "bbox": [
+            323.0,
+            167.25,
+            235.0,
+            246.5
+          ],
+          "area": 57927.5,
+          "iscrowd": 0
+        },
+        {
+          "id": 865,
+          "image_id": 285,
+          "category_id": 3,
+          "bbox": [
+            81.75,
+            202.5,
+            207.5,
+            150.0
+          ],
+          "area": 31125.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 866,
+          "image_id": 285,
+          "category_id": 3,
+          "bbox": [
+            0.0,
+            374.00000000000006,
+            177.0,
+            266.0
+          ],
+          "area": 47082.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 867,
+          "image_id": 285,
+          "category_id": 3,
+          "bbox": [
+            0.0,
+            266.0,
+            78.0,
+            131.0
+          ],
+          "area": 10218.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 868,
+          "image_id": 285,
+          "category_id": 3,
+          "bbox": [
+            602.0,
+            172.75,
+            38.0,
+            132.5
+          ],
+          "area": 5035.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 869,
+          "image_id": 285,
+          "category_id": 3,
+          "bbox": [
+            64.5,
+            129.5,
+            34.0,
+            138.0
+          ],
+          "area": 4692.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 870,
+          "image_id": 285,
+          "category_id": 3,
+          "bbox": [
+            57.0,
+            142.75,
+            12.0,
+            108.5
+          ],
+          "area": 1302.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 871,
+          "image_id": 285,
+          "category_id": 3,
+          "bbox": [
+            48.50000000000001,
+            137.25,
+            11.0,
+            104.5
+          ],
+          "area": 1149.5,
+          "iscrowd": 0
+        }
+      ],
+      "predictions": [
+        {
+          "image_id": 285,
+          "category_id": 3,
+          "bbox": [
+            287.41998291015625,
+            378.4823913574219,
+            311.484375,
+            258.6393737792969
+          ],
+          "score": 0.5773152709007263
+        },
+        {
+          "image_id": 285,
+          "category_id": 3,
+          "bbox": [
+            274.68463134765625,
+            192.00865173339844,
+            285.147705078125,
+            282.35548400878906
+          ],
+          "score": 0.37996193766593933
+        },
+        {
+          "image_id": 285,
+          "category_id": 3,
+          "bbox": [
+            3.1321258544921875,
+            367.42120361328125,
+            207.03103637695312,
+            269.72088623046875
+          ],
+          "score": 0.3165367543697357
+        }
+      ],
+      "preview": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\simple_experiments_20261009\\visual_audit\\06_chair_FN_285.jpg",
+      "issue": "low_resolution_chair_sofa",
+      "observation": "Ảnh phòng thấp phân giải, ghế/sofa dễ lẫn; một số GT chỉ phần ghế.",
+      "visual_confidence": "medium",
+      "action": "Review corresponding TRAIN examples; do not move val into train or auto-edit ambiguous labels",
+      "label_changed": false
+    },
+    {
+      "index": 7,
+      "name": "chair",
+      "kind": "FN",
+      "image_id": 220,
+      "manifest_image_id": "base__df32042dc02d0c28",
+      "source_id": "coco2017_val",
+      "file_name": "images/val/base__coco3_val_000000572678__df32042dc02d0c28.jpg",
+      "GT": [
+        {
+          "id": 654,
+          "image_id": 220,
+          "category_id": 3,
+          "bbox": [
+            522.8,
+            274.1899999998,
+            86.82000000000001,
+            143.5000000002
+          ],
+          "area": 12458.670000017364,
+          "iscrowd": 0
+        },
+        {
+          "id": 655,
+          "image_id": 220,
+          "category_id": 3,
+          "bbox": [
+            265.97,
+            222.09999999973752,
+            61.230000000000004,
+            85.910000000175
+          ],
+          "area": 5260.269300010716,
+          "iscrowd": 0
+        },
+        {
+          "id": 656,
+          "image_id": 220,
+          "category_id": 3,
+          "bbox": [
+            340.36,
+            196.1300000001375,
+            82.14,
+            48.399999999925
+          ],
+          "area": 3975.5759999938396,
+          "iscrowd": 0
+        },
+        {
+          "id": 659,
+          "image_id": 220,
+          "category_id": 3,
+          "bbox": [
+            182.42000000000002,
+            344.7799999999875,
+            145.16,
+            75.440000000025
+          ],
+          "area": 10950.870400003629,
+          "iscrowd": 0
+        },
+        {
+          "id": 664,
+          "image_id": 220,
+          "category_id": 3,
+          "bbox": [
+            455.72,
+            217.65000000007498,
+            56.75,
+            47.7499999998
+          ],
+          "area": 2709.81249998865,
+          "iscrowd": 0
+        },
+        {
+          "id": 665,
+          "image_id": 220,
+          "category_id": 3,
+          "bbox": [
+            162.06,
+            229.5800000001625,
+            122.44999999999999,
+            98.310000000075
+          ],
+          "area": 12038.059500009182,
+          "iscrowd": 0
+        }
+      ],
+      "predictions": [
+        {
+          "image_id": 220,
+          "category_id": 3,
+          "bbox": [
+            182.42152404785156,
+            339.2304382324219,
+            143.1978302001953,
+            85.76956176757812
+          ],
+          "score": 0.41022640466690063
+        },
+        {
+          "image_id": 220,
+          "category_id": 3,
+          "bbox": [
+            140.04310607910156,
+            189.72503662109375,
+            186.92955017089844,
+            139.54681396484375
+          ],
+          "score": 0.34147098660469055
+        },
+        {
+          "image_id": 220,
+          "category_id": 3,
+          "bbox": [
+            225.59677124023438,
+            269.4630432128906,
+            385.6506042480469,
+            154.24215698242188
+          ],
+          "score": 0.329712837934494
+        }
+      ],
+      "preview": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\simple_experiments_20261009\\visual_audit\\07_chair_FN_220.jpg",
+      "issue": "occluded_chairs",
+      "observation": "Ghế bị bàn che và cạnh sofa; lỗi box/nhầm lớp cần xem riêng.",
+      "visual_confidence": "medium",
+      "action": "Review corresponding TRAIN examples; do not move val into train or auto-edit ambiguous labels",
+      "label_changed": false
+    },
+    {
+      "index": 8,
+      "name": "chair",
+      "kind": "FN",
+      "image_id": 250,
+      "manifest_image_id": "merge3k__4ce203d84993ddc4df29",
+      "source_id": "merged_3k_local",
+      "file_name": "images/val/merge3k__4ce203d84993ddc4df29.jpg",
+      "GT": [
+        {
+          "id": 798,
+          "image_id": 250,
+          "category_id": 3,
+          "bbox": [
+            0.0,
+            285.5,
+            141.0,
+            124.0
+          ],
+          "area": 17484.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 799,
+          "image_id": 250,
+          "category_id": 3,
+          "bbox": [
+            262.49999999999994,
+            239.5,
+            106.0,
+            169.0
+          ],
+          "area": 17914.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 800,
+          "image_id": 250,
+          "category_id": 3,
+          "bbox": [
+            399.0,
+            271.0,
+            190.0,
+            138.0
+          ],
+          "area": 26220.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 801,
+          "image_id": 250,
+          "category_id": 3,
+          "bbox": [
+            122.5,
+            251.0,
+            63.0,
+            157.0
+          ],
+          "area": 9891.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 803,
+          "image_id": 250,
+          "category_id": 3,
+          "bbox": [
+            194.0,
+            221.50000000000003,
+            55.99999999999999,
+            104.0
+          ],
+          "area": 5823.999999999999,
+          "iscrowd": 0
+        },
+        {
+          "id": 804,
+          "image_id": 250,
+          "category_id": 3,
+          "bbox": [
+            116.0,
+            277.5,
+            37.0,
+            134.0
+          ],
+          "area": 4958.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 805,
+          "image_id": 250,
+          "category_id": 3,
+          "bbox": [
+            137.00000000000003,
+            246.49999999999997,
+            80.0,
+            161.0
+          ],
+          "area": 12880.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 806,
+          "image_id": 250,
+          "category_id": 3,
+          "bbox": [
+            202.5,
+            218.5,
+            52.0,
+            69.0
+          ],
+          "area": 3588.0,
+          "iscrowd": 0
+        }
+      ],
+      "predictions": [
+        {
+          "image_id": 250,
+          "category_id": 3,
+          "bbox": [
+            0.8196907639503479,
+            285.115478515625,
+            143.13640969991684,
+            125.79473876953125
+          ],
+          "score": 0.6053712964057922
+        },
+        {
+          "image_id": 250,
+          "category_id": 3,
+          "bbox": [
+            119.40625762939453,
+            256.5891418457031,
+            60.483558654785156,
+            148.3341064453125
+          ],
+          "score": 0.5315009951591492
+        },
+        {
+          "image_id": 250,
+          "category_id": 3,
+          "bbox": [
+            400.9297180175781,
+            234.16908264160156,
+            210.90426635742188,
+            174.4701690673828
+          ],
+          "score": 0.34975698590278625
+        }
+      ],
+      "preview": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\simple_experiments_20261009\\visual_audit\\08_chair_FN_250.jpg",
+      "issue": "dense_occluded_chairs",
+      "observation": "Cảnh người/bàn dày, ghế bị che nhiều.",
+      "visual_confidence": "high",
+      "action": "Review corresponding TRAIN examples; do not move val into train or auto-edit ambiguous labels",
+      "label_changed": false
+    },
+    {
+      "index": 9,
+      "name": "cell phone",
+      "kind": "FP",
+      "image_id": 141,
+      "manifest_image_id": "addition2__fb0e74354ffd9616",
+      "source_id": "classroom_phone_v18",
+      "file_name": "images/val/addition2__classroom_phone_v18__Class_2_Video_1_mp4-22_jpg.rf.79defc81164097__fb0e74354ffd9616.jpg",
+      "GT": [
+        {
+          "id": 201,
+          "image_id": 141,
+          "category_id": 5,
+          "bbox": [
+            102.53056,
+            561.2299199999999,
+            32.07936,
+            28.64016
+          ],
+          "area": 918.7580030976001,
+          "iscrowd": 0
+        },
+        {
+          "id": 202,
+          "image_id": 141,
+          "category_id": 5,
+          "bbox": [
+            554.57024,
+            374.64480000000003,
+            35.220479999999995,
+            25.770239999999998
+          ],
+          "area": 907.6402225151999,
+          "iscrowd": 0
+        },
+        {
+          "id": 203,
+          "image_id": 141,
+          "category_id": 5,
+          "bbox": [
+            578.7193599999999,
+            458.6652,
+            35.70048,
+            27.01008
+          ],
+          "area": 964.2728208384,
+          "iscrowd": 0
+        },
+        {
+          "id": 204,
+          "image_id": 141,
+          "category_id": 5,
+          "bbox": [
+            755.6947200000001,
+            356.99003999999996,
+            27.769599999999997,
+            14.88024
+          ],
+          "area": 413.218312704,
+          "iscrowd": 0
+        },
+        {
+          "id": 205,
+          "image_id": 141,
+          "category_id": 5,
+          "bbox": [
+            860.2848,
+            567.8100000000001,
+            46.67008,
+            32.17968
+          ],
+          "area": 1501.8282399744,
+          "iscrowd": 0
+        },
+        {
+          "id": 206,
+          "image_id": 141,
+          "category_id": 5,
+          "bbox": [
+            958.1401599999999,
+            321.20496,
+            21.639680000000002,
+            13.48992
+          ],
+          "area": 291.9175520256,
+          "iscrowd": 0
+        }
+      ],
+      "predictions": [
+        {
+          "image_id": 141,
+          "category_id": 5,
+          "bbox": [
+            578.4226684570312,
+            460.1533203125,
+            36.31732177734375,
+            25.0653076171875
+          ],
+          "score": 0.8692187666893005
+        },
+        {
+          "image_id": 141,
+          "category_id": 5,
+          "bbox": [
+            859.8488159179688,
+            569.1345825195312,
+            43.9248046875,
+            29.13470458984375
+          ],
+          "score": 0.6943739652633667
+        },
+        {
+          "image_id": 141,
+          "category_id": 5,
+          "bbox": [
+            553.3572998046875,
+            379.9496765136719,
+            33.22198486328125,
+            18.421783447265625
+          ],
+          "score": 0.690962016582489
+        },
+        {
+          "image_id": 141,
+          "category_id": 5,
+          "bbox": [
+            756.18603515625,
+            356.4726867675781,
+            26.5001220703125,
+            12.03314208984375
+          ],
+          "score": 0.6889764666557312
+        },
+        {
+          "image_id": 141,
+          "category_id": 5,
+          "bbox": [
+            893.7828979492188,
+            474.1209716796875,
+            31.32232666015625,
+            21.35565185546875
+          ],
+          "score": 0.39761102199554443
+        },
+        {
+          "image_id": 141,
+          "category_id": 5,
+          "bbox": [
+            104.58942413330078,
+            562.5792236328125,
+            30.934608459472656,
+            30.29852294921875
+          ],
+          "score": 0.35753992199897766
+        },
+        {
+          "image_id": 141,
+          "category_id": 5,
+          "bbox": [
+            82.85059356689453,
+            563.0632934570312,
+            37.55848693847656,
+            30.55950927734375
+          ],
+          "score": 0.25674697756767273
+        }
+      ],
+      "preview": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\simple_experiments_20261009\\visual_audit\\09_cell_phone_FP_141.jpg",
+      "issue": "tiny_phone_and_fp",
+      "observation": "Điện thoại rất nhỏ; một số dự đoán ở đầu/tay/bàn. Chưa đủ xác nhận tất cả nhãn.",
+      "visual_confidence": "medium",
+      "action": "Review corresponding TRAIN examples; do not move val into train or auto-edit ambiguous labels",
+      "label_changed": false
+    },
+    {
+      "index": 10,
+      "name": "cell phone",
+      "kind": "FP",
+      "image_id": 156,
+      "manifest_image_id": "base__152da904a91ec391",
+      "source_id": "student_behaviour_detection_v6",
+      "file_name": "images/val/base__sbd6_b60ffd9756a3fb7f8271__152da904a91ec391.jpg",
+      "GT": [
+        {
+          "id": 292,
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            83.5,
+            237.24999999999997,
+            10.0,
+            13.5
+          ],
+          "area": 135.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 306,
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            139.75,
+            192.75,
+            6.5,
+            12.5
+          ],
+          "area": 81.25,
+          "iscrowd": 0
+        },
+        {
+          "id": 309,
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            331.75,
+            181.25,
+            6.5,
+            12.5
+          ],
+          "area": 81.25,
+          "iscrowd": 0
+        },
+        {
+          "id": 311,
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            409.75,
+            266.75,
+            9.5,
+            18.5
+          ],
+          "area": 175.75,
+          "iscrowd": 0
+        },
+        {
+          "id": 318,
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            220.0,
+            377.5,
+            11.0,
+            28.0
+          ],
+          "area": 308.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 319,
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            267.25,
+            368.25,
+            9.5,
+            23.5
+          ],
+          "area": 223.25,
+          "iscrowd": 0
+        },
+        {
+          "id": 321,
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            386.75,
+            368.0,
+            16.5,
+            17.0
+          ],
+          "area": 280.5,
+          "iscrowd": 0
+        },
+        {
+          "id": 328,
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            504.00000000000006,
+            142.5,
+            6.0,
+            10.0
+          ],
+          "area": 60.0,
+          "iscrowd": 0
+        }
+      ],
+      "predictions": [
+        {
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            409.25408935546875,
+            265.3797302246094,
+            10.987640380859375,
+            21.254974365234375
+          ],
+          "score": 0.5895991325378418
+        },
+        {
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            331.5383605957031,
+            181.21156311035156,
+            7.626220703125,
+            15.769927978515625
+          ],
+          "score": 0.49569976329803467
+        },
+        {
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            408.9981994628906,
+            265.1980895996094,
+            11.072021484375,
+            21.478424072265625
+          ],
+          "score": 0.3345947563648224
+        },
+        {
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            266.808349609375,
+            367.0907897949219,
+            10.476318359375,
+            26.143402099609375
+          ],
+          "score": 0.3173016905784607
+        },
+        {
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            120.27315521240234,
+            372.0918884277344,
+            10.454292297363281,
+            28.325592041015625
+          ],
+          "score": 0.28101447224617004
+        }
+      ],
+      "preview": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\simple_experiments_20261009\\visual_audit\\10_cell_phone_FP_156.jpg",
+      "issue": "tiny_phone_ambiguous",
+      "observation": "Điện thoại/tay/sách rất nhỏ, box khó xác minh.",
+      "visual_confidence": "medium",
+      "action": "Review corresponding TRAIN examples; do not move val into train or auto-edit ambiguous labels",
+      "label_changed": false
+    },
+    {
+      "index": 11,
+      "name": "cell phone",
+      "kind": "FP",
+      "image_id": 1,
+      "manifest_image_id": "addition1__01719e674e6228dd",
+      "source_id": "celulares",
+      "file_name": "images/val/addition1__celulares__mp_90_png.rf.b5a4df8b7d03db2082a14ba9f39783bf__01719e674e6228dd.jpg",
+      "GT": [
+        {
+          "id": 1,
+          "image_id": 1,
+          "category_id": 5,
+          "bbox": [
+            298.74976000000004,
+            364.49984,
+            63.50016,
+            252.0
+          ],
+          "area": 16002.040319999998,
+          "iscrowd": 0
+        }
+      ],
+      "predictions": [
+        {
+          "image_id": 1,
+          "category_id": 5,
+          "bbox": [
+            299.8700866699219,
+            362.8147277832031,
+            62.70318603515625,
+            269.1552429199219
+          ],
+          "score": 0.6741257309913635
+        },
+        {
+          "image_id": 1,
+          "category_id": 5,
+          "bbox": [
+            299.9691162109375,
+            363.5370178222656,
+            62.07965087890625,
+            268.5939636230469
+          ],
+          "score": 0.44605469703674316
+        }
+      ],
+      "preview": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\simple_experiments_20261009\\visual_audit\\11_cell_phone_FP_1.jpg",
+      "issue": "duplicate_phone_boxes",
+      "observation": "Điện thoại cầm tay rõ, hai dự đoán chồng với chiều dài box khác nhau.",
+      "visual_confidence": "high",
+      "action": "Review corresponding TRAIN examples; do not move val into train or auto-edit ambiguous labels",
+      "label_changed": false
+    },
+    {
+      "index": 12,
+      "name": "cell phone",
+      "kind": "FP",
+      "image_id": 3,
+      "manifest_image_id": "addition1__0592a668792d240c",
+      "source_id": "celulares",
+      "file_name": "images/val/addition1__celulares__hp_22_jpg.rf.9fb1fb80db9f9c723ca15ac88f4c70e4__0592a668792d240c.jpg",
+      "GT": [
+        {
+          "id": 3,
+          "image_id": 3,
+          "category_id": 5,
+          "bbox": [
+            279.0,
+            321.74976000000004,
+            38.99968,
+            49.500159999999994
+          ],
+          "area": 1930.4903999488,
+          "iscrowd": 0
+        },
+        {
+          "id": 4,
+          "image_id": 3,
+          "category_id": 5,
+          "bbox": [
+            472.0,
+            320.74976,
+            28.0,
+            19.50016
+          ],
+          "area": 546.0044800000001,
+          "iscrowd": 0
+        }
+      ],
+      "predictions": [
+        {
+          "image_id": 3,
+          "category_id": 5,
+          "bbox": [
+            473.19110107421875,
+            321.3193054199219,
+            27.136138916015625,
+            19.8809814453125
+          ],
+          "score": 0.6453078389167786
+        },
+        {
+          "image_id": 3,
+          "category_id": 5,
+          "bbox": [
+            475.5554504394531,
+            320.81903076171875,
+            24.359527587890625,
+            19.110595703125
+          ],
+          "score": 0.41962355375289917
+        }
+      ],
+      "preview": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\simple_experiments_20261009\\visual_audit\\12_cell_phone_FP_3.jpg",
+      "issue": "phone_box_extent",
+      "observation": "Hai điện thoại cầm tay; phạm vi GT/dự đoán khác. Cần kiểm box đầy đủ từng vật.",
+      "visual_confidence": "medium",
+      "action": "Review corresponding TRAIN examples; do not move val into train or auto-edit ambiguous labels",
+      "label_changed": false
+    },
+    {
+      "index": 13,
+      "name": "cell phone",
+      "kind": "FN",
+      "image_id": 156,
+      "manifest_image_id": "base__152da904a91ec391",
+      "source_id": "student_behaviour_detection_v6",
+      "file_name": "images/val/base__sbd6_b60ffd9756a3fb7f8271__152da904a91ec391.jpg",
+      "GT": [
+        {
+          "id": 292,
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            83.5,
+            237.24999999999997,
+            10.0,
+            13.5
+          ],
+          "area": 135.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 306,
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            139.75,
+            192.75,
+            6.5,
+            12.5
+          ],
+          "area": 81.25,
+          "iscrowd": 0
+        },
+        {
+          "id": 309,
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            331.75,
+            181.25,
+            6.5,
+            12.5
+          ],
+          "area": 81.25,
+          "iscrowd": 0
+        },
+        {
+          "id": 311,
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            409.75,
+            266.75,
+            9.5,
+            18.5
+          ],
+          "area": 175.75,
+          "iscrowd": 0
+        },
+        {
+          "id": 318,
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            220.0,
+            377.5,
+            11.0,
+            28.0
+          ],
+          "area": 308.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 319,
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            267.25,
+            368.25,
+            9.5,
+            23.5
+          ],
+          "area": 223.25,
+          "iscrowd": 0
+        },
+        {
+          "id": 321,
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            386.75,
+            368.0,
+            16.5,
+            17.0
+          ],
+          "area": 280.5,
+          "iscrowd": 0
+        },
+        {
+          "id": 328,
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            504.00000000000006,
+            142.5,
+            6.0,
+            10.0
+          ],
+          "area": 60.0,
+          "iscrowd": 0
+        }
+      ],
+      "predictions": [
+        {
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            409.25408935546875,
+            265.3797302246094,
+            10.987640380859375,
+            21.254974365234375
+          ],
+          "score": 0.5895991325378418
+        },
+        {
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            331.5383605957031,
+            181.21156311035156,
+            7.626220703125,
+            15.769927978515625
+          ],
+          "score": 0.49569976329803467
+        },
+        {
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            408.9981994628906,
+            265.1980895996094,
+            11.072021484375,
+            21.478424072265625
+          ],
+          "score": 0.3345947563648224
+        },
+        {
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            266.808349609375,
+            367.0907897949219,
+            10.476318359375,
+            26.143402099609375
+          ],
+          "score": 0.3173016905784607
+        },
+        {
+          "image_id": 156,
+          "category_id": 5,
+          "bbox": [
+            120.27315521240234,
+            372.0918884277344,
+            10.454292297363281,
+            28.325592041015625
+          ],
+          "score": 0.28101447224617004
+        }
+      ],
+      "preview": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\simple_experiments_20261009\\visual_audit\\13_cell_phone_FN_156.jpg",
+      "issue": "same_image_as_panel10",
+      "observation": "Cùng ảnh panel10: bỏ sót điện thoại nhỏ; không tính là ảnh độc lập.",
+      "visual_confidence": "high",
+      "action": "Review corresponding TRAIN examples; do not move val into train or auto-edit ambiguous labels",
+      "label_changed": false
+    },
+    {
+      "index": 14,
+      "name": "cell phone",
+      "kind": "FN",
+      "image_id": 71,
+      "manifest_image_id": "addition2__03733343c45086ee",
+      "source_id": "classroom_phone_v18",
+      "file_name": "images/val/addition2__classroom_phone_v18__Class_3_Video_1_mp4-57_jpg.rf.188c02a785a43a__03733343c45086ee.jpg",
+      "GT": [
+        {
+          "id": 94,
+          "image_id": 71,
+          "category_id": 5,
+          "bbox": [
+            123.51424,
+            439.92,
+            29.830399999999997,
+            27.76032
+          ],
+          "area": 828.101449728,
+          "iscrowd": 0
+        },
+        {
+          "id": 95,
+          "image_id": 71,
+          "category_id": 5,
+          "bbox": [
+            480.66048,
+            386.63532000000004,
+            32.32,
+            34.969680000000004
+          ],
+          "area": 1130.2200576,
+          "iscrowd": 0
+        },
+        {
+          "id": 96,
+          "image_id": 71,
+          "category_id": 5,
+          "bbox": [
+            564.24512,
+            381.09528000000006,
+            22.44992,
+            16.70976
+          ],
+          "area": 375.13277521919997,
+          "iscrowd": 0
+        },
+        {
+          "id": 97,
+          "image_id": 71,
+          "category_id": 5,
+          "bbox": [
+            592.27968,
+            254.95487999999997,
+            24.45952,
+            12.409920000000001
+          ],
+          "area": 303.54068643840003,
+          "iscrowd": 0
+        },
+        {
+          "id": 98,
+          "image_id": 71,
+          "category_id": 5,
+          "bbox": [
+            857.5046400000001,
+            283.59504,
+            19.79008,
+            12.99024
+          ],
+          "area": 257.0778888192,
+          "iscrowd": 0
+        },
+        {
+          "id": 99,
+          "image_id": 71,
+          "category_id": 5,
+          "bbox": [
+            1055.62048,
+            373.4499600000001,
+            24.999679999999998,
+            11.82024
+          ],
+          "area": 295.5022175232,
+          "iscrowd": 0
+        }
+      ],
+      "predictions": [
+        {
+          "image_id": 71,
+          "category_id": 5,
+          "bbox": [
+            122.71150207519531,
+            439.5638427734375,
+            30.776046752929688,
+            29.498870849609375
+          ],
+          "score": 0.7316809892654419
+        },
+        {
+          "image_id": 71,
+          "category_id": 5,
+          "bbox": [
+            1054.690673828125,
+            370.351806640625,
+            26.2825927734375,
+            13.867706298828125
+          ],
+          "score": 0.40127643942832947
+        },
+        {
+          "image_id": 71,
+          "category_id": 5,
+          "bbox": [
+            477.7283020019531,
+            386.13018798828125,
+            35.059539794921875,
+            35.577667236328125
+          ],
+          "score": 0.30518969893455505
+        }
+      ],
+      "preview": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\simple_experiments_20261009\\visual_audit\\14_cell_phone_FN_71.jpg",
+      "issue": "distant_tiny_phone",
+      "observation": "Điện thoại xa, nhỏ, tương phản thấp và bị tay che.",
+      "visual_confidence": "high",
+      "action": "Review corresponding TRAIN examples; do not move val into train or auto-edit ambiguous labels",
+      "label_changed": false
+    },
+    {
+      "index": 15,
+      "name": "cell phone",
+      "kind": "FN",
+      "image_id": 169,
+      "manifest_image_id": "base__40eca21fbad9660e",
+      "source_id": "student_behaviour_detection_v6",
+      "file_name": "images/val/base__sbd6_6cb16530859d3c0024ec__40eca21fbad9660e.jpg",
+      "GT": [
+        {
+          "id": 394,
+          "image_id": 169,
+          "category_id": 5,
+          "bbox": [
+            245.25,
+            80.25,
+            9.5,
+            7.5
+          ],
+          "area": 71.25,
+          "iscrowd": 0
+        },
+        {
+          "id": 398,
+          "image_id": 169,
+          "category_id": 5,
+          "bbox": [
+            404.75,
+            124.50000000000001,
+            10.5,
+            14.0
+          ],
+          "area": 147.0,
+          "iscrowd": 0
+        },
+        {
+          "id": 401,
+          "image_id": 169,
+          "category_id": 5,
+          "bbox": [
+            254.75,
+            366.25,
+            11.5,
+            28.5
+          ],
+          "area": 327.75,
+          "iscrowd": 0
+        }
+      ],
+      "predictions": [],
+      "preview": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\simple_experiments_20261009\\visual_audit\\15_cell_phone_FN_169.jpg",
+      "issue": "tiny_phone_no_detection",
+      "observation": "Điện thoại rất nhỏ giữa sách/giấy; không có dự đoán trên ngưỡng 0,25.",
+      "visual_confidence": "medium",
+      "action": "Review corresponding TRAIN examples; do not move val into train or auto-edit ambiguous labels",
+      "label_changed": false
+    },
+    {
+      "index": 16,
+      "name": "cell phone",
+      "kind": "FN",
+      "image_id": 174,
+      "manifest_image_id": "base__5905f6ccfd5b7bee",
+      "source_id": "student_behaviour_detection_v6",
+      "file_name": "images/val/base__sbd6_5d523830e50cb4adac35__5905f6ccfd5b7bee.jpg",
+      "GT": [
+        {
+          "id": 434,
+          "image_id": 174,
+          "category_id": 5,
+          "bbox": [
+            380.25,
+            173.75,
+            7.5,
+            12.5
+          ],
+          "area": 93.75,
+          "iscrowd": 0
+        },
+        {
+          "id": 454,
+          "image_id": 174,
+          "category_id": 5,
+          "bbox": [
+            519.75,
+            220.5,
+            9.5,
+            15.0
+          ],
+          "area": 142.5,
+          "iscrowd": 0
+        },
+        {
+          "id": 455,
+          "image_id": 174,
+          "category_id": 5,
+          "bbox": [
+            314.25,
+            589.75,
+            16.5,
+            39.5
+          ],
+          "area": 651.75,
+          "iscrowd": 0
+        }
+      ],
+      "predictions": [
+        {
+          "image_id": 174,
+          "category_id": 5,
+          "bbox": [
+            380.3292541503906,
+            171.8745574951172,
+            7.263916015625,
+            14.235015869140625
+          ],
+          "score": 0.4101461172103882
+        }
+      ],
+      "preview": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\simple_experiments_20261009\\visual_audit\\16_cell_phone_FN_174.jpg",
+      "issue": "crowded_tiny_phone",
+      "observation": "Điện thoại nhỏ trong cảnh đông, ba GT nhưng một dự đoán.",
+      "visual_confidence": "medium",
+      "action": "Review corresponding TRAIN examples; do not move val into train or auto-edit ambiguous labels",
+      "label_changed": false
+    }
+  ]
+}

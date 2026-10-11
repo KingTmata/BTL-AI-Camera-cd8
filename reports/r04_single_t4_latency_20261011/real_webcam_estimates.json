@@ -1,0 +1,50 @@
+{
+  "status": "estimate_not_measured",
+  "reference_gpu": "Tesla T4, one GPU",
+  "model": "R04",
+  "imgsz": 640,
+  "precision": "FP32",
+  "batch": 1,
+  "model_passes": 1,
+  "measured_mean_predict_nms_plot_ms": 14.771612525000707,
+  "measured_p95_predict_nms_plot_ms": 20.783358249997264,
+  "scenarios": [
+    {
+      "assumed_additional_overhead_ms": 5,
+      "estimated_mean_processing_ms": 19.771612525000705,
+      "estimated_p95_processing_ms": 25.783358249997264,
+      "estimated_processing_fps": 50.57756410791104,
+      "estimated_webcam_30fps": 30,
+      "estimated_webcam_60fps": 50.57756410791104
+    },
+    {
+      "assumed_additional_overhead_ms": 10,
+      "estimated_mean_processing_ms": 24.771612525000705,
+      "estimated_p95_processing_ms": 30.783358249997264,
+      "estimated_processing_fps": 40.36878903183036,
+      "estimated_webcam_30fps": 30,
+      "estimated_webcam_60fps": 40.36878903183036
+    },
+    {
+      "assumed_additional_overhead_ms": 20,
+      "estimated_mean_processing_ms": 34.771612525000705,
+      "estimated_p95_processing_ms": 40.783358249997264,
+      "estimated_processing_fps": 28.75909189661545,
+      "estimated_webcam_30fps": 28.75909189661545,
+      "estimated_webcam_60fps": 28.75909189661545
+    }
+  ],
+  "assumptions": [
+    "Serial processing; camera, processing and display caps bound delivered FPS.",
+    "Additional costs are hypothetical constants, not observed webcam overhead.",
+    "No unbounded frame backlog; estimates do not prove the current application implements latest-frame dropping.",
+    "Camera supplies requested 30/60 FPS; display is not a lower bottleneck.",
+    "No network transport. No conversion factor for RTX 5060 Laptop."
+  ],
+  "limitations": [
+    "Adding a constant to measured p95 is a scenario, not measured joint p95.",
+    "Frame acquisition phase, exposure, buffering, scheduling and presentation delay are not estimated as end-to-end latency.",
+    "Capture could overlap inference, or block it; actual application scheduling may differ.",
+    "Tracker complexity and CPU/GPU contention can change runtime."
+  ]
+}

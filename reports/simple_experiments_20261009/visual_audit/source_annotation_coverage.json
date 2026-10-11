@@ -1,0 +1,44 @@
+{
+  "items_in_room": {
+    "train_images": 364,
+    "labeled_boxes_by_class": {
+      "person": 0,
+      "table": 79,
+      "chair": 78,
+      "laptop": 113,
+      "cell phone": 96,
+      "backpack": 42,
+      "book": 0,
+      "bottle": 63
+    },
+    "coverage_alone_does_not_prove_missing_labels": true
+  },
+  "merged_3k_local": {
+    "train_images": 2426,
+    "labeled_boxes_by_class": {
+      "person": 0,
+      "table": 0,
+      "chair": 2845,
+      "laptop": 0,
+      "cell phone": 942,
+      "backpack": 0,
+      "book": 989,
+      "bottle": 0
+    },
+    "coverage_alone_does_not_prove_missing_labels": true
+  },
+  "celulares": {
+    "train_images": 772,
+    "labeled_boxes_by_class": {
+      "person": 0,
+      "table": 0,
+      "chair": 0,
+      "laptop": 0,
+      "cell phone": 1003,
+      "backpack": 0,
+      "book": 0,
+      "bottle": 0
+    },
+    "coverage_alone_does_not_prove_missing_labels": true
+  }
+}

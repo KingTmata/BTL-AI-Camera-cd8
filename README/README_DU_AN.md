@@ -1,3 +1,7 @@
+> **Dataset hiện hành08/10/2026:**v0.5 đủ15.000 ảnh (12.000train/2.500val/500test), tất cảfull_review_pending, chưatrainv05. Weight/metricv04 bên dưới làlịch sử. XemREADME gốc vàtasks/plan.md.
+
+> **Cập nhật v0.4 — 08/10/2026:** Recognition mặc định dùng `weights/BEST_Project8.pt`, alias của best v0.4 epoch 19. Tám nhãn hiện hành kết thúc bằng `bottle` (gộp cup+bottle). Dataset 12k: 9.540 train / 1.754 val / 706 test. Training local và exporter v0.3 vẫn dùng hợp đồng cũ `cup`; notebook v0.4 và `configs/data_v04.yaml` dành cho bộ mới. Các phần v0.3 bên dưới là lịch sử hoặc hướng dẫn cho bộ cũ.
+
 > **Đối soát 05/10/2026:** xem [trạng thái hiện hành](README.md#trạng-thái-theo-tuần). Dataset project8_v0.3 đã duyệt/khóa; R1 và R2 hoàn tất tổng 5 epoch. Những mô tả trước đó trong tài liệu là lịch sử hoặc đề xuất; G1/G2/G3 chưa đủ nghiệm thu toàn bộ.
 
 # BTL AI Camera — chạy, xem kết quả và chuẩn bị train

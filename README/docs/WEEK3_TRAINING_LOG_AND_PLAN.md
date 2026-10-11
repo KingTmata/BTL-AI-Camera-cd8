@@ -1,4 +1,6 @@
-> **Đối soát 05/10/2026:** xem [trạng thái hiện hành](../README.md#trạng-thái-theo-tuần). Dataset project8_v0.3 đã duyệt/khóa; R1 và R2 hoàn tất tổng 5 epoch. Những mô tả trước đó trong tài liệu là lịch sử hoặc đề xuất; G1/G2/G3 chưa đủ nghiệm thu toàn bộ.
+**Cập nhật v0.4 — 08/10/2026:** đã nhập ZIP full train 20/50 epoch; dùng `weights/BEST_Project8_v04_20261008.pt` (best epoch 19), alias `weights/BEST_Project8.pt`. Trainer 1280/NMS-free: 75,356% / 53,488%; cùng protocol COCO 640/NMS=True trên val v0.4: trước 47,593% / 31,047% → mới 70,706% / 50,694%. Trên val v0.3: 56,727% / 35,896% → 55,279% / 35,049%, nên giữ best cũ để đối chứng. Dataset mới 12.000 ảnh (9.540/1.754/706); ID 7 bottle gồm cup+bottle. Recognition đã đổi mapping; local Training/export v0.3 vẫn giữ riêng. [Báo cáo và AP từng lớp](../../README_DA_HOAN_THANH/reports/results/kaggle/project8_v04_12k_from_best50_20261008_151936/REPORT.md).
+
+> **Đối soát 08/10/2026:** [bảng đủ 50 epoch](../../README_DA_HOAN_THANH/reports/results/training_50_epochs_20261008/REPORT.md) và [run K3 đã kiểm](../../README_DA_HOAN_THANH/reports/results/kaggle/project8_26n_kaggle_20261008_040051/REPORT.md). Tổng 1+4+1+10+14+20 = **50 epoch trong 6 run**; best epoch 19 K3 ở `weights/BEST_Project8_20261008.pt`, alias `weights/BEST_Project8.pt` chứa cùng byte. Evaluator chung mAP50/mAP50–95 **56,727%/35,896%**. Các mục phía dưới giữ lịch sử từng thời điểm; G1/G2/G3 chưa đủ nghiệm thu toàn bộ.
 
 # Tuần 3 — Sổ theo dõi huấn luyện và kế hoạch quyết định
 
@@ -410,3 +412,53 @@ Backpack chỉ có 415 box train và Recall=0%; Precision=100% tại điểm đo
 R2 elapsed 16.982,656 giây (4 giờ 43 phút 02,7 giây); train phase 16.433,547 giây, validation theo epoch 351,625 giây, final validation 66,390 giây. Epoch R2 thứ hai có khoảng kéo dài/gián đoạn lớn, không coi elapsed là CPU tính toán thuần hoặc lấy trung bình này làm dự báo tốc độ. Peak RSS lấy mẫu 0,980 GiB; peak working set 1,186 GiB; RAM khả dụng thấp nhất 2,878 GiB. Backend Streamlit đã mở lại và kiểm health HTTP 200; các ghi nhận backend tắt phía trên thuộc thời điểm trước.
 
 Mục Nâng cao đã bổ sung vào Training, có giải nghĩa và xem trước cấu hình; mặc định không đổi. Xem TRIEN_KHAI_TUAN_3_TIEP_TUC.md. 48/48 kiểm thử đạt 05/10/2026. Không tạo thêm run trong lần cập nhật này.
+
+
+## R3 — dừng an toàn sau epoch 1 và nguồn Kaggle — 05/10/2026
+
+R3 dùng R2 best làm nguồn, CPU, `imgsz=768`, batch 4, epochs yêu cầu 5, workers 0, cache False, toàn bộ train, MuSGD lr0=.001, seed 42, `close_mosaic=10`, `resume=False`, `nms=False`. Theo yêu cầu, đã gửi dừng sau epoch. Worker hoàn tất validation epoch, lưu checkpoint, final validation và verification rồi đi terminal: `status=stopped`, `stop_after_epoch_accepted=true`, `epochs_completed=1`, `exit_code=0`, `checkpoints_verified=true`. Không kill, không mở lượt khác.
+
+| Mốc R3 | Giá trị |
+|---|---:|
+| Train | 1.770,219 giây |
+| Validation epoch | 124,094 giây |
+| Lưu checkpoint | 1,422 giây |
+| Final validation | 68,406 giây |
+| Tổng elapsed | 2.108,656 giây (35 phút 08,7 giây) |
+| Final P / R | 50,4715% / 33,3978% |
+| Final mAP50 / mAP50–95 | 29,5330% / 18,3409% |
+
+`best.pt` SHA-256 `4034b0ec824b2e9a5e5b945f4626dbbdf2bf506ac26e5575c73e240f4a52f5d3`; `last.pt` SHA-256 `508b351c9a4f92544095b215644da3b064cad3dcffaebc0050c6e888c7c16342`; `epoch0.pt` SHA-256 `87ced9f76dd6c9aeb9b9445d7f9bfb368b0e8d26b4e721f68bd5aa37aceb1b43`. Checkpoint verification ghi đủ đúng 8 lớp. Dataset và checkpoint nguồn R2 best không đổi.
+
+| Nguồn có thể chọn | SHA-256 | Kiểm cuối |
+|---|---|---|
+| R3 `weights/best.pt` | `4034b0ec824b2e9a5e5b945f4626dbbdf2bf506ac26e5575c73e240f4a52f5d3` | R3 stopped, exit 0, 1 epoch; đề xuất export |
+| R2 `weights/best.pt` | `fda6d7d32fc334c6df23919ce93c56916dc9c91432ed602cb2ea24849e30665c` | R2 completed, 4 epoch; nguồn trước R3 |
+
+Mặc định Colab đã được đổi sang Kaggle theo lựa chọn người dùng. Gợi ý một run Kaggle mới tối đa 5 epoch từ R3 best, `imgsz=768`, batch 4 nếu GPU đủ bộ nhớ, `close_mosaic=2` để augmentation hoạt động ba epoch đầu. CPU dùng batch 2/imgsz 640 nếu hạn chế tài nguyên. Đây là fine-tune mới, reset optimizer; không phải resume. Chấm baseline pretrained và fine-tuned trên cùng validation protocol NMS trước khi kết luận; không dùng test.
+
+Không dự báo nhanh hơn bao nhiêu lần và chưa xác nhận Kaggle GPU thực. Hướng dẫn, notebook và export: [Kaggle handoff](KAGGLE_TRAINING_HANDOFF.md). Không sửa file root `TRIEN_KHAI_TUAN_3_TIEP_TUC.md`.
+
+## Kaggle — hoàn thành 10 epoch và nhập kết quả — 05/10/2026
+
+Run `project8_26n_kaggle_20261005_092653` dùng R3 best, T4 x2 (`device=0,1`), imgsz yêu cầu 1080/thực 1088, batch tổng 4, workers 2/rank, cache False, close_mosaic=5, MuSGD lr0=.001, seed42, resume=False. Dataset 3.883 train/798 val giữ nguyên; không dùng test. CSV đủ 10 epoch hữu hạn, trung bình train+val 156,520 giây/epoch. Best sau epoch 9, last sau epoch 10; đã kiểm tensor đối chiếu với epoch8/epoch9.
+
+Đánh giá COCO bbox cùng protocol 640/conf=.001/IoU=.70/NMS=True trên val: pretrained mAP50/mAP50–95 **28,18%/18,89%**, best **47,78%/28,62%** (tăng **19,60/9,72 điểm %**). Tách khỏi final trainer 1088/NMS-free **43,8%/26,5%**. Person/table/book/cell phone tăng rõ; laptop/backpack/cup giảm so baseline ở protocol chung, cần kiểm ảnh lỗi. Chưa kết luận model hoàn thiện hay đo FPS.
+
+Đã tải full archive 166.119.984 byte và result ZIP 4.858.177 byte, xác minh hash cloud, 44 file payload và đủ best/last/epoch0–epoch9 đúng 8 lớp. Model đã nhập `weights/kaggle/project8_26n_kaggle_20261005_092653_fd9cb282f05f.pt`. Best/last đã strip optimizer; epoch files còn optimizer. Kaggle draft vẫn có ConcurrencyViolation; dữ liệu local an toàn nhưng chưa xác nhận version cloud persist. Không train thêm, đổi dữ liệu hoặc dùng test.
+
+Báo cáo, bảng đủ epoch và hướng đi tiếp: [REPORT.md](../../reports/results/kaggle/project8_26n_kaggle_20261005_092653/REPORT.md). Checkpoint và full ZIP tại `runs/kaggle/project8_26n_kaggle_20261005_092653/`; metrics/plots tại `reports/results/kaggle/project8_26n_kaggle_20261005_092653/`.
+
+## Kaggle — fine-tune hoàn tất 14 epoch — 06/10/2026
+
+Run project8_26n_kaggle_20261006_083226 fine-tune từ checkpoint best run 05/10 (SHA-256 fd9cb282f05f0053166174e6c8d13221f7bfff54e8f06673b21bf8134951a3a8), resume=False. Runtime ghi GPU 2× T4, imgsz 1280, batch tổng 16, 14 epoch, workers 2/rank, cache False, MuSGD lr0=.001, seed 42, close_mosaic=5. Augmentation: mosaic=.5, fliplr=.5, flipud=0, degrees=0, translate=.1, scale=.5, mixup=0, cutmix=0. Dataset giữ nguyên 3.883 train/798 val; không dùng 321 ảnh test.
+
+Đã tải result ZIP 4.877.504 byte, SHA-256 1bd9b9ffa191f68dcf70c7ee6391b5685549962149ef49dbab0fdc2cee9e375d; hash và kích thước của 6 payload trong FILES.json đều khớp. Checkpoint K2 hiện được lưu tại weights/kaggle/BEST_Project8_20261006.pt, SHA-256 ad136a17611ff29fd5b4dc39bed7826706a08c8d5283f63f7af8fefc8860eddf; Ultralytics local nạp được task detect, đúng tám lớp. ZIP nguyên vẹn được lưu trong runs/kaggle/project8_26n_kaggle_20261006_083226/.
+
+Đối chứng chung trên val 798 ảnh, bbox/imgsz640/conf=.001/IoU=.70/NMS=True/max_det=300: pretrained mAP50/mAP50–95 **28,18%/18,89%**, tuned best **53,85%/33,85%**, tăng **25,67/14,95 điểm %**. Không trộn với trainer metrics ở 1280/NMS-free (epoch cuối P=58,718%, R=54,028%, mAP50=56,546%, mAP50–95=35,617%). Backpack/cup giảm nhẹ trong evaluator chung; laptop AP50 tăng nhưng AP50–95 giảm. Chưa kiểm false positive/negative theo ảnh, test độc lập, FPS hoặc nghiệm thu triển khai.
+
+Báo cáo đủ protocol, AP từng lớp, bảng từng epoch và file nào cần giữ: [REPORT.md](../../README_DA_HOAN_THANH/reports/results/kaggle/project8_26n_kaggle_20261006_083226/REPORT.md). Chỉ cần best.pt để inference; giữ ZIP nếu cần cấu hình, metrics và bằng chứng hash. ZIP không có last.pt/dataset, vì vậy không thể resume optimizer từ run đã hoàn thành chỉ bằng ZIP.
+
+## Kaggle — fine-tune hoàn tất 20 epoch — 08/10/2026
+
+K3 học từ K2 best, resume=False, 1280/batch16/T4×2/MuSGD/lr0=0.001. Đã tải và kiểm result ZIP 7 file, best/last, log; best epoch 19 khác last epoch 20. Chọn `weights/BEST_Project8_20261008.pt`. Cùng evaluator với K2, cả 8 lớp tăng AP; mAP50/mAP50–95 tăng 2,879/2,049 điểm %. [Báo cáo và đủ 20 dòng](../../README_DA_HOAN_THANH/reports/results/kaggle/project8_26n_kaggle_20261008_040051/REPORT.md) · [bảng 50 epoch](../../README_DA_HOAN_THANH/reports/results/training_50_epochs_20261008/REPORT.md).

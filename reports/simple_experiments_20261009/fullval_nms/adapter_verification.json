@@ -1,0 +1,7 @@
+{
+  "images": 300,
+  "same_kept_counts_and_class_score_pairs": true,
+  "reference": "fullval greedy class-aware NMS 0.6",
+  "kept_predictions": 2985,
+  "head_switch": false
+}

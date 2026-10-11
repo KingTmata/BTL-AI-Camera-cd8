@@ -1,0 +1,25 @@
+{
+  "updated": "2026-10-11",
+  "purpose": "Live webcam: accurate and fast",
+  "model_passes_per_processed_frame": 1,
+  "training_authorized": false,
+  "latency_target_ms": 100,
+  "latency_priority": 1,
+  "quality_priority": 2,
+  "quality_metrics": ["mAP50", "mAP50_95", "F1", "precision", "recall"],
+  "decision_rule": "Use measured latency as a feasibility constraint. Prefer the best mAP and F1 among feasible candidates; do not choose the smallest latency at the cost of a large F1 loss. Report p95 and over-budget frames separately. A numerical acceptable F1 loss has not been specified.",
+  "sizes": [512, 640, 768, 960],
+  "provisional_candidate": "R04 640, one forward, class-aware NMS IoU0.6, confidence0.25",
+  "provisional_only": true,
+  "final_selection_requires": "User now requires all11 campaign models. No final winner until all11 verified checkpoints have been evaluated at the requested sizes.",
+  "reason": "CPU replay p95 82.48ms versus 75.79ms at512, but F1 at640 is higher by7.09 percentage points. Full webcam and other-checkpoint comparison still required.",
+  "evaluation_status": {
+    "R04_CPU_full_validation_sizes": [512, 640, 768, 960],
+    "R04_Kaggle_full_validation_sizes": [512, 640, 768, 960],
+    "baseline_Kaggle_full_validation_sizes": [512, 640, 768, 960],
+    "robustness_and_resources": "complete for R04 at four sizes",
+    "live_webcam": "unavailable: camera0 could not be opened",
+    "all_R01_to_R11": "incomplete: missing verified checkpoints",
+    "confidence_sweep": "complete from cached validation predictions; candidate confidence remains0.25 because new confidence runtime has not been measured"
+  }
+}

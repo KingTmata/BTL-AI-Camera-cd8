@@ -1,0 +1,20 @@
+{
+  "automatic_train_images_checked": 12000,
+  "new_visual_sample": 36,
+  "confirmed_visual_exclusions": 27,
+  "structural_pending_images": 6,
+  "unique_train_images_held": 33,
+  "candidate_train_images": 11967,
+  "full_visual_review_complete": false,
+  "training_ready": false,
+  "original_dataset_modified": false,
+  "application_config_modified": false,
+  "validation_or_test_removed": false,
+  "next_training_imgsz": 640,
+  "next_training_branches": [
+    "continue from existing project YOLO26n checkpoint only"
+  ],
+  "note": "Candidate list only, NOT a reviewed dataset or activated training configuration. Hard images retained unless confirmed label error. Source-targeted sample cannot estimate full dataset error rate.",
+  "fresh_pretrained_training_authorized": false,
+  "user_direction": "Do not retrain from pretrained; develop existing checkpoint only, imgsz640"
+}

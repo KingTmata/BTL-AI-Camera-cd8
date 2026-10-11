@@ -1,0 +1,67 @@
+{
+  "status": "complete",
+  "files": [
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\.temp\\r04_single_t4_latency.py",
+      "bytes": 4590,
+      "sha256": "5038890ea076d51370c2a84843e90797d4eb0ab33d028bceb196054dbcb70882",
+      "reason": "Exact benchmark source preserved in report scripts",
+      "preserved_as": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\r04_single_t4_latency_20261011\\scripts\\r04_single_t4_latency.py"
+    },
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\.temp\\r04_single_t4_latency_extended.py",
+      "bytes": 2701,
+      "sha256": "074f29e70ffcc03dcf59ce98536468591782de11b6b2d262cce0e435f7b1fe70",
+      "reason": "Exact benchmark source preserved in report scripts",
+      "preserved_as": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\r04_single_t4_latency_20261011\\scripts\\r04_single_t4_latency_extended.py"
+    },
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\.temp\\write_r04_t4_report.py",
+      "bytes": 6271,
+      "sha256": "74453db609db54039ac2b9f53dc1daf81e1a6b7fd10819060b5fd52e9b171112",
+      "reason": "One-off report generator; outputs and original numerical measurements preserved"
+    },
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\.temp\\estimate_r04_real_webcam.py",
+      "bytes": 5352,
+      "sha256": "da801233a2cc48ad3f280c68b816d0430842597469e98acc604924023dfba085",
+      "reason": "One-off report generator; outputs and original numerical measurements preserved"
+    },
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\.temp\\all11_validation_bundle.zip",
+      "bytes": 4859893,
+      "sha256": "622b0facdd7bd316626274b6884cc2b4a04c5530e5952a3ffd16269faf8e0752",
+      "reason": "Redundant upload ZIP; every archive member verified byte-identical to retained local source",
+      "preserved_members": {
+        "R01_inference.pt.bin": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\.temp\\all11_validation\\R01_inference.pt",
+        "all11_input_manifest.json": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\.temp\\all11_validation\\all11_input_manifest.json",
+        "R04_existing_gpu_results.json": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\.temp\\all11_validation\\R04_existing_gpu_results.json",
+        "kaggle_all11_validation.py": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\.temp\\all11_validation\\kaggle_all11_validation.py"
+      }
+    },
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\.temp\\R04_sizes_eval_bundle.zip",
+      "bytes": 4856369,
+      "sha256": "f2a87e0037c468fac16be27dae3240cd51ab9f44882df0b69cf245189ca210e6",
+      "reason": "Redundant upload ZIP; every archive member verified byte-identical to retained local source",
+      "preserved_members": {
+        "R04_inference.pt.bin": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\.temp\\R04_inference.pt",
+        "kaggle_sizes_cell.py": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\.temp\\kaggle_sizes_cell.py",
+        "R04_inference_metadata.json": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\r04_single_t4_latency_20261011\\input_provenance\\R04_inference_metadata.json"
+      }
+    },
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\.temp\\__pycache__\\simple_experiments_20261009.cpython-311.pyc",
+      "bytes": 24910,
+      "sha256": "ef681a597918af15f19a81ad3f0ba587a97d2d4e1292077cbb8ab573dfc49506",
+      "reason": "Regenerable Python bytecode cache"
+    }
+  ],
+  "total_bytes": 9760086,
+  "preserve": [
+    "all checkpoints and original datasets",
+    "historical experiment results",
+    "raw latency samples and validation caches",
+    "existing user changes"
+  ]
+}

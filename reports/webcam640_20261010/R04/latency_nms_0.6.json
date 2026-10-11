@@ -1,0 +1,15 @@
+{
+  "images": 40,
+  "warmup_images": 5,
+  "imgsz": 640,
+  "device": "cpu",
+  "torch_threads": 4,
+  "conf": 0.25,
+  "model_passes": 1,
+  "nms_iou": 0.6,
+  "total_predict_and_nms_ms_p50": 48.87204999977257,
+  "total_predict_and_nms_ms_p95": 60.694055002386435,
+  "extra_nms_ms_p50": 0.42025000584544614,
+  "extra_nms_ms_p95": 1.4365249917318579,
+  "note": "Real validation image replay; excludes capture, tracker, drawing, UI. Not live webcam FPS."
+}

@@ -1,0 +1,84 @@
+{
+  "status": "complete",
+  "device": "cpu",
+  "threads": 4,
+  "conf": 0.25,
+  "nms_iou": 0.6,
+  "model_passes_per_processed_image": 1,
+  "training_executed": false,
+  "test_used": false,
+  "checkpoint_sha256": {
+    "R01": "3323fb2f72a91e2b827d4d7dc696fa66e57ed168d6e138e9e8af9a7c41ee5ece",
+    "R04": "087eaca77696eb323464f4294fce43b877de430e0bb26efb55e18322a3c02758"
+  },
+  "images": 40,
+  "repeats": 3,
+  "random_interleaved": true,
+  "results": {
+    "R01_512": {
+      "measurements": 120,
+      "p50_ms": 48.81949999980861,
+      "p95_ms": 69.70331000557053,
+      "over100ms_count": 1,
+      "offline_serial_throughput_fps": 19.529890155254165,
+      "process_rss_peak_MiB": 661.3359375
+    },
+    "R01_640": {
+      "measurements": 120,
+      "p50_ms": 61.85169999662321,
+      "p95_ms": 97.4598400069226,
+      "over100ms_count": 5,
+      "offline_serial_throughput_fps": 15.398390231866896,
+      "process_rss_peak_MiB": 659.87109375
+    },
+    "R01_768": {
+      "measurements": 120,
+      "p50_ms": 78.14875000622123,
+      "p95_ms": 109.37325499689905,
+      "over100ms_count": 14,
+      "offline_serial_throughput_fps": 12.347288605792693,
+      "process_rss_peak_MiB": 659.91015625
+    },
+    "R01_960": {
+      "measurements": 120,
+      "p50_ms": 114.6373500014306,
+      "p95_ms": 172.60468499807757,
+      "over100ms_count": 87,
+      "offline_serial_throughput_fps": 8.465590608763979,
+      "process_rss_peak_MiB": 669.1171875
+    },
+    "R04_512": {
+      "measurements": 120,
+      "p50_ms": 49.24695000227075,
+      "p95_ms": 69.24820000276667,
+      "over100ms_count": 1,
+      "offline_serial_throughput_fps": 19.639831351980828,
+      "process_rss_peak_MiB": 661.3359375
+    },
+    "R04_640": {
+      "measurements": 120,
+      "p50_ms": 62.225599998782855,
+      "p95_ms": 91.3364400039427,
+      "over100ms_count": 3,
+      "offline_serial_throughput_fps": 15.687891285421703,
+      "process_rss_peak_MiB": 657.9453125
+    },
+    "R04_768": {
+      "measurements": 120,
+      "p50_ms": 80.79124999494525,
+      "p95_ms": 115.36949499495674,
+      "over100ms_count": 17,
+      "offline_serial_throughput_fps": 12.12760729041541,
+      "process_rss_peak_MiB": 659.91015625
+    },
+    "R04_960": {
+      "measurements": 120,
+      "p50_ms": 112.15739999897778,
+      "p95_ms": 167.35013499855995,
+      "over100ms_count": 85,
+      "offline_serial_throughput_fps": 8.661954471999353,
+      "process_rss_peak_MiB": 669.1171875
+    }
+  },
+  "note": "Predict+NMS+plot, predecoded validation images; excludes capture,tracker,UI. Both models resident in same process; RSS not individual model memory."
+}

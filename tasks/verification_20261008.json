@@ -1,0 +1,357 @@
+{
+  "date_local": "2026-10-08",
+  "timezone": "Asia/Saigon",
+  "purpose": "Read-only verification for development plan; not visual full review or inference rerun",
+  "latest_confirmed_targets": {
+    "unique_images": 15000,
+    "additions": 3000,
+    "train": 12000,
+    "val": 2500,
+    "test": 500,
+    "full_visual_review_images_before_training": 15000,
+    "migration_plan_not_executed": true
+  },
+  "manifest_sha256": "03a5e12eecb751f69ff81990201e6f4fc026b9a1ef036fbe96f10264608a0955",
+  "rows": 12000,
+  "unique_image_hash_values_in_manifest": 12000,
+  "unique_pixel_hash_values_in_manifest": 12000,
+  "actual_all_image_hashes_recomputed": false,
+  "images": {
+    "train": 9540,
+    "val": 1754,
+    "test": 706
+  },
+  "boxes": {
+    "train": {
+      "0": 7449,
+      "4": 4861,
+      "1": 2352,
+      "2": 2178,
+      "3": 1266,
+      "7": 3265,
+      "6": 5427,
+      "5": 1645
+    },
+    "val": {
+      "0": 1443,
+      "7": 578,
+      "1": 241,
+      "4": 1139,
+      "2": 339,
+      "5": 408,
+      "3": 274,
+      "6": 2439
+    },
+    "test": {
+      "6": 720,
+      "3": 144,
+      "4": 569,
+      "1": 100,
+      "2": 54,
+      "0": 335,
+      "5": 189,
+      "7": 38
+    }
+  },
+  "class_images": {
+    "train": {
+      "0": 1264,
+      "4": 3138,
+      "1": 1044,
+      "2": 1268,
+      "3": 788,
+      "7": 1891,
+      "6": 790,
+      "5": 1417
+    },
+    "val": {
+      "0": 278,
+      "7": 402,
+      "1": 123,
+      "4": 522,
+      "2": 171,
+      "5": 346,
+      "3": 175,
+      "6": 262
+    },
+    "test": {
+      "6": 142,
+      "3": 88,
+      "4": 305,
+      "1": 35,
+      "2": 46,
+      "0": 44,
+      "5": 169,
+      "7": 11
+    }
+  },
+  "negative_label_files_by_split": {
+    "train": 0,
+    "val": 0,
+    "test": 0
+  },
+  "checks": {
+    "label_files_read": 12000,
+    "manifest_box_mismatches": 0,
+    "syntax_id_normalized_range_or_nonpositive_size_issues": 0
+  },
+  "input_groups": {
+    "base": {
+      "train": 3827,
+      "val": 779,
+      "test": 313
+    },
+    "addition1": {
+      "test": 247,
+      "train": 2428,
+      "val": 424
+    },
+    "addition2": {
+      "test": 146,
+      "train": 3285,
+      "val": 551
+    }
+  },
+  "review_status": {
+    "approved": 4919,
+    "requires_full_class_review": 7081
+  },
+  "approved_with_literal_pending_note": 487,
+  "weights": {
+    "BEST_Project8.pt": {
+      "bytes": 15725347,
+      "sha256": "d6fa68a79abd7eebfc91724c683d2cfd0c2ace6f6623a019fbef44729bf47adb"
+    },
+    "BEST_Project8_v04_20261008.pt": {
+      "bytes": 15725347,
+      "sha256": "d6fa68a79abd7eebfc91724c683d2cfd0c2ace6f6623a019fbef44729bf47adb"
+    },
+    "BEST_Project8_20261008.pt": {
+      "bytes": 5547077,
+      "sha256": "d4244d26e69d78a066944b22ba64f80ea68602f2f994d6cf6bbae7970ff123f9"
+    }
+  },
+  "zip_crc_check_in_this_session": {
+    "entries": 29,
+    "bad_entry": null
+  },
+  "training_csv_rows": 20,
+  "best_csv_epoch_by_map50_95": 19,
+  "saved_evaluations": [
+    {
+      "dataset": "v03",
+      "before": {
+        "mAP50_95": 0.3589612713912283,
+        "mAP50": 0.5672698373630779,
+        "per_class": {
+          "person": {
+            "AP50_95": 0.5474225751944579,
+            "AP50": 0.8414295575933606,
+            "GT_boxes": 1242
+          },
+          "table": {
+            "AP50_95": 0.505689434857473,
+            "AP50": 0.7443273155491351,
+            "GT_boxes": 222
+          },
+          "chair": {
+            "AP50_95": 0.38746712259178234,
+            "AP50": 0.5497850930504614,
+            "GT_boxes": 290
+          },
+          "laptop": {
+            "AP50_95": 0.587716116582209,
+            "AP50": 0.8431363498006095,
+            "GT_boxes": 279
+          },
+          "cell phone": {
+            "AP50_95": 0.1641171904000725,
+            "AP50": 0.3554659782140038,
+            "GT_boxes": 579
+          },
+          "backpack": {
+            "AP50_95": 0.12001502900118911,
+            "AP50": 0.2556827848771921,
+            "GT_boxes": 110
+          },
+          "book": {
+            "AP50_95": 0.3370495925805342,
+            "AP50": 0.6146337307722219,
+            "GT_boxes": 2458
+          },
+          "cup": {
+            "AP50_95": 0.22221310992210827,
+            "AP50": 0.3336978890476388,
+            "GT_boxes": 202
+          }
+        },
+        "images": 798,
+        "GT_boxes": 5382,
+        "negative_images": 0,
+        "predictions": 90342
+      },
+      "after": {
+        "mAP50_95": 0.35049191506127086,
+        "mAP50": 0.5527865335995862,
+        "per_class": {
+          "person": {
+            "AP50_95": 0.5361638410176779,
+            "AP50": 0.8264762040110639,
+            "GT_boxes": 1242
+          },
+          "table": {
+            "AP50_95": 0.5189440705062237,
+            "AP50": 0.7622155386309242,
+            "GT_boxes": 222
+          },
+          "chair": {
+            "AP50_95": 0.39895212852227346,
+            "AP50": 0.5421571138536248,
+            "GT_boxes": 290
+          },
+          "laptop": {
+            "AP50_95": 0.5558436623815024,
+            "AP50": 0.8161128403212272,
+            "GT_boxes": 279
+          },
+          "cell phone": {
+            "AP50_95": 0.16436229560873494,
+            "AP50": 0.3592663361760392,
+            "GT_boxes": 579
+          },
+          "backpack": {
+            "AP50_95": 0.08501413654979734,
+            "AP50": 0.1752939300267409,
+            "GT_boxes": 110
+          },
+          "book": {
+            "AP50_95": 0.36432203993789375,
+            "AP50": 0.6484139577072153,
+            "GT_boxes": 2458
+          },
+          "cup": {
+            "AP50_95": 0.18033314596606356,
+            "AP50": 0.29235634806985406,
+            "GT_boxes": 202
+          }
+        },
+        "images": 798,
+        "GT_boxes": 5382,
+        "negative_images": 0,
+        "predictions": 85296
+      },
+      "mAP50_delta_pp": -1.4483303763491717,
+      "mAP50_95_delta_pp": -0.8469356329957434
+    },
+    {
+      "dataset": "v04",
+      "before": {
+        "mAP50_95": 0.3104715685920162,
+        "mAP50": 0.4759318834084204,
+        "per_class": {
+          "person": {
+            "AP50_95": 0.4022852437807691,
+            "AP50": 0.6251849154243809,
+            "GT_boxes": 1443
+          },
+          "table": {
+            "AP50_95": 0.40494688846209154,
+            "AP50": 0.5777848078393879,
+            "GT_boxes": 241
+          },
+          "chair": {
+            "AP50_95": 0.3198344343799158,
+            "AP50": 0.43993160003714027,
+            "GT_boxes": 339
+          },
+          "laptop": {
+            "AP50_95": 0.5581388055557519,
+            "AP50": 0.8020370800316443,
+            "GT_boxes": 274
+          },
+          "cell phone": {
+            "AP50_95": 0.10782325736070923,
+            "AP50": 0.22768399692029198,
+            "GT_boxes": 1139
+          },
+          "backpack": {
+            "AP50_95": 0.13053773935817525,
+            "AP50": 0.22631322588695377,
+            "GT_boxes": 408
+          },
+          "book": {
+            "AP50_95": 0.3257228165857375,
+            "AP50": 0.5929251730416862,
+            "GT_boxes": 2439
+          },
+          "bottle": {
+            "AP50_95": 0.23448336325297914,
+            "AP50": 0.31559426808587804,
+            "GT_boxes": 578
+          }
+        },
+        "images": 1754,
+        "GT_boxes": 6861,
+        "negative_images": 0,
+        "predictions": 139534
+      },
+      "after": {
+        "mAP50_95": 0.5069440671210287,
+        "mAP50": 0.7070604262245807,
+        "per_class": {
+          "person": {
+            "AP50_95": 0.49713932516672366,
+            "AP50": 0.7752116357834552,
+            "GT_boxes": 1443
+          },
+          "table": {
+            "AP50_95": 0.503558447730605,
+            "AP50": 0.7396214095841582,
+            "GT_boxes": 241
+          },
+          "chair": {
+            "AP50_95": 0.41726494643620754,
+            "AP50": 0.5780628364923259,
+            "GT_boxes": 339
+          },
+          "laptop": {
+            "AP50_95": 0.5474665928599162,
+            "AP50": 0.8020358384961215,
+            "GT_boxes": 274
+          },
+          "cell phone": {
+            "AP50_95": 0.3020583041760413,
+            "AP50": 0.49881110312025745,
+            "GT_boxes": 1139
+          },
+          "backpack": {
+            "AP50_95": 0.6915311535793855,
+            "AP50": 0.7991571352385312,
+            "GT_boxes": 408
+          },
+          "book": {
+            "AP50_95": 0.3640121112435775,
+            "AP50": 0.6473823615490718,
+            "GT_boxes": 2439
+          },
+          "bottle": {
+            "AP50_95": 0.7325216557757729,
+            "AP50": 0.8162010895327236,
+            "GT_boxes": 578
+          }
+        },
+        "images": 1754,
+        "GT_boxes": 6861,
+        "negative_images": 0,
+        "predictions": 111461
+      },
+      "mAP50_delta_pp": 23.112854281616023,
+      "mAP50_95_delta_pp": 19.64724985290125
+    }
+  ],
+  "reran_inference_or_coco_ap": false,
+  "visual_reviews_performed_this_session": 0,
+  "near_duplicate_scene_independence_verified": false,
+  "health_attempt": "Socket permission denied in environment; backend status not reverified; process untouched",
+  "mutations": "Only new planning documents/evidence under tasks; no code, labels, split, weights, or backend changes"
+}

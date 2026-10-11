@@ -1,0 +1,17 @@
+{
+  "cpu_fp32": {
+    "estimated_serial_processing_fps": 14.483248145477425,
+    "inverse_p95_rate": 12.638209899469853,
+    "webcam_measured": false
+  },
+  "t4_fp32": {
+    "estimated_serial_processing_fps": 67.69741612891055,
+    "inverse_p95_rate": 48.11541946067025,
+    "webcam_measured": false
+  },
+  "t4_fp16": {
+    "estimated_serial_processing_fps": 47.08391945900459,
+    "inverse_p95_rate": 46.76003592179326,
+    "webcam_measured": false
+  }
+}

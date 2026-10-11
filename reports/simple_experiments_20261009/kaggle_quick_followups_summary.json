@@ -1,0 +1,20 @@
+{
+  "source": "completed Kaggle draft cell output, common GPU validation; no checkpoint hash yet",
+  "status": "training_and_common_eval_complete",
+  "nms_confirmation": "not_run",
+  "target_mAP50": 0.8,
+  "timestamp": "20261009_180315",
+  "baseline_mAP50": 0.7470987622615815,
+  "runs": {
+    "L1A1_half_lr_light_aug": {
+      "mAP50": 0.7548444225044255,
+      "delta_mAP50_percentage_points": 0.7745660242844066,
+      "completed_epochs": 2
+    },
+    "L2A0_low_lr_base_aug": {
+      "mAP50": 0.7542292669693419,
+      "delta_mAP50_percentage_points": 0.7130504707760443,
+      "completed_epochs": 2
+    }
+  }
+}

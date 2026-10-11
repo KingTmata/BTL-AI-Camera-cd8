@@ -1,0 +1,146 @@
+{
+  "status": "complete",
+  "checkpoint": "weights\\campaign_20261010\\BEST_Project8_v05.pt",
+  "checkpoint_sha256": "087eaca77696eb323464f4294fce43b877de430e0bb26efb55e18322a3c02758",
+  "manifest_sha256": "22a0140ab5e4d454d7e0c46ab24145c6d52d8b949db67ab8142fdd3bb8bb9ccd",
+  "protocol": {
+    "data": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\webcam_sizes_20261010\\R04\\512\\validation_data.yaml",
+    "split": "val",
+    "imgsz": 512,
+    "batch": 8,
+    "device": "cpu",
+    "workers": 0,
+    "conf": 0.001,
+    "iou": 0.7,
+    "max_det": 300,
+    "rect": true,
+    "quantize": null,
+    "nms": false,
+    "augment": false,
+    "plots": false
+  },
+  "validation_images": 2500,
+  "validation_boxes": 8359,
+  "test_used": false,
+  "training_executed": false,
+  "full_visual_review_complete": false,
+  "results": {
+    "native": {
+      "mAP50": 0.6310730045575009,
+      "mAP50_95": 0.4393306950693846,
+      "precision_evaluator": 0.738830289786459,
+      "recall_evaluator": 0.5682182826676425,
+      "per_class": {
+        "person": {
+          "AP50": 0.667425567637151,
+          "AP50_95": 0.39053341458912005
+        },
+        "table": {
+          "AP50": 0.6634627676787297,
+          "AP50_95": 0.4208398733373606
+        },
+        "chair": {
+          "AP50": 0.5764180482337117,
+          "AP50_95": 0.3880657052909317
+        },
+        "laptop": {
+          "AP50": 0.7360034921123564,
+          "AP50_95": 0.498273147020227
+        },
+        "cell phone": {
+          "AP50": 0.427750764731246,
+          "AP50_95": 0.25857347405664416
+        },
+        "backpack": {
+          "AP50": 0.7927799527174293,
+          "AP50_95": 0.6772655716196075
+        },
+        "book": {
+          "AP50": 0.4208336686693241,
+          "AP50_95": 0.21426606371594614
+        },
+        "bottle": {
+          "AP50": 0.7639097746800593,
+          "AP50_95": 0.6668283109252401
+        }
+      },
+      "cache_parity": true,
+      "validator_speed_ms": {
+        "preprocess": 0.6796000399801414,
+        "inference": 27.761784880037883,
+        "loss": 0.0002566399925854057,
+        "postprocess": 0.28861163997207767
+      },
+      "fixed_conf_0.25_IoU0.5_micro": {
+        "tp": 4155,
+        "fp": 2026,
+        "fn": 4204,
+        "precision": 0.6722213234104514,
+        "recall": 0.4970690273956215,
+        "F1": 0.5715268225584594
+      }
+    },
+    "nms_0.6": {
+      "mAP50": 0.6528066605524667,
+      "mAP50_95": 0.44339248629241296,
+      "precision_evaluator": 0.7598069672545344,
+      "recall_evaluator": 0.5925953992319336,
+      "per_class": {
+        "person": {
+          "AP50": 0.6973433975092822,
+          "AP50_95": 0.39602370918563146
+        },
+        "table": {
+          "AP50": 0.6790020895459008,
+          "AP50_95": 0.42456486235831176
+        },
+        "chair": {
+          "AP50": 0.5985776176403311,
+          "AP50_95": 0.39282808957523113
+        },
+        "laptop": {
+          "AP50": 0.7570136661165745,
+          "AP50_95": 0.5012917064780853
+        },
+        "cell phone": {
+          "AP50": 0.44832766397291723,
+          "AP50_95": 0.2626944069637818
+        },
+        "backpack": {
+          "AP50": 0.8008932216988393,
+          "AP50_95": 0.675903084801908
+        },
+        "book": {
+          "AP50": 0.4610324987981896,
+          "AP50_95": 0.22362139371457895
+        },
+        "bottle": {
+          "AP50": 0.7802631291376991,
+          "AP50_95": 0.6702126372617745
+        }
+      },
+      "fixed_conf_0.25_IoU0.5_micro": {
+        "tp": 4150,
+        "fp": 1470,
+        "fn": 4209,
+        "precision": 0.7384341637010676,
+        "recall": 0.49647086972125853,
+        "F1": 0.5937477645038988
+      }
+    }
+  },
+  "latency_batch1_replay": {
+    "images": 40,
+    "warmup_images": 5,
+    "imgsz": 512,
+    "device": "cpu",
+    "torch_threads": 4,
+    "conf": 0.25,
+    "model_passes": 1,
+    "total_predict_ms_p50": 42.99880000326084,
+    "total_predict_ms_p95": 59.659184994961834,
+    "inference_ms_p50": 40.413900002022274,
+    "inference_ms_p95": 56.81211999981315,
+    "note": "Real validation image replay; excludes capture, tracker, drawing, UI. Not webcam FPS; no TTA, no extra NMS in timed predict."
+  }
+}

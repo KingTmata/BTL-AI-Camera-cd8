@@ -1,0 +1,47 @@
+{
+  "status": "complete",
+  "protocol": {
+    "images": 2500,
+    "GT_boxes": 8359,
+    "metrics": "Ultralytics8.4.165 DetectionValidator._process_batch + DetMetrics.process",
+    "coordinates": "native original image xyxy",
+    "predictions": "same cached CPU FP32 rect batch1, imgsz1280, conf.001, max_det300, end2end",
+    "not_identical_to_Kaggle_FP16_batch8": true,
+    "threshold_selection": "0.6 selected on 300 images of same validation; no independent test"
+  },
+  "results": {
+    "baseline": {
+      "mAP50": 0.7469022489433605,
+      "mAP50_95": 0.532638571745013,
+      "precision": 0.789195980416475,
+      "recall": 0.6718318380062183,
+      "per_class_AP50": {
+        "person": 0.8223347942178851,
+        "table": 0.7569471074285392,
+        "chair": 0.5923764355799382,
+        "laptop": 0.7409747318848472,
+        "cell phone": 0.6774231878502065,
+        "backpack": 0.8225850790113667,
+        "book": 0.7163279247249161,
+        "bottle": 0.8462487308491851
+      }
+    },
+    "nms06": {
+      "mAP50": 0.7671521720787461,
+      "mAP50_95": 0.5355029026367193,
+      "precision": 0.8006020890933949,
+      "recall": 0.6927173630888777,
+      "per_class_AP50": {
+        "person": 0.8413373038564237,
+        "table": 0.7750423378651016,
+        "chair": 0.6134196316213667,
+        "laptop": 0.7580418328554761,
+        "cell phone": 0.7115363301075108,
+        "backpack": 0.8400302911877002,
+        "book": 0.7396499581046214,
+        "bottle": 0.8581596910317681
+      }
+    }
+  },
+  "delta_mAP50_percentage_points": 2.024992313538554
+}

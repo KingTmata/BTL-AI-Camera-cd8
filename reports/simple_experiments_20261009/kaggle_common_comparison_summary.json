@@ -1,0 +1,52 @@
+{
+  "status": "complete",
+  "source": "Kaggle Version6 pilot_comparison.json visible file preview",
+  "url": "https://www.kaggle.com/code/awm3636/project8-v05-fast-archive-from-best-v04/output?scriptVersionId=356731163",
+  "parent_sha256": "92adfeb2516861a6958e8adc4a15cf764faa3956078da1ebc81db1fbb7014e31",
+  "manifest_sha256": "22a0140ab5e4d454d7e0c46ab24145c6d52d8b949db67ab8142fdd3bb8bb9ccd",
+  "unavailable_runs": [
+    "L0A0_control"
+  ],
+  "protocol": {
+    "images": 2500,
+    "imgsz": 1280,
+    "batch": 8,
+    "device": 0,
+    "conf": 0.001,
+    "iou": 0.7,
+    "nms": false,
+    "max_det": 300,
+    "augment": false,
+    "rect": true,
+    "quantize": 16,
+    "workers": 2
+  },
+  "runs": {
+    "BEST_v05_before": {
+      "checkpoint_sha256": "92adfeb2516861a6958e8adc4a15cf764faa3956078da1ebc81db1fbb7014e31",
+      "mAP50": 0.7470987622615815,
+      "mAP50_95": 0.5328123332667083,
+      "precision": 0.8063281344756426,
+      "recall": 0.6631223166573559,
+      "delta_mAP50_percentage_points": 0.0
+    },
+    "L1A0_half_lr": {
+      "checkpoint_sha256": "393eaea3799429a4e64bd9831c79758845956ff8bb678bb39dec3bc23c72f5e1",
+      "mAP50": 0.7482859178698713,
+      "mAP50_95": 0.5303210788821652,
+      "precision": 0.7775139766250128,
+      "recall": 0.6825469695264194,
+      "delta_mAP50_percentage_points": 0.11871556082898582,
+      "selected_epoch": 2
+    },
+    "L0A1_light_aug": {
+      "checkpoint_sha256": "805a6a058b2dfa93c14991f4d8b06e353cfaab12c6d88e37b5f24ece81282111",
+      "mAP50": 0.7431833019489926,
+      "mAP50_95": 0.5196465791238418,
+      "precision": 0.7717186501005053,
+      "recall": 0.6711039410690085,
+      "delta_mAP50_percentage_points": -0.39154603125888254,
+      "selected_epoch": 2
+    }
+  }
+}

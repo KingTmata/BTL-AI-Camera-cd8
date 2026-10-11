@@ -1,0 +1,375 @@
+{
+  "status": "complete",
+  "checkpoint_sha256": "087eaca77696eb323464f4294fce43b877de430e0bb26efb55e18322a3c02758",
+  "sizes": [
+    512,
+    640,
+    768,
+    960
+  ],
+  "device": "cpu",
+  "threads": 4,
+  "conf": 0.25,
+  "nms_iou": 0.6,
+  "model_passes": 1,
+  "training_executed": false,
+  "test_used": false,
+  "subset_images": 299,
+  "subset_selection": "Seed20261010; up to20 validation images per source_id",
+  "source_counts": {
+    "backpacks_v7": 20,
+    "bag": 20,
+    "celulares": 20,
+    "classroom_objects": 20,
+    "classroom_phone_v18": 20,
+    "classroom_roboflow_v1": 20,
+    "coco2017_val": 20,
+    "cup_v2_v3": 19,
+    "items_in_room": 20,
+    "laptop_roboflow_v1": 20,
+    "merged_3k_local": 20,
+    "ron88": 20,
+    "smartphone_v1": 20,
+    "student_behaviour_detection_v6": 20,
+    "study_desk": 20
+  },
+  "robustness_note": "Synthetic photometric corruptions; labels/geometries unchanged. Does not prove novel-scene or real occlusion robustness.",
+  "results": {
+    "512": {
+      "replay_runtime": {
+        "images": 40,
+        "repeats": 3,
+        "measurements": 120,
+        "warmup_per_size": 5,
+        "p50_ms": 47.04035000031581,
+        "p95_ms": 75.78591499841423,
+        "over_100ms_count": 2,
+        "offline_serial_throughput_fps": 19.94306520828811,
+        "process_rss_peak_MiB": 709.203125,
+        "median_process_cpu_ms": 375.0,
+        "includes": "predict+class-aware NMS0.6+Results.plot; excludes capture/tracker/UI, decode; RSS is whole process with model across sizes, not isolated model footprint."
+      },
+      "robustness": {
+        "clean": {
+          "images": 299,
+          "mAP50": 0.5924497470708365,
+          "mAP50_95": 0.3948315988928933,
+          "fixed_conf_0_25": {
+            "tp": 518,
+            "fp": 184,
+            "fn": 619,
+            "precision": 0.7378917378917379,
+            "recall": 0.455584872471416,
+            "F1": 0.5633496465470365
+          }
+        },
+        "dark_0.5": {
+          "images": 299,
+          "mAP50": 0.5752015715773438,
+          "mAP50_95": 0.38350097248089793,
+          "fixed_conf_0_25": {
+            "tp": 468,
+            "fp": 176,
+            "fn": 669,
+            "precision": 0.7267080745341615,
+            "recall": 0.41160949868073876,
+            "F1": 0.5255474452554745
+          }
+        },
+        "blur_7": {
+          "images": 299,
+          "mAP50": 0.5849289709943435,
+          "mAP50_95": 0.3845245073897657,
+          "fixed_conf_0_25": {
+            "tp": 474,
+            "fp": 162,
+            "fn": 663,
+            "precision": 0.7452830188679245,
+            "recall": 0.41688654353562005,
+            "F1": 0.5346869712351945
+          }
+        },
+        "jpeg_25": {
+          "images": 299,
+          "mAP50": 0.566040311228804,
+          "mAP50_95": 0.38328706119425754,
+          "fixed_conf_0_25": {
+            "tp": 430,
+            "fp": 109,
+            "fn": 707,
+            "precision": 0.7977736549165121,
+            "recall": 0.3781882145998241,
+            "F1": 0.513126491646778
+          }
+        },
+        "noise_sigma12": {
+          "images": 299,
+          "mAP50": 0.5046399496884546,
+          "mAP50_95": 0.33756914613698996,
+          "fixed_conf_0_25": {
+            "tp": 441,
+            "fp": 240,
+            "fn": 696,
+            "precision": 0.6475770925110133,
+            "recall": 0.38786279683377306,
+            "F1": 0.48514851485148514
+          }
+        }
+      },
+      "worst_corruption_F1": 0.48514851485148514,
+      "worst_corruption_F1_drop_pp": 7.820113169555132
+    },
+    "640": {
+      "replay_runtime": {
+        "images": 40,
+        "repeats": 3,
+        "measurements": 120,
+        "warmup_per_size": 5,
+        "p50_ms": 59.30139999691164,
+        "p95_ms": 82.47574999331844,
+        "over_100ms_count": 2,
+        "offline_serial_throughput_fps": 16.43256739872269,
+        "process_rss_peak_MiB": 680.7109375,
+        "median_process_cpu_ms": 500.0,
+        "includes": "predict+class-aware NMS0.6+Results.plot; excludes capture/tracker/UI, decode; RSS is whole process with model across sizes, not isolated model footprint."
+      },
+      "robustness": {
+        "clean": {
+          "images": 299,
+          "mAP50": 0.6592142369167745,
+          "mAP50_95": 0.4515399925774431,
+          "fixed_conf_0_25": {
+            "tp": 625,
+            "fp": 206,
+            "fn": 512,
+            "precision": 0.7521058965102286,
+            "recall": 0.5496921723834652,
+            "F1": 0.6351626016260162
+          }
+        },
+        "dark_0.5": {
+          "images": 299,
+          "mAP50": 0.6586241034634204,
+          "mAP50_95": 0.44776843131001637,
+          "fixed_conf_0_25": {
+            "tp": 618,
+            "fp": 224,
+            "fn": 519,
+            "precision": 0.7339667458432304,
+            "recall": 0.5435356200527705,
+            "F1": 0.6245578575037898
+          }
+        },
+        "blur_7": {
+          "images": 299,
+          "mAP50": 0.6615380373140127,
+          "mAP50_95": 0.43843829945168517,
+          "fixed_conf_0_25": {
+            "tp": 592,
+            "fp": 193,
+            "fn": 545,
+            "precision": 0.7541401273885351,
+            "recall": 0.5206684256816183,
+            "F1": 0.6160249739854319
+          }
+        },
+        "jpeg_25": {
+          "images": 299,
+          "mAP50": 0.629742677908826,
+          "mAP50_95": 0.4151286629269809,
+          "fixed_conf_0_25": {
+            "tp": 483,
+            "fp": 106,
+            "fn": 654,
+            "precision": 0.8200339558573854,
+            "recall": 0.42480211081794195,
+            "F1": 0.5596755504055619
+          }
+        },
+        "noise_sigma12": {
+          "images": 299,
+          "mAP50": 0.5562614678179956,
+          "mAP50_95": 0.377914123532498,
+          "fixed_conf_0_25": {
+            "tp": 523,
+            "fp": 276,
+            "fn": 614,
+            "precision": 0.6545682102628285,
+            "recall": 0.4599824098504837,
+            "F1": 0.5402892561983471
+          }
+        }
+      },
+      "worst_corruption_F1": 0.5402892561983471,
+      "worst_corruption_F1_drop_pp": 9.487334542766913
+    },
+    "768": {
+      "replay_runtime": {
+        "images": 40,
+        "repeats": 3,
+        "measurements": 120,
+        "warmup_per_size": 5,
+        "p50_ms": 75.99330000084592,
+        "p95_ms": 110.64973999673381,
+        "over_100ms_count": 13,
+        "offline_serial_throughput_fps": 12.947203419294416,
+        "process_rss_peak_MiB": 689.0625,
+        "median_process_cpu_ms": 625.0,
+        "includes": "predict+class-aware NMS0.6+Results.plot; excludes capture/tracker/UI, decode; RSS is whole process with model across sizes, not isolated model footprint."
+      },
+      "robustness": {
+        "clean": {
+          "images": 299,
+          "mAP50": 0.737623433345099,
+          "mAP50_95": 0.4926089724216368,
+          "fixed_conf_0_25": {
+            "tp": 712,
+            "fp": 190,
+            "fn": 425,
+            "precision": 0.7893569844789357,
+            "recall": 0.6262093227792436,
+            "F1": 0.6983815595880333
+          }
+        },
+        "dark_0.5": {
+          "images": 299,
+          "mAP50": 0.7232215437959872,
+          "mAP50_95": 0.48334154502295484,
+          "fixed_conf_0_25": {
+            "tp": 686,
+            "fp": 211,
+            "fn": 451,
+            "precision": 0.7647714604236343,
+            "recall": 0.6033421284080914,
+            "F1": 0.6745329400196656
+          }
+        },
+        "blur_7": {
+          "images": 299,
+          "mAP50": 0.6941145817551403,
+          "mAP50_95": 0.46485484684395767,
+          "fixed_conf_0_25": {
+            "tp": 672,
+            "fp": 211,
+            "fn": 465,
+            "precision": 0.7610419026047565,
+            "recall": 0.5910290237467019,
+            "F1": 0.6653465346534654
+          }
+        },
+        "jpeg_25": {
+          "images": 299,
+          "mAP50": 0.6800927339159337,
+          "mAP50_95": 0.46047199818386686,
+          "fixed_conf_0_25": {
+            "tp": 570,
+            "fp": 114,
+            "fn": 567,
+            "precision": 0.8333333333333334,
+            "recall": 0.5013192612137203,
+            "F1": 0.6260296540362439
+          }
+        },
+        "noise_sigma12": {
+          "images": 299,
+          "mAP50": 0.609585164610184,
+          "mAP50_95": 0.41386917898905795,
+          "fixed_conf_0_25": {
+            "tp": 631,
+            "fp": 305,
+            "fn": 506,
+            "precision": 0.6741452991452992,
+            "recall": 0.5549692172383466,
+            "F1": 0.6087795465508925
+          }
+        }
+      },
+      "worst_corruption_F1": 0.6087795465508925,
+      "worst_corruption_F1_drop_pp": 8.960201303714078
+    },
+    "960": {
+      "replay_runtime": {
+        "images": 40,
+        "repeats": 3,
+        "measurements": 120,
+        "warmup_per_size": 5,
+        "p50_ms": 107.07545000332175,
+        "p95_ms": 147.1672899984696,
+        "over_100ms_count": 77,
+        "offline_serial_throughput_fps": 9.297685531828527,
+        "process_rss_peak_MiB": 701.515625,
+        "median_process_cpu_ms": 875.0,
+        "includes": "predict+class-aware NMS0.6+Results.plot; excludes capture/tracker/UI, decode; RSS is whole process with model across sizes, not isolated model footprint."
+      },
+      "robustness": {
+        "clean": {
+          "images": 299,
+          "mAP50": 0.7759397251516281,
+          "mAP50_95": 0.5186772297493409,
+          "fixed_conf_0_25": {
+            "tp": 771,
+            "fp": 176,
+            "fn": 366,
+            "precision": 0.8141499472016895,
+            "recall": 0.6781002638522428,
+            "F1": 0.7399232245681382
+          }
+        },
+        "dark_0.5": {
+          "images": 299,
+          "mAP50": 0.7619698052655233,
+          "mAP50_95": 0.5066311629639365,
+          "fixed_conf_0_25": {
+            "tp": 768,
+            "fp": 179,
+            "fn": 369,
+            "precision": 0.8109820485744457,
+            "recall": 0.6754617414248021,
+            "F1": 0.7370441458733206
+          }
+        },
+        "blur_7": {
+          "images": 299,
+          "mAP50": 0.73637071364361,
+          "mAP50_95": 0.48787647667947065,
+          "fixed_conf_0_25": {
+            "tp": 728,
+            "fp": 201,
+            "fn": 409,
+            "precision": 0.7836383207750269,
+            "recall": 0.6402814423922604,
+            "F1": 0.7047434656340755
+          }
+        },
+        "jpeg_25": {
+          "images": 299,
+          "mAP50": 0.6989739290602033,
+          "mAP50_95": 0.4533248559681301,
+          "fixed_conf_0_25": {
+            "tp": 592,
+            "fp": 112,
+            "fn": 545,
+            "precision": 0.8409090909090909,
+            "recall": 0.5206684256816183,
+            "F1": 0.6431287343834872
+          }
+        },
+        "noise_sigma12": {
+          "images": 299,
+          "mAP50": 0.6329602579222399,
+          "mAP50_95": 0.41628310932030715,
+          "fixed_conf_0_25": {
+            "tp": 666,
+            "fp": 309,
+            "fn": 471,
+            "precision": 0.683076923076923,
+            "recall": 0.5857519788918206,
+            "F1": 0.6306818181818181
+          }
+        }
+      },
+      "worst_corruption_F1": 0.6306818181818181,
+      "worst_corruption_F1_drop_pp": 10.924140638632007
+    }
+  }
+}

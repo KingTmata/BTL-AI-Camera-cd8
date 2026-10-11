@@ -1,0 +1,154 @@
+PILOT_START: L0A0_control | parent: 92adfeb2516861a6958e8adc4a15cf764faa3956078da1ebc81db1fbb7014e31 | epochs: 2
+Overriding /usr/local/lib/python3.13/dist-packages/ultralytics/cfg/default.yaml with /kaggle/working/BTL-AI-Camera-v05-pilots/L0A0_control_config.yaml
+New https://pypi.org/project/ultralytics/8.4.174 available 😃 Update with 'pip install -U ultralytics'
+Ultralytics 8.4.165 🚀 Python-3.13.15 torch-2.11.0+cu128 CUDA:0 (Tesla T4, 14912MiB)
+                                                        CUDA:1 (Tesla T4, 14912MiB)
+engine/trainer: agnostic_nms=False, amp=True, angle=1.0, augment=False, auto_augment=randaugment, batch=32, bgr=0.0, box=7.5, cache=False, cfg=None, channels_last=None, classes=None, close_mosaic=0, cls=0.5, cls_pw=0.0, cls_remap=False, compile=False, conf=0.001, copy_paste=0.0, copy_paste_mode=flip, cos_lr=False, cutmix=0.0, data=/tmp/project8_v05_15k_runtime/training_data.yaml, degrees=0.0, deterministic=True, device=0,1, dfl=1.5, dgrad=0.5, dis=6.0, distill_model=None, dlam=1.0, dlog=1.0, dnn=False, dropout=0.0, dynamic=False, embed=None, epochs=2, erasing=0.4, exist_ok=False, fliplr=0.5, flipud=0.0, format=torchscript, fraction=1.0, freeze=None, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, imgsz=1280, iou=0.7, kobj=1.0, line_width=None, lr0=0.001, lrf=1.0, mask_ratio=4, max_det=300, mixup=0.0, mode=train, model=/kaggle/input/datasets/awm3636/project8-v05-best-checkpoint-pilots-20261009/BEST_Project8_v05_20261009.pt, momentum=0.937, mosaic=0.5, multi_scale=False, name=project8_v05_L0A0_control_e2_20261009_162131, nbs=64, nms=False, opset=None, optimize=False, optimizer=MuSGD, overlap_mask=True, patience=0, perspective=0.0, plots=True, pose=12.0, pretrained=True, profile=False, project=/kaggle/working/BTL-AI-Camera-v05-pilots/kaggle_runs, quantize=None, rect=False, resume=False, retina_masks=False, rle=1.0, save=True, save_conf=False, save_crop=False, save_dir=/kaggle/working/BTL-AI-Camera-v05-pilots/kaggle_runs/project8_v05_L0A0_control_e2_20261009_162131, save_frames=False, save_json=False, save_period=1, save_txt=False, scale=0.5, seed=42, shear=0.0, show=False, show_boxes=True, show_conf=True, show_labels=True, simplify=True, single_cls=False, source=None, split=val, stream_buffer=False, task=detect, time=None, tracker=tracktrack.yaml, translate=0.1, val=True, verbose=True, vid_stride=1, visualize=False, warmup_bias_lr=0.0, warmup_epochs=0.25, warmup_momentum=0.8, weight_decay=0.0005, workers=2, workspace=None
+
+                   from  n    params  module                                       arguments                     
+  0                  -1  1       464  ultralytics.nn.modules.conv.Conv             [3, 16, 3, 2]                 
+  1                  -1  1      4672  ultralytics.nn.modules.conv.Conv             [16, 32, 3, 2]                
+  2                  -1  1      6640  ultralytics.nn.modules.block.C3k2            [32, 64, 1, False, 0.25]      
+  3                  -1  1     36992  ultralytics.nn.modules.conv.Conv             [64, 64, 3, 2]                
+  4                  -1  1     26080  ultralytics.nn.modules.block.C3k2            [64, 128, 1, False, 0.25]     
+  5                  -1  1    147712  ultralytics.nn.modules.conv.Conv             [128, 128, 3, 2]              
+  6                  -1  1     87040  ultralytics.nn.modules.block.C3k2            [128, 128, 1, True]           
+  7                  -1  1    295424  ultralytics.nn.modules.conv.Conv             [128, 256, 3, 2]              
+  8                  -1  1    346112  ultralytics.nn.modules.block.C3k2            [256, 256, 1, True]           
+  9                  -1  1    164608  ultralytics.nn.modules.block.SPPF            [256, 256, 5, 3, True]        
+ 10                  -1  1    249728  ultralytics.nn.modules.block.C2PSA           [256, 256, 1]                 
+ 11                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']          
+ 12             [-1, 6]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 13                  -1  1    119808  ultralytics.nn.modules.block.C3k2            [384, 128, 1, True]           
+ 14                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']          
+ 15             [-1, 4]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 16                  -1  1     34304  ultralytics.nn.modules.block.C3k2            [256, 64, 1, True]            
+ 17                  -1  1     36992  ultralytics.nn.modules.conv.Conv             [64, 64, 3, 2]                
+ 18            [-1, 13]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 19                  -1  1     95232  ultralytics.nn.modules.block.C3k2            [192, 128, 1, True]           
+ 20                  -1  1    147712  ultralytics.nn.modules.conv.Conv             [128, 128, 3, 2]              
+ 21            [-1, 10]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 22                  -1  1    463104  ultralytics.nn.modules.block.C3k2            [384, 256, 1, True, 0.5, True]
+ 23        [16, 19, 22]  1    244296  ultralytics.nn.modules.head.Detect           [8, 1, True, [64, 128, 256]]  
+YOLO26n summary: 260 layers, 2,506,920 parameters, 2,506,920 gradients, 5.9 GFLOPs
+
+Transferred 708/708 items from pretrained weights
+DDP: debug command /usr/bin/python3 -m torch.distributed.run --nproc_per_node 2 --master_port 31739 /root/.config/Ultralytics/DDP/_temp_2kkxjei2139773810895104.py
+Ultralytics 8.4.165 🚀 Python-3.13.15 torch-2.11.0+cu128 CUDA:0 (Tesla T4, 14912MiB)
+                                                        CUDA:1 (Tesla T4, 14912MiB)
+AMP: running Automatic Mixed Precision (AMP) checks...
+AMP: downloading yolo26n.pt for AMP checks (one-time, not used for training)...
+Downloading https://github.com/ultralytics/assets/releases/download/v8.4.0/yolo26n.pt to 'weights/yolo26n.pt': 100% ━━━━━━━━━━━━ 5.3MB 34.4MB/s 0.2s.1s<0.1s
+AMP: checks passed ✅
+train: Fast image access ✅ (ping: 0.0±0.0 ms, read: 892.4±347.2 MB/s, size: 108.7 KB)
+train: Scanning /tmp/project8_v05_15k_runtime/archive_236972ca3e6142d9/project8_v05/labels/train... 12000 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 12000/12000 1.2Kit/s 10.4s0.0s
+train: New cache created: /tmp/project8_v05_15k_runtime/archive_236972ca3e6142d9/project8_v05/labels/train.cache
+albumentations: Blur(p=0.01, blur_limit=(3, 7)), MedianBlur(p=0.01, blur_limit=(3, 7)), ToGray(p=0.01, method='weighted_average', num_output_channels=3), CLAHE(p=0.01, clip_limit=(1.0, 4.0), tile_grid_size=(8, 8))
+val: Fast image access ✅ (ping: 0.0±0.0 ms, read: 1065.5±747.1 MB/s, size: 48.5 KB)
+val: Scanning /tmp/project8_v05_15k_runtime/archive_236972ca3e6142d9/project8_v05/labels/val... 2500 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 2500/2500 1.1Kit/s 2.3s0.0s
+val: New cache created: /tmp/project8_v05_15k_runtime/archive_236972ca3e6142d9/project8_v05/labels/val.cache
+optimizer: MuSGD(lr=0.001, momentum=0.937) with parameter groups 114 weight(decay=0.0), 126 weight(decay=0.0005), 126 bias(decay=0.0)
+Plotting labels to /kaggle/working/BTL-AI-Camera-v05-pilots/kaggle_runs/project8_v05_L0A0_control_e2_20261009_162131/labels.jpg... 
+Using 12000 train, 2500 val images for fraction=1.0 at imgsz=1280
+Using 4 dataloader workers
+Logging results to /kaggle/working/BTL-AI-Camera-v05-pilots/kaggle_runs/project8_v05_L0A0_control_e2_20261009_162131
+Starting training for 2 epochs...
+
+      Epoch    GPU_mem   box_loss   cls_loss    l1_loss  Instances       Size
+        1/2      10.9G       1.14       1.11    0.01118         56       1280: 100% ━━━━━━━━━━━━ 375/375 1.3it/s 4:420.7ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 40/40 1.3s/it 51.8s0.5ss
+                   all       2500       8359       0.79      0.646      0.728      0.497
+
+/usr/local/lib/python3.13/dist-packages/ray/train/_internal/session.py:683: UserWarning: `get_trial_id` is meant to only be called inside a function that is executed by a Tuner or Trainer. Returning `None`.
+  warnings.warn(
+
+
+      Epoch    GPU_mem   box_loss   cls_loss    l1_loss  Instances       Size
+        2/2      10.6G      1.148      1.115    0.01122         48       1280: 100% ━━━━━━━━━━━━ 375/375 1.4it/s 4:290.7ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 40/40 1.5it/s 26.7s0.7ss
+                   all       2500       8359      0.786      0.671      0.742      0.523
+
+2 epochs completed in 0.176 hours.
+Optimizer stripped from /kaggle/working/BTL-AI-Camera-v05-pilots/kaggle_runs/project8_v05_L0A0_control_e2_20261009_162131/weights/last.pt, 5.5MB
+Optimizer stripped from /kaggle/working/BTL-AI-Camera-v05-pilots/kaggle_runs/project8_v05_L0A0_control_e2_20261009_162131/weights/best.pt, 5.5MB
+
+Validating /kaggle/working/BTL-AI-Camera-v05-pilots/kaggle_runs/project8_v05_L0A0_control_e2_20261009_162131/weights/best.pt...
+YOLO26n summary (fused): 122 layers, 2,376,396 parameters, 0 gradients, 5.3 GFLOPs
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 40/40 1.2s/it 46.4s0.5ss
+                   all       2500       8359      0.786      0.671      0.743      0.523
+                person        282       1491      0.838      0.717      0.828      0.553
+                 table        133        275      0.828      0.681      0.752      0.517
+                 chair        503        989      0.715      0.538       0.62      0.408
+                laptop        205        317      0.681      0.729      0.721      0.477
+            cell phone        765       1443      0.742      0.573      0.663       0.39
+              backpack        399        464      0.844      0.765      0.827      0.658
+                  book        388       2802      0.735      0.612      0.687      0.423
+                bottle        402        578      0.901      0.756      0.843      0.755
+Speed: 1.0ms preprocess, 14.1ms inference, 0.0ms loss, 0.2ms postprocess per image
+Results saved to /kaggle/working/BTL-AI-Camera-v05-pilots/kaggle_runs/project8_v05_L0A0_control_e2_20261009_162131
+💡 Learn more at https://docs.ultralytics.com/modes/train
+
+PILOT_TRAIN_COMPLETE: L0A0_control | best AP50 epoch: 2
+PILOT_START: L1A0_half_lr | parent: 92adfeb2516861a6958e8adc4a15cf764faa3956078da1ebc81db1fbb7014e31 | epochs: 2
+Overriding /usr/local/lib/python3.13/dist-packages/ultralytics/cfg/default.yaml with /kaggle/working/BTL-AI-Camera-v05-pilots/L1A0_half_lr_config.yaml
+New https://pypi.org/project/ultralytics/8.4.174 available 😃 Update with 'pip install -U ultralytics'
+Ultralytics 8.4.165 🚀 Python-3.13.15 torch-2.11.0+cu128 CUDA:0 (Tesla T4, 14912MiB)
+                                                        CUDA:1 (Tesla T4, 14912MiB)
+engine/trainer: agnostic_nms=False, amp=True, angle=1.0, augment=False, auto_augment=randaugment, batch=32, bgr=0.0, box=7.5, cache=False, cfg=None, channels_last=None, classes=None, close_mosaic=0, cls=0.5, cls_pw=0.0, cls_remap=False, compile=False, conf=0.001, copy_paste=0.0, copy_paste_mode=flip, cos_lr=False, cutmix=0.0, data=/tmp/project8_v05_15k_runtime/training_data.yaml, degrees=0.0, deterministic=True, device=0,1, dfl=1.5, dgrad=0.5, dis=6.0, distill_model=None, dlam=1.0, dlog=1.0, dnn=False, dropout=0.0, dynamic=False, embed=None, epochs=2, erasing=0.4, exist_ok=False, fliplr=0.5, flipud=0.0, format=torchscript, fraction=1.0, freeze=None, hsv_h=0.015, hsv_s=0.7, hsv_v=0.4, imgsz=1280, iou=0.7, kobj=1.0, line_width=None, lr0=0.0005, lrf=1.0, mask_ratio=4, max_det=300, mixup=0.0, mode=train, model=/kaggle/input/datasets/awm3636/project8-v05-best-checkpoint-pilots-20261009/BEST_Project8_v05_20261009.pt, momentum=0.937, mosaic=0.5, multi_scale=False, name=project8_v05_L1A0_half_lr_e2_20261009_162131, nbs=64, nms=False, opset=None, optimize=False, optimizer=MuSGD, overlap_mask=True, patience=0, perspective=0.0, plots=True, pose=12.0, pretrained=True, profile=False, project=/kaggle/working/BTL-AI-Camera-v05-pilots/kaggle_runs, quantize=None, rect=False, resume=False, retina_masks=False, rle=1.0, save=True, save_conf=False, save_crop=False, save_dir=/kaggle/working/BTL-AI-Camera-v05-pilots/kaggle_runs/project8_v05_L1A0_half_lr_e2_20261009_162131, save_frames=False, save_json=False, save_period=1, save_txt=False, scale=0.5, seed=42, shear=0.0, show=False, show_boxes=True, show_conf=True, show_labels=True, simplify=True, single_cls=False, source=None, split=val, stream_buffer=False, task=detect, time=None, tracker=tracktrack.yaml, translate=0.1, val=True, verbose=True, vid_stride=1, visualize=False, warmup_bias_lr=0.0, warmup_epochs=0.25, warmup_momentum=0.8, weight_decay=0.0005, workers=2, workspace=None
+
+                   from  n    params  module                                       arguments                     
+  0                  -1  1       464  ultralytics.nn.modules.conv.Conv             [3, 16, 3, 2]                 
+  1                  -1  1      4672  ultralytics.nn.modules.conv.Conv             [16, 32, 3, 2]                
+  2                  -1  1      6640  ultralytics.nn.modules.block.C3k2            [32, 64, 1, False, 0.25]      
+  3                  -1  1     36992  ultralytics.nn.modules.conv.Conv             [64, 64, 3, 2]                
+  4                  -1  1     26080  ultralytics.nn.modules.block.C3k2            [64, 128, 1, False, 0.25]     
+  5                  -1  1    147712  ultralytics.nn.modules.conv.Conv             [128, 128, 3, 2]              
+  6                  -1  1     87040  ultralytics.nn.modules.block.C3k2            [128, 128, 1, True]           
+  7                  -1  1    295424  ultralytics.nn.modules.conv.Conv             [128, 256, 3, 2]              
+  8                  -1  1    346112  ultralytics.nn.modules.block.C3k2            [256, 256, 1, True]           
+  9                  -1  1    164608  ultralytics.nn.modules.block.SPPF            [256, 256, 5, 3, True]        
+ 10                  -1  1    249728  ultralytics.nn.modules.block.C2PSA           [256, 256, 1]                 
+ 11                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']          
+ 12             [-1, 6]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 13                  -1  1    119808  ultralytics.nn.modules.block.C3k2            [384, 128, 1, True]           
+ 14                  -1  1         0  torch.nn.modules.upsampling.Upsample         [None, 2, 'nearest']          
+ 15             [-1, 4]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 16                  -1  1     34304  ultralytics.nn.modules.block.C3k2            [256, 64, 1, True]            
+ 17                  -1  1     36992  ultralytics.nn.modules.conv.Conv             [64, 64, 3, 2]                
+ 18            [-1, 13]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 19                  -1  1     95232  ultralytics.nn.modules.block.C3k2            [192, 128, 1, True]           
+ 20                  -1  1    147712  ultralytics.nn.modules.conv.Conv             [128, 128, 3, 2]              
+ 21            [-1, 10]  1         0  ultralytics.nn.modules.conv.Concat           [1]                           
+ 22                  -1  1    463104  ultralytics.nn.modules.block.C3k2            [384, 256, 1, True, 0.5, True]
+ 23        [16, 19, 22]  1    244296  ultralytics.nn.modules.head.Detect           [8, 1, True, [64, 128, 256]]  
+YOLO26n summary: 260 layers, 2,506,920 parameters, 2,506,920 gradients, 5.9 GFLOPs
+
+Transferred 708/708 items from pretrained weights
+DDP: debug command /usr/bin/python3 -m torch.distributed.run --nproc_per_node 2 --master_port 24483 /root/.config/Ultralytics/DDP/_temp_9jtr6nlo139819883556080.py
+Ultralytics 8.4.165 🚀 Python-3.13.15 torch-2.11.0+cu128 CUDA:0 (Tesla T4, 14912MiB)
+                                                        CUDA:1 (Tesla T4, 14912MiB)
+AMP: running Automatic Mixed Precision (AMP) checks...
+AMP: checks passed ✅
+train: Fast image access ✅ (ping: 0.0±0.0 ms, read: 898.4±428.3 MB/s, size: 108.7 KB)
+train: Scanning /tmp/project8_v05_15k_runtime/archive_236972ca3e6142d9/project8_v05/labels/train.cache... 12000 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 12000/12000 1.6Git/s 0.0s
+albumentations: Blur(p=0.01, blur_limit=(3, 7)), MedianBlur(p=0.01, blur_limit=(3, 7)), ToGray(p=0.01, method='weighted_average', num_output_channels=3), CLAHE(p=0.01, clip_limit=(1.0, 4.0), tile_grid_size=(8, 8))
+val: Fast image access ✅ (ping: 0.0±0.0 ms, read: 1026.8±455.8 MB/s, size: 48.5 KB)
+val: Scanning /tmp/project8_v05_15k_runtime/archive_236972ca3e6142d9/project8_v05/labels/val.cache... 2500 images, 0 backgrounds, 0 corrupt: 100% ━━━━━━━━━━━━ 2500/2500 403.3Mit/s 0.0s
+optimizer: MuSGD(lr=0.0005, momentum=0.937) with parameter groups 114 weight(decay=0.0), 126 weight(decay=0.0005), 126 bias(decay=0.0)
+Plotting labels to /kaggle/working/BTL-AI-Camera-v05-pilots/kaggle_runs/project8_v05_L1A0_half_lr_e2_20261009_162131/labels.jpg... 
+Using 12000 train, 2500 val images for fraction=1.0 at imgsz=1280
+Using 4 dataloader workers
+Logging results to /kaggle/working/BTL-AI-Camera-v05-pilots/kaggle_runs/project8_v05_L1A0_half_lr_e2_20261009_162131
+Starting training for 2 epochs...
+
+      Epoch    GPU_mem   box_loss   cls_loss    l1_loss  Instances       Size
+        1/2      10.5G      1.114      1.071    0.01081         56       1280: 100% ━━━━━━━━━━━━ 375/375 1.3it/s 4:440.7ss
+                 Class     Images  Instances      Box(P          R      mAP50  mAP50-95): 100% ━━━━━━━━━━━━ 40/40 1.3s/it 52.0s0.5ss
+                   all       2500       8359      0.786       0.66      0.738      0.523
+
+/usr/local/lib/python3.13/dist-packages/ray/train/_internal/session.py:683: UserWarning: `get_trial_id` is meant to only be called inside a function that is executed by a Tuner or Trainer. Returning `None`.
+  warnings.warn(
+
+
+      Epoch    GPU_mem   box_loss   cls_loss    l1_loss  Instances       Size
+        2/2      10.6G      1.124      1.044    0.01063         53       1280: 35% ━━━━──────── 134/375 1.5it/s 1:36<2:45

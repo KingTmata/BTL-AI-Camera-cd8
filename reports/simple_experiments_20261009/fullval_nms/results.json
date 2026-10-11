@@ -1,0 +1,69 @@
+{
+  "status": "complete",
+  "protocol": {
+    "images": 2500,
+    "GT_boxes": 8359,
+    "split": "val",
+    "checkpoint_sha256": "92adfeb2516861a6958e8adc4a15cf764faa3956078da1ebc81db1fbb7014e31",
+    "manifest_sha256": "22a0140ab5e4d454d7e0c46ab24145c6d52d8b949db67ab8142fdd3bb8bb9ccd",
+    "imgsz": 1280,
+    "conf": 0.001,
+    "max_det": 300,
+    "COCO_maxDets": [
+      1,
+      10,
+      100
+    ],
+    "device": "cpu",
+    "precision": "FP32",
+    "rect": true,
+    "actual_end2end": true,
+    "extra_class_aware_NMS_iou": 0.6,
+    "note": "one pass, same predictions before/after; no head switch; selected threshold on earlier 300-val pilot; not an independent test set"
+  },
+  "results": {
+    "baseline_end2end": {
+      "mAP50": 0.7451237290264421,
+      "mAP50_95": 0.5321511742396232,
+      "AP_small_50_95": 0.16747297885739446,
+      "AR_small_50_95": 0.4033761104288147,
+      "per_class_AP50": {
+        "person": 0.8206526583460192,
+        "table": 0.7567554753835265,
+        "chair": 0.59369560123177,
+        "laptop": 0.7384903514780297,
+        "cell phone": 0.6756951785821721,
+        "backpack": 0.8196368011685568,
+        "book": 0.7135202791902788,
+        "bottle": 0.8425434868311837
+      },
+      "predictions": 133992
+    },
+    "extra_class_nms_0.6": {
+      "mAP50": 0.764794010983717,
+      "mAP50_95": 0.5349919552009619,
+      "AP_small_50_95": 0.17365143534383803,
+      "AR_small_50_95": 0.3662681960306526,
+      "per_class_AP50": {
+        "person": 0.8383114082216837,
+        "table": 0.7732145734363415,
+        "chair": 0.613295229971982,
+        "laptop": 0.7555409689321465,
+        "cell phone": 0.7094435010032363,
+        "backpack": 0.8367479383861176,
+        "book": 0.7371849124412315,
+        "bottle": 0.8546135554769981
+      },
+      "predictions": 68311
+    }
+  },
+  "delta_mAP50_percentage_points": 1.9670281957274938,
+  "timing": {
+    "forward_median_ms": 164.5761000108905,
+    "extra_nms_median_ms": 0.09810001938603818,
+    "extra_nms_p95_ms": 9.546185040380804,
+    "wall_seconds": 502.195264399983,
+    "includes_first_prediction_initialization": true,
+    "timing_not_camera_benchmark": true
+  }
+}

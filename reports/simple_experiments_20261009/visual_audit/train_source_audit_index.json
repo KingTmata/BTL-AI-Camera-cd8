@@ -1,0 +1,80 @@
+[
+  {
+    "panel": 1,
+    "manifest_image_id": "addition1__ecc216c5dbebcf6c",
+    "source_id": "items_in_room",
+    "file_name": "images/train/addition1__items_in_room__-121-_jpg.rf.cae6cb98fc5e3930b714bc8f9dc190c4__ecc216c5dbebcf6c.jpg",
+    "GT_classes": [
+      "laptop"
+    ],
+    "split": "train",
+    "issue": "no_confirmed_gap",
+    "observation": "Ảnh cận laptop, chưa thấy lỗi nhãn chắc chắn.",
+    "label_changed": false
+  },
+  {
+    "panel": 2,
+    "manifest_image_id": "addition1__2bc6cc7c788a7914",
+    "source_id": "items_in_room",
+    "file_name": "images/train/addition1__items_in_room__-57-_jpg.rf.ad6c92b635f2909d054f0c4187230ff6__2bc6cc7c788a7914.jpg",
+    "GT_classes": [
+      "laptop"
+    ],
+    "split": "train",
+    "issue": "no_confirmed_gap",
+    "observation": "Laptop chiếm ảnh, đồ nền nhỏ chưa rõ.",
+    "label_changed": false
+  },
+  {
+    "panel": 3,
+    "manifest_image_id": "merge3k__318b61ed98e3f311e58c",
+    "source_id": "merged_3k_local",
+    "file_name": "images/train/merge3k__318b61ed98e3f311e58c.jpg",
+    "GT_classes": [
+      "chair"
+    ],
+    "split": "train",
+    "issue": "confirmed_partial_labels",
+    "observation": "Nhiều người và bàn ăn hiện rõ, GT chỉ có chair; cần thêm person/table và kiểm bottle.",
+    "label_changed": false
+  },
+  {
+    "panel": 4,
+    "manifest_image_id": "merge3k__09d3563e01e6aba3622e",
+    "source_id": "merged_3k_local",
+    "file_name": "images/train/merge3k__09d3563e01e6aba3622e.jpg",
+    "GT_classes": [
+      "chair"
+    ],
+    "split": "train",
+    "issue": "no_confirmed_gap",
+    "observation": "Một ghế rõ đã có nhãn, phần vật ở mép ảnh cần theo chính sách truncation.",
+    "label_changed": false
+  },
+  {
+    "panel": 5,
+    "manifest_image_id": "addition1__de124eb65b6ca65a",
+    "source_id": "celulares",
+    "file_name": "images/train/addition1__celulares__hp_155_jpg.rf.47087b10fb4d76e94368a15f9a530728__de124eb65b6ca65a.jpg",
+    "GT_classes": [
+      "cell phone"
+    ],
+    "split": "train",
+    "issue": "confirmed_partial_labels",
+    "observation": "Người và balô rõ trong ảnh điện thoại; GT chỉ có cell phone; cần person/backpack và kiểm book/người nền.",
+    "label_changed": false
+  },
+  {
+    "panel": 6,
+    "manifest_image_id": "addition1__2857ce9fa5780380",
+    "source_id": "celulares",
+    "file_name": "images/train/addition1__celulares__hp_26_jpg.rf.c89624f6bf9136d61148ed43ea007222__2857ce9fa5780380.jpg",
+    "GT_classes": [
+      "cell phone"
+    ],
+    "split": "train",
+    "issue": "confirmed_partial_labels",
+    "observation": "Hai người, bàn, sách/tài liệu và ghế hiện rõ; GT chỉ hai phone; cần person/table/book/chair theo chính sách.",
+    "label_changed": false
+  }
+]

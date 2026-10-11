@@ -1,0 +1,161 @@
+{
+  "status": "PASS",
+  "scope": "two unreviewed one-epoch smoke runs; no full training",
+  "initial_sha256": "d6fa68a79abd7eebfc91724c683d2cfd0c2ace6f6623a019fbef44729bf47adb",
+  "manifest_sha256": "22a0140ab5e4d454d7e0c46ab24145c6d52d8b949db67ab8142fdd3bb8bb9ccd",
+  "training_images_per_smoke": 600,
+  "validation_images": 2500,
+  "full_visual_review_complete": false,
+  "protocol": {
+    "data": "/tmp/project8_v05_15k_runtime/training_data.yaml",
+    "split": "val",
+    "imgsz": 1536,
+    "batch": 8,
+    "device": 0,
+    "conf": 0.001,
+    "iou": 0.7,
+    "nms": true,
+    "max_det": 300,
+    "augment": false,
+    "workers": 2,
+    "plots": true,
+    "half": true
+  },
+  "runs": {
+    "1536_batch16": {
+      "directory": "/kaggle/working/BTL-AI-Camera-v05/kaggle_runs/project8_v05_15k_from_best_v04_20261009_001546_smoke",
+      "best_sha256": "67f40dd0577dd287f747a881fb04faa7169d9ea8ca21f8685f1cc5b60d8269e4",
+      "epoch_seconds_train_plus_val": 117.777,
+      "precision": 0.7700338185723503,
+      "recall": 0.6536555379983585,
+      "mAP50": 0.719631502373598,
+      "mAP50_95": 0.4757964145618924,
+      "speed_ms_per_image": {
+        "preprocess": 4.67340455879903,
+        "inference": 32.67302057200059,
+        "loss": 0.0014304011994681787,
+        "postprocess": 1.0485960535996128
+      },
+      "per_class": {
+        "person": {
+          "precision": 0.7585761360230192,
+          "recall": 0.7464788732394366,
+          "mAP50": 0.8051482133073891,
+          "mAP50_95": 0.5314919882647817
+        },
+        "table": {
+          "precision": 0.7113697941238605,
+          "recall": 0.7018181818181818,
+          "mAP50": 0.7637745935511434,
+          "mAP50_95": 0.5189904773002335
+        },
+        "chair": {
+          "precision": 0.7109539939002117,
+          "recall": 0.41781865644353006,
+          "mAP50": 0.47081568001244856,
+          "mAP50_95": 0.2631764960266093
+        },
+        "laptop": {
+          "precision": 0.6492687879585726,
+          "recall": 0.6845425867507886,
+          "mAP50": 0.6711501704975276,
+          "mAP50_95": 0.3897720134450021
+        },
+        "cell phone": {
+          "precision": 0.8534764959093106,
+          "recall": 0.5377685377685377,
+          "mAP50": 0.6757101526280536,
+          "mAP50_95": 0.38479002583891875
+        },
+        "backpack": {
+          "precision": 0.8709095333355853,
+          "recall": 0.7124556206452758,
+          "mAP50": 0.7980427431328989,
+          "mAP50_95": 0.5544252102372791
+        },
+        "book": {
+          "precision": 0.7908672761510208,
+          "recall": 0.6359743040685225,
+          "mAP50": 0.7261162494165694,
+          "mAP50_95": 0.43615785318279904
+        },
+        "bottle": {
+          "precision": 0.8148485311772218,
+          "recall": 0.7923875432525952,
+          "mAP50": 0.846294216442753,
+          "mAP50_95": 0.7275672521995161
+        }
+      },
+      "observed_train_seconds": 36.2,
+      "observed_gpu_mem_log": "8.46G"
+    },
+    "1280_batch32": {
+      "directory": "/kaggle/working/BTL-AI-Camera-v05/kaggle_runs/project8_v05_15k_from_best_v04_20261009_001546_1280_batch32_smoke",
+      "best_sha256": "5c25701cd1e176a2ef45404831c4f788da15eb8cf90b1800d388bab5e32776e3",
+      "epoch_seconds_train_plus_val": 102.916,
+      "precision": 0.7660967541363017,
+      "recall": 0.658433077130795,
+      "mAP50": 0.7275411712422817,
+      "mAP50_95": 0.4819108528807968,
+      "speed_ms_per_image": {
+        "preprocess": 4.773852517198612,
+        "inference": 12.15006295319945,
+        "loss": 0.0020576224005708355,
+        "postprocess": 1.1152115700005196
+      },
+      "per_class": {
+        "person": {
+          "precision": 0.7978320994091344,
+          "recall": 0.7358113479005498,
+          "mAP50": 0.8097122573753208,
+          "mAP50_95": 0.5390890032272203
+        },
+        "table": {
+          "precision": 0.704975558633038,
+          "recall": 0.6872727272727273,
+          "mAP50": 0.7607506108232585,
+          "mAP50_95": 0.5333379298223753
+        },
+        "chair": {
+          "precision": 0.6879442203577562,
+          "recall": 0.4146080483921738,
+          "mAP50": 0.47541884340233403,
+          "mAP50_95": 0.2689121325300193
+        },
+        "laptop": {
+          "precision": 0.6946018725571413,
+          "recall": 0.7034700315457413,
+          "mAP50": 0.6855528416557989,
+          "mAP50_95": 0.39580887954163013
+        },
+        "cell phone": {
+          "precision": 0.8790385673567428,
+          "recall": 0.5343035343035343,
+          "mAP50": 0.7013661308177261,
+          "mAP50_95": 0.39980601061658994
+        },
+        "backpack": {
+          "precision": 0.7491729469341409,
+          "recall": 0.7564655172413793,
+          "mAP50": 0.7978506431270809,
+          "mAP50_95": 0.5222425320987646
+        },
+        "book": {
+          "precision": 0.7952424478520727,
+          "recall": 0.6431458671376588,
+          "mAP50": 0.7396235956277325,
+          "mAP50_95": 0.45167612361333076
+        },
+        "bottle": {
+          "precision": 0.819966319990387,
+          "recall": 0.7923875432525952,
+          "mAP50": 0.8500544471090018,
+          "mAP50_95": 0.744414211596444
+        }
+      },
+      "observed_train_seconds": 38.3,
+      "observed_gpu_mem_log": "10.8G"
+    }
+  },
+  "speed_note": "Sequential validator timing has unequal warmup/cache; raw inference timing is not a controlled FPS comparison."
+}

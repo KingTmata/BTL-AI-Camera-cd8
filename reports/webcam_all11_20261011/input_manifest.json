@@ -1,0 +1,79 @@
+{
+  "training_executed": false,
+  "expected_models": 11,
+  "expected_size_pairs": 44,
+  "sizes": [
+    512,
+    640,
+    768,
+    960
+  ],
+  "models": {
+    "R01": {
+      "campaign_label": "R01_recover_L1A1",
+      "raw_checkpoint_sha256": "3323fb2f72a91e2b827d4d7dc696fa66e57ed168d6e138e9e8af9a7c41ee5ece",
+      "inference_sha256": "4b2c62461c5038f8944576e7971e215d389fb13001fa024ecf0115acca72eae9",
+      "status": "recovered_verified"
+    },
+    "R02": {
+      "campaign_label": "R02_light_longer",
+      "raw_checkpoint_sha256": "c0b19c81af77842a59a596a057548641ca920175600edd61dd6bac620afaa0c1",
+      "inference_sha256": null,
+      "status": "missing_checkpoint"
+    },
+    "R03": {
+      "campaign_label": "R03_low_lr_base",
+      "raw_checkpoint_sha256": "d5f828bff3d7fe18266bc3c3db11993410fa84f2dacb97f8fc8242255343ce0e",
+      "inference_sha256": null,
+      "status": "missing_checkpoint"
+    },
+    "R04": {
+      "campaign_label": "R04_class_weight_025",
+      "raw_checkpoint_sha256": "087eaca77696eb323464f4294fce43b877de430e0bb26efb55e18322a3c02758",
+      "inference_sha256": "2fedf0ef4cab22911ea9786b86cbb0ec37a0802012a8cb0982ec76d3c73c2105",
+      "status": "retained_verified"
+    },
+    "R05": {
+      "campaign_label": "R05_class_weight_05",
+      "raw_checkpoint_sha256": null,
+      "inference_sha256": null,
+      "status": "missing_checkpoint"
+    },
+    "R06": {
+      "campaign_label": "R06_no_mosaic",
+      "raw_checkpoint_sha256": null,
+      "inference_sha256": null,
+      "status": "missing_checkpoint"
+    },
+    "R07": {
+      "campaign_label": "R07_AdamW",
+      "raw_checkpoint_sha256": "ecb6329999b05fe6399cd8d303fb4c36ade4b07c263bd299abb88e28d34d6785",
+      "inference_sha256": null,
+      "status": "missing_checkpoint"
+    },
+    "R08": {
+      "campaign_label": "R08_freeze_backbone",
+      "raw_checkpoint_sha256": null,
+      "inference_sha256": null,
+      "status": "missing_checkpoint"
+    },
+    "R09": {
+      "campaign_label": "R09_imgsz1536",
+      "raw_checkpoint_sha256": null,
+      "inference_sha256": null,
+      "status": "missing_checkpoint"
+    },
+    "R10": {
+      "campaign_label": "R10_mixup_cutmix",
+      "raw_checkpoint_sha256": null,
+      "inference_sha256": null,
+      "status": "missing_checkpoint"
+    },
+    "R11": {
+      "campaign_label": "R11_box_cls_loss",
+      "raw_checkpoint_sha256": null,
+      "inference_sha256": null,
+      "status": "missing_checkpoint"
+    }
+  }
+}

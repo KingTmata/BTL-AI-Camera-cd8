@@ -1,0 +1,49 @@
+{
+  "status": "complete",
+  "gpu": "Tesla T4",
+  "visible_gpu_count": 1,
+  "gpu_used": 0,
+  "torch_version": "2.11.0+cu128",
+  "cpu_threads": 2,
+  "imgsz": 640,
+  "batch": 1,
+  "forward_passes": 1,
+  "conf": 0.25,
+  "nms_iou": 0.6,
+  "images": 40,
+  "repeats": 3,
+  "warmups": 5,
+  "training_executed": false,
+  "test_used": false,
+  "checkpoint_sha256": "2fedf0ef4cab22911ea9786b86cbb0ec37a0802012a8cb0982ec76d3c73c2105",
+  "memory_budget_cap_applied": false,
+  "results": {
+    "cpu_fp32": {
+      "measurements": 120,
+      "p50_ms": 74.96636900000908,
+      "p95_ms": 84.3329818500024,
+      "mean_ms": 72.63374477500074,
+      "over100ms_count": 2,
+      "offline_serial_fps": 13.767705397783407
+    },
+    "t4_fp32": {
+      "measurements": 120,
+      "p50_ms": 14.595778000000337,
+      "p95_ms": 21.732698100012726,
+      "mean_ms": 16.639979483334837,
+      "over100ms_count": 0,
+      "offline_serial_fps": 60.09622794316023
+    },
+    "t4_fp16": {
+      "measurements": 120,
+      "p50_ms": 15.609950999987632,
+      "p95_ms": 23.981708100015453,
+      "mean_ms": 86.48257031666682,
+      "over100ms_count": 3,
+      "offline_serial_fps": 11.56302358195847
+    }
+  },
+  "note": "Predict+class-aware NMS+plot, predecoded validation images. CUDA synchronized. Excludes capture, tracker, UI, image decode and network. One physical T4 used; not a simulation of RTX 5060 Laptop. Modes interleaved on same VM. CUDA peak memory includes both resident GPU model variants.",
+  "cuda_peak_allocated_MiB": 69.9091796875,
+  "cuda_peak_reserved_MiB": 94
+}

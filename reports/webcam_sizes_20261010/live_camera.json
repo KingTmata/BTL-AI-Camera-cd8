@@ -1,0 +1,18 @@
+{
+  "status": "unavailable",
+  "camera_index": 0,
+  "sizes": [
+    512,
+    640,
+    768,
+    960
+  ],
+  "model_passes": 1,
+  "conf": 0.25,
+  "nms_iou": 0.6,
+  "device": "cpu",
+  "threads": 4,
+  "results": {},
+  "note": "Capture+predict+NMS+plot; no tracker/UI. No camera images saved.",
+  "error": "Kh\u00f4ng \u0111\u1ecdc \u0111\u01b0\u1ee3c webcam 0. \u0110\u00f3ng Camera/Teams/Zoom, ki\u1ec3m quy\u1ec1n camera cho \u1ee9ng d\u1ee5ng desktop, ki\u1ec3m n\u1eafp che/c\u00e1p USB ho\u1eb7c th\u1eed ch\u1ec9 s\u1ed1 camera kh\u00e1c (0, 1, 2)."
+}

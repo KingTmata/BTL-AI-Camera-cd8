@@ -1,0 +1,1095 @@
+{
+  "status": "complete",
+  "protocol": {
+    "images": 300,
+    "GT_boxes": 890,
+    "checkpoint_sha256": "92adfeb2516861a6958e8adc4a15cf764faa3956078da1ebc81db1fbb7014e31",
+    "manifest_sha256": "22a0140ab5e4d454d7e0c46ab24145c6d52d8b949db67ab8142fdd3bb8bb9ccd",
+    "conf": 0.001,
+    "model_max_det": 300,
+    "COCO_maxDets": [
+      1,
+      10,
+      100
+    ],
+    "device": "cpu",
+    "torch_threads": 4,
+    "new_resolution": 1536,
+    "same_sample_as_initial_pilot": true
+  },
+  "results": {
+    "imgsz1536": {
+      "mAP50": 0.7035797250906759,
+      "mAP50_95": 0.4842704962557484,
+      "AP_small_50_95": 0.16908422466084666,
+      "AR_small_50_95": 0.41602453102453096,
+      "per_class": {
+        "person": {
+          "AP50": 0.8186083464825824,
+          "AP50_95": 0.576045509875508,
+          "GT_boxes": 160,
+          "GT_small_boxes": 11,
+          "TP_conf025_iou050": 124,
+          "FP_conf025_iou050": 46,
+          "FN_conf025_iou050": 36,
+          "precision_conf025": 0.7294117647058823,
+          "recall_conf025": 0.775,
+          "top_FP_images": [
+            {
+              "image_id": 276,
+              "FP": 10
+            },
+            {
+              "image_id": 180,
+              "FP": 7
+            },
+            {
+              "image_id": 288,
+              "FP": 7
+            },
+            {
+              "image_id": 261,
+              "FP": 5
+            },
+            {
+              "image_id": 217,
+              "FP": 3
+            },
+            {
+              "image_id": 224,
+              "FP": 3
+            },
+            {
+              "image_id": 167,
+              "FP": 2
+            },
+            {
+              "image_id": 191,
+              "FP": 2
+            },
+            {
+              "image_id": 141,
+              "FP": 1
+            },
+            {
+              "image_id": 152,
+              "FP": 1
+            },
+            {
+              "image_id": 221,
+              "FP": 1
+            },
+            {
+              "image_id": 231,
+              "FP": 1
+            },
+            {
+              "image_id": 232,
+              "FP": 1
+            },
+            {
+              "image_id": 237,
+              "FP": 1
+            },
+            {
+              "image_id": 272,
+              "FP": 1
+            }
+          ],
+          "top_FN_images": [
+            {
+              "image_id": 71,
+              "FN": 6
+            },
+            {
+              "image_id": 224,
+              "FN": 5
+            },
+            {
+              "image_id": 173,
+              "FN": 4
+            },
+            {
+              "image_id": 84,
+              "FN": 3
+            },
+            {
+              "image_id": 141,
+              "FN": 3
+            },
+            {
+              "image_id": 180,
+              "FN": 3
+            },
+            {
+              "image_id": 191,
+              "FN": 3
+            },
+            {
+              "image_id": 167,
+              "FN": 2
+            },
+            {
+              "image_id": 217,
+              "FN": 2
+            },
+            {
+              "image_id": 232,
+              "FN": 2
+            },
+            {
+              "image_id": 205,
+              "FN": 1
+            },
+            {
+              "image_id": 212,
+              "FN": 1
+            },
+            {
+              "image_id": 219,
+              "FN": 1
+            }
+          ]
+        },
+        "table": {
+          "AP50": 0.6048982538868196,
+          "AP50_95": 0.4550960210874878,
+          "GT_boxes": 38,
+          "GT_small_boxes": 0,
+          "TP_conf025_iou050": 22,
+          "FP_conf025_iou050": 9,
+          "FN_conf025_iou050": 16,
+          "precision_conf025": 0.7096774193548387,
+          "recall_conf025": 0.5789473684210527,
+          "top_FP_images": [
+            {
+              "image_id": 147,
+              "FP": 3
+            },
+            {
+              "image_id": 159,
+              "FP": 1
+            },
+            {
+              "image_id": 166,
+              "FP": 1
+            },
+            {
+              "image_id": 183,
+              "FP": 1
+            },
+            {
+              "image_id": 220,
+              "FP": 1
+            },
+            {
+              "image_id": 223,
+              "FP": 1
+            },
+            {
+              "image_id": 276,
+              "FP": 1
+            }
+          ],
+          "top_FN_images": [
+            {
+              "image_id": 60,
+              "FN": 3
+            },
+            {
+              "image_id": 224,
+              "FN": 2
+            },
+            {
+              "image_id": 147,
+              "FN": 1
+            },
+            {
+              "image_id": 154,
+              "FN": 1
+            },
+            {
+              "image_id": 161,
+              "FN": 1
+            },
+            {
+              "image_id": 166,
+              "FN": 1
+            },
+            {
+              "image_id": 176,
+              "FN": 1
+            },
+            {
+              "image_id": 206,
+              "FN": 1
+            },
+            {
+              "image_id": 214,
+              "FN": 1
+            },
+            {
+              "image_id": 217,
+              "FN": 1
+            },
+            {
+              "image_id": 220,
+              "FN": 1
+            },
+            {
+              "image_id": 229,
+              "FN": 1
+            },
+            {
+              "image_id": 230,
+              "FN": 1
+            }
+          ]
+        },
+        "chair": {
+          "AP50": 0.5238412559709872,
+          "AP50_95": 0.2992361301008213,
+          "GT_boxes": 115,
+          "GT_small_boxes": 4,
+          "TP_conf025_iou050": 59,
+          "FP_conf025_iou050": 34,
+          "FN_conf025_iou050": 56,
+          "precision_conf025": 0.6344086021505376,
+          "recall_conf025": 0.5130434782608696,
+          "top_FP_images": [
+            {
+              "image_id": 261,
+              "FP": 4
+            },
+            {
+              "image_id": 171,
+              "FP": 2
+            },
+            {
+              "image_id": 220,
+              "FP": 2
+            },
+            {
+              "image_id": 249,
+              "FP": 2
+            },
+            {
+              "image_id": 253,
+              "FP": 2
+            },
+            {
+              "image_id": 267,
+              "FP": 2
+            },
+            {
+              "image_id": 277,
+              "FP": 2
+            },
+            {
+              "image_id": 28,
+              "FP": 1
+            },
+            {
+              "image_id": 56,
+              "FP": 1
+            },
+            {
+              "image_id": 57,
+              "FP": 1
+            },
+            {
+              "image_id": 60,
+              "FP": 1
+            },
+            {
+              "image_id": 80,
+              "FP": 1
+            },
+            {
+              "image_id": 154,
+              "FP": 1
+            },
+            {
+              "image_id": 161,
+              "FP": 1
+            },
+            {
+              "image_id": 223,
+              "FP": 1
+            },
+            {
+              "image_id": 247,
+              "FP": 1
+            },
+            {
+              "image_id": 248,
+              "FP": 1
+            },
+            {
+              "image_id": 254,
+              "FP": 1
+            },
+            {
+              "image_id": 272,
+              "FP": 1
+            },
+            {
+              "image_id": 273,
+              "FP": 1
+            }
+          ],
+          "top_FN_images": [
+            {
+              "image_id": 282,
+              "FN": 7
+            },
+            {
+              "image_id": 285,
+              "FN": 6
+            },
+            {
+              "image_id": 220,
+              "FN": 4
+            },
+            {
+              "image_id": 250,
+              "FN": 4
+            },
+            {
+              "image_id": 161,
+              "FN": 3
+            },
+            {
+              "image_id": 171,
+              "FN": 3
+            },
+            {
+              "image_id": 237,
+              "FN": 3
+            },
+            {
+              "image_id": 267,
+              "FN": 3
+            },
+            {
+              "image_id": 283,
+              "FN": 3
+            },
+            {
+              "image_id": 51,
+              "FN": 2
+            },
+            {
+              "image_id": 212,
+              "FN": 2
+            },
+            {
+              "image_id": 232,
+              "FN": 2
+            },
+            {
+              "image_id": 287,
+              "FN": 2
+            },
+            {
+              "image_id": 288,
+              "FN": 2
+            },
+            {
+              "image_id": 28,
+              "FN": 1
+            },
+            {
+              "image_id": 154,
+              "FN": 1
+            },
+            {
+              "image_id": 224,
+              "FN": 1
+            },
+            {
+              "image_id": 235,
+              "FN": 1
+            },
+            {
+              "image_id": 242,
+              "FN": 1
+            },
+            {
+              "image_id": 249,
+              "FN": 1
+            }
+          ]
+        },
+        "laptop": {
+          "AP50": 0.6422110981283446,
+          "AP50_95": 0.437131965080483,
+          "GT_boxes": 31,
+          "GT_small_boxes": 2,
+          "TP_conf025_iou050": 21,
+          "FP_conf025_iou050": 11,
+          "FN_conf025_iou050": 10,
+          "precision_conf025": 0.65625,
+          "recall_conf025": 0.6774193548387096,
+          "top_FP_images": [
+            {
+              "image_id": 267,
+              "FP": 3
+            },
+            {
+              "image_id": 17,
+              "FP": 2
+            },
+            {
+              "image_id": 65,
+              "FP": 1
+            },
+            {
+              "image_id": 185,
+              "FP": 1
+            },
+            {
+              "image_id": 235,
+              "FP": 1
+            },
+            {
+              "image_id": 250,
+              "FP": 1
+            },
+            {
+              "image_id": 261,
+              "FP": 1
+            },
+            {
+              "image_id": 272,
+              "FP": 1
+            }
+          ],
+          "top_FN_images": [
+            {
+              "image_id": 203,
+              "FN": 2
+            },
+            {
+              "image_id": 153,
+              "FN": 1
+            },
+            {
+              "image_id": 157,
+              "FN": 1
+            },
+            {
+              "image_id": 182,
+              "FN": 1
+            },
+            {
+              "image_id": 185,
+              "FN": 1
+            },
+            {
+              "image_id": 187,
+              "FN": 1
+            },
+            {
+              "image_id": 193,
+              "FN": 1
+            },
+            {
+              "image_id": 215,
+              "FN": 1
+            },
+            {
+              "image_id": 233,
+              "FN": 1
+            }
+          ]
+        },
+        "cell phone": {
+          "AP50": 0.7537517172954116,
+          "AP50_95": 0.466695688209123,
+          "GT_boxes": 131,
+          "GT_small_boxes": 68,
+          "TP_conf025_iou050": 89,
+          "FP_conf025_iou050": 25,
+          "FN_conf025_iou050": 42,
+          "precision_conf025": 0.7807017543859649,
+          "recall_conf025": 0.6793893129770993,
+          "top_FP_images": [
+            {
+              "image_id": 156,
+              "FP": 4
+            },
+            {
+              "image_id": 131,
+              "FP": 2
+            },
+            {
+              "image_id": 195,
+              "FP": 2
+            },
+            {
+              "image_id": 208,
+              "FP": 2
+            },
+            {
+              "image_id": 4,
+              "FP": 1
+            },
+            {
+              "image_id": 6,
+              "FP": 1
+            },
+            {
+              "image_id": 7,
+              "FP": 1
+            },
+            {
+              "image_id": 22,
+              "FP": 1
+            },
+            {
+              "image_id": 91,
+              "FP": 1
+            },
+            {
+              "image_id": 104,
+              "FP": 1
+            },
+            {
+              "image_id": 123,
+              "FP": 1
+            },
+            {
+              "image_id": 133,
+              "FP": 1
+            },
+            {
+              "image_id": 141,
+              "FP": 1
+            },
+            {
+              "image_id": 146,
+              "FP": 1
+            },
+            {
+              "image_id": 178,
+              "FP": 1
+            },
+            {
+              "image_id": 204,
+              "FP": 1
+            },
+            {
+              "image_id": 239,
+              "FP": 1
+            },
+            {
+              "image_id": 252,
+              "FP": 1
+            },
+            {
+              "image_id": 291,
+              "FP": 1
+            }
+          ],
+          "top_FN_images": [
+            {
+              "image_id": 71,
+              "FN": 5
+            },
+            {
+              "image_id": 156,
+              "FN": 4
+            },
+            {
+              "image_id": 141,
+              "FN": 2
+            },
+            {
+              "image_id": 146,
+              "FN": 2
+            },
+            {
+              "image_id": 169,
+              "FN": 2
+            },
+            {
+              "image_id": 174,
+              "FN": 2
+            },
+            {
+              "image_id": 216,
+              "FN": 2
+            },
+            {
+              "image_id": 258,
+              "FN": 2
+            },
+            {
+              "image_id": 4,
+              "FN": 1
+            },
+            {
+              "image_id": 17,
+              "FN": 1
+            },
+            {
+              "image_id": 22,
+              "FN": 1
+            },
+            {
+              "image_id": 23,
+              "FN": 1
+            },
+            {
+              "image_id": 61,
+              "FN": 1
+            },
+            {
+              "image_id": 84,
+              "FN": 1
+            },
+            {
+              "image_id": 104,
+              "FN": 1
+            },
+            {
+              "image_id": 114,
+              "FN": 1
+            },
+            {
+              "image_id": 138,
+              "FN": 1
+            },
+            {
+              "image_id": 181,
+              "FN": 1
+            },
+            {
+              "image_id": 189,
+              "FN": 1
+            },
+            {
+              "image_id": 238,
+              "FN": 1
+            }
+          ]
+        },
+        "backpack": {
+          "AP50": 0.8511487271370417,
+          "AP50_95": 0.5714005387593765,
+          "GT_boxes": 69,
+          "GT_small_boxes": 3,
+          "TP_conf025_iou050": 52,
+          "FP_conf025_iou050": 8,
+          "FN_conf025_iou050": 17,
+          "precision_conf025": 0.8666666666666667,
+          "recall_conf025": 0.7536231884057971,
+          "top_FP_images": [
+            {
+              "image_id": 162,
+              "FP": 2
+            },
+            {
+              "image_id": 170,
+              "FP": 2
+            },
+            {
+              "image_id": 2,
+              "FP": 1
+            },
+            {
+              "image_id": 22,
+              "FP": 1
+            },
+            {
+              "image_id": 25,
+              "FP": 1
+            },
+            {
+              "image_id": 212,
+              "FP": 1
+            }
+          ],
+          "top_FN_images": [
+            {
+              "image_id": 180,
+              "FN": 3
+            },
+            {
+              "image_id": 201,
+              "FN": 3
+            },
+            {
+              "image_id": 117,
+              "FN": 2
+            },
+            {
+              "image_id": 28,
+              "FN": 1
+            },
+            {
+              "image_id": 79,
+              "FN": 1
+            },
+            {
+              "image_id": 80,
+              "FN": 1
+            },
+            {
+              "image_id": 92,
+              "FN": 1
+            },
+            {
+              "image_id": 106,
+              "FN": 1
+            },
+            {
+              "image_id": 167,
+              "FN": 1
+            },
+            {
+              "image_id": 170,
+              "FN": 1
+            },
+            {
+              "image_id": 177,
+              "FN": 1
+            },
+            {
+              "image_id": 191,
+              "FN": 1
+            }
+          ]
+        },
+        "book": {
+          "AP50": 0.7464356917545465,
+          "AP50_95": 0.4604298859255997,
+          "GT_boxes": 258,
+          "GT_small_boxes": 180,
+          "TP_conf025_iou050": 171,
+          "FP_conf025_iou050": 52,
+          "FN_conf025_iou050": 87,
+          "precision_conf025": 0.7668161434977578,
+          "recall_conf025": 0.6627906976744186,
+          "top_FP_images": [
+            {
+              "image_id": 174,
+              "FP": 9
+            },
+            {
+              "image_id": 146,
+              "FP": 8
+            },
+            {
+              "image_id": 169,
+              "FP": 5
+            },
+            {
+              "image_id": 190,
+              "FP": 5
+            },
+            {
+              "image_id": 156,
+              "FP": 3
+            },
+            {
+              "image_id": 60,
+              "FP": 2
+            },
+            {
+              "image_id": 194,
+              "FP": 2
+            },
+            {
+              "image_id": 196,
+              "FP": 2
+            },
+            {
+              "image_id": 216,
+              "FP": 2
+            },
+            {
+              "image_id": 149,
+              "FP": 1
+            },
+            {
+              "image_id": 160,
+              "FP": 1
+            },
+            {
+              "image_id": 165,
+              "FP": 1
+            },
+            {
+              "image_id": 179,
+              "FP": 1
+            },
+            {
+              "image_id": 181,
+              "FP": 1
+            },
+            {
+              "image_id": 189,
+              "FP": 1
+            },
+            {
+              "image_id": 195,
+              "FP": 1
+            },
+            {
+              "image_id": 200,
+              "FP": 1
+            },
+            {
+              "image_id": 213,
+              "FP": 1
+            },
+            {
+              "image_id": 226,
+              "FP": 1
+            },
+            {
+              "image_id": 228,
+              "FP": 1
+            }
+          ],
+          "top_FN_images": [
+            {
+              "image_id": 194,
+              "FN": 12
+            },
+            {
+              "image_id": 156,
+              "FN": 11
+            },
+            {
+              "image_id": 146,
+              "FN": 10
+            },
+            {
+              "image_id": 230,
+              "FN": 9
+            },
+            {
+              "image_id": 174,
+              "FN": 7
+            },
+            {
+              "image_id": 172,
+              "FN": 6
+            },
+            {
+              "image_id": 169,
+              "FN": 5
+            },
+            {
+              "image_id": 280,
+              "FN": 3
+            },
+            {
+              "image_id": 291,
+              "FN": 3
+            },
+            {
+              "image_id": 160,
+              "FN": 2
+            },
+            {
+              "image_id": 189,
+              "FN": 2
+            },
+            {
+              "image_id": 226,
+              "FN": 2
+            },
+            {
+              "image_id": 268,
+              "FN": 2
+            },
+            {
+              "image_id": 168,
+              "FN": 1
+            },
+            {
+              "image_id": 181,
+              "FN": 1
+            },
+            {
+              "image_id": 190,
+              "FN": 1
+            },
+            {
+              "image_id": 197,
+              "FN": 1
+            },
+            {
+              "image_id": 198,
+              "FN": 1
+            },
+            {
+              "image_id": 199,
+              "FN": 1
+            },
+            {
+              "image_id": 200,
+              "FN": 1
+            }
+          ]
+        },
+        "bottle": {
+          "AP50": 0.6877427100696744,
+          "AP50_95": 0.6081282310075881,
+          "GT_boxes": 88,
+          "GT_small_boxes": 30,
+          "TP_conf025_iou050": 54,
+          "FP_conf025_iou050": 8,
+          "FN_conf025_iou050": 34,
+          "precision_conf025": 0.8709677419354839,
+          "recall_conf025": 0.6136363636363636,
+          "top_FP_images": [
+            {
+              "image_id": 224,
+              "FP": 4
+            },
+            {
+              "image_id": 276,
+              "FP": 2
+            },
+            {
+              "image_id": 90,
+              "FP": 1
+            },
+            {
+              "image_id": 217,
+              "FP": 1
+            }
+          ],
+          "top_FN_images": [
+            {
+              "image_id": 230,
+              "FN": 14
+            },
+            {
+              "image_id": 161,
+              "FN": 4
+            },
+            {
+              "image_id": 220,
+              "FN": 4
+            },
+            {
+              "image_id": 152,
+              "FN": 3
+            },
+            {
+              "image_id": 229,
+              "FN": 2
+            },
+            {
+              "image_id": 30,
+              "FN": 1
+            },
+            {
+              "image_id": 112,
+              "FN": 1
+            },
+            {
+              "image_id": 212,
+              "FN": 1
+            },
+            {
+              "image_id": 217,
+              "FN": 1
+            },
+            {
+              "image_id": 223,
+              "FN": 1
+            },
+            {
+              "image_id": 224,
+              "FN": 1
+            },
+            {
+              "image_id": 232,
+              "FN": 1
+            }
+          ]
+        }
+      },
+      "loaded_image_to_detections_median_ms": 258.0543000076432,
+      "loaded_image_to_detections_p95_ms": 371.07251004490536,
+      "loaded_image_to_detections_mean_ms": 253.98702500038777,
+      "wall_seconds_prediction_loop": 87.52330339996843,
+      "actual_end2end": true
+    },
+    "cached1280_class_nms_0.5": {
+      "mAP50": 0.7407512931821186,
+      "mAP50_95": 0.5206224053191337,
+      "kept_predictions": 5943,
+      "postprocessing_seconds": 3.7655963999568485,
+      "note": "extra class-aware NMS applied to SAME end2end outputs; no retraining/head switch; pilot only",
+      "per_class_AP50": {
+        "person": 0.8445164504898498,
+        "table": 0.6344732840639725,
+        "chair": 0.5817888567690086,
+        "laptop": 0.7050487749731845,
+        "cell phone": 0.8293535319325421,
+        "backpack": 0.892193961784517,
+        "book": 0.7520127455336814,
+        "bottle": 0.6866227399101932
+      }
+    },
+    "cached1280_class_nms_0.6": {
+      "mAP50": 0.7415369653577254,
+      "mAP50_95": 0.5223767365487005,
+      "kept_predictions": 6906,
+      "postprocessing_seconds": 4.428703500016127,
+      "note": "extra class-aware NMS applied to SAME end2end outputs; no retraining/head switch; pilot only",
+      "per_class_AP50": {
+        "person": 0.8430671356333225,
+        "table": 0.6322996015388469,
+        "chair": 0.5783531557871918,
+        "laptop": 0.7130278636422582,
+        "cell phone": 0.8262071321874441,
+        "backpack": 0.8974196934075156,
+        "book": 0.7564458330832423,
+        "bottle": 0.6854753075819816
+      }
+    },
+    "cached1280_class_nms_0.7": {
+      "mAP50": 0.7398716860397175,
+      "mAP50_95": 0.5236929947105395,
+      "kept_predictions": 7981,
+      "postprocessing_seconds": 4.67352710000705,
+      "note": "extra class-aware NMS applied to SAME end2end outputs; no retraining/head switch; pilot only",
+      "per_class_AP50": {
+        "person": 0.8402988399161728,
+        "table": 0.6311755474493912,
+        "chair": 0.5756760200832033,
+        "laptop": 0.7109100705222308,
+        "cell phone": 0.825368172793813,
+        "backpack": 0.8956103897041837,
+        "book": 0.7538200510282791,
+        "bottle": 0.6861143968204662
+      }
+    },
+    "cached1280_class_nms_0.8": {
+      "mAP50": 0.7372926188677765,
+      "mAP50_95": 0.5240701068595306,
+      "kept_predictions": 9490,
+      "postprocessing_seconds": 4.835643799975514,
+      "note": "extra class-aware NMS applied to SAME end2end outputs; no retraining/head switch; pilot only",
+      "per_class_AP50": {
+        "person": 0.8382484041990222,
+        "table": 0.6303863924524468,
+        "chair": 0.5708069844878867,
+        "laptop": 0.7083102058344425,
+        "cell phone": 0.8213023322822285,
+        "backpack": 0.8915931841521358,
+        "book": 0.7556974114940868,
+        "bottle": 0.681996036039963
+      }
+    }
+  }
+}

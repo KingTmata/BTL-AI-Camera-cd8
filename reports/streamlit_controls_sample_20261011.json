@@ -1,0 +1,35 @@
+{
+  "source": "base__caa6df99bb9886f4",
+  "weights": "weights\\campaign_20261010\\BEST_Project8_v05.pt",
+  "confidence_threshold": 0.25,
+  "device": "cpu",
+  "imgsz": 640,
+  "nms": false,
+  "extra_class_nms_iou": 0.5,
+  "model_passes": 3,
+  "visible_classes": [
+    "person",
+    "table",
+    "chair",
+    "laptop",
+    "cell phone",
+    "backpack",
+    "book",
+    "bottle"
+  ],
+  "processing_ms": 633.9880999998968,
+  "detections": [
+    {
+      "class_id": 0,
+      "class_name": "person",
+      "model_class_id": 0,
+      "confidence": 0.8599873185157776,
+      "bbox_xyxy": [
+        281.5652770996094,
+        71.79360961914062,
+        360.98956298828125,
+        192.3377227783203
+      ]
+    }
+  ]
+}

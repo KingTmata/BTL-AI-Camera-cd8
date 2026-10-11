@@ -1,0 +1,96 @@
+{
+  "date": "2026-10-08",
+  "timezone": "Asia/Saigon",
+  "rows_read": 14969,
+  "split_counts": {
+    "train": 11969,
+    "val": 2500,
+    "test": 500
+  },
+  "review_stage_counts": {
+    "full_review_pending": 14969
+  },
+  "manifest_sha256": "a48a550a669d37afa9f51f173c4eb6e305b61bdf54d990de00fd1a4321dd0ec5",
+  "unique_image_hash_values_manifest": 14969,
+  "unique_pixel_hash_values_manifest": 14969,
+  "direct_label_counts": {
+    "train": 33222,
+    "val": 8359,
+    "test": 1645
+  },
+  "label_count_mismatches": 0,
+  "base_v04_transitions": {
+    "('train', 'train')": 9540,
+    "('val', 'val')": 1754,
+    "('test', 'test')": 500,
+    "('test', 'val')": 206
+  },
+  "saved_verification": {
+    "valid": false,
+    "images": 14969,
+    "splits": {
+      "train": 11969,
+      "val": 2500,
+      "test": 500
+    },
+    "image_label_hashes_verified": 29938,
+    "old_v04_payload_hashes_verified": 24000,
+    "ultralytics_yaml_valid": true,
+    "active_dataset_sample_read_success": true,
+    "full_visual_review_complete": false,
+    "near_duplicate_scene_audit_complete": false,
+    "pending_unique_train_images": 31,
+    "new_zip_images": 100,
+    "new_zip_unique_images": 0,
+    "new_zip_deleted_by_user_request": true,
+    "format_and_hash_valid": true,
+    "semantic_labels_verified": false,
+    "confirmed_visual_semantic_issues": 1,
+    "training_ready": false
+  },
+  "visual_issue_inspected": [
+    {
+      "image_id": "merge3k__dc02793e38668b6af38f",
+      "image_path": "images/train/merge3k__dc02793e38668b6af38f.jpg",
+      "label_path": "labels/train/merge3k__dc02793e38668b6af38f.txt",
+      "source": "merged_3k/test/images/cellphone_train_3class_filtered__000000000397_jpg.rf.8e07e363621d2ef1fce57e9617b7ae34.jpg",
+      "source_group_key": "cellphone_train_3class_filtered__000000000397_jpg",
+      "issue": "Visual sample depicts pizza/collage but label is chair; semantic annotation suspect, full review required",
+      "confirmed_visual_sample": true,
+      "group_peer_image_ids": [
+        "merge3k__dc02793e38668b6af38f",
+        "merge3k__bb1431881362b11caafe",
+        "merge3k__1d0c6c700ba96df9d91e"
+      ],
+      "label_changed": false
+    }
+  ],
+  "full_review_done_in_this_update": false,
+  "inference_or_training_run": false,
+  "actual_all_image_hashes_recomputed_in_this_update": false,
+  "replacement_zip_currently_exists": false,
+  "only_document_updates_this_turn": true,
+  "latest_post_pizza_removal_check": {
+    "images": 14966,
+    "splits": {
+      "train": 11966,
+      "val": 2500,
+      "test": 500
+    },
+    "review_stage": {
+      "full_review_pending": 14966
+    },
+    "manifest_sha256": "7d85973884f57566cf6b1e1cf365601fdd4fd4fa3990b052939f1803e05991aa",
+    "removed_images": 3,
+    "removed_files_absent": true,
+    "removed_ids_absent_from_manifest": true,
+    "pending_unique_train_images": 34,
+    "active_unique_added_after_removal": 2966,
+    "source_intake_unchanged": true,
+    "training_ready": false,
+    "full_review_complete": false,
+    "snapshot_above_this_field": "Pre-removal14969 historical verification; latest current counts are in this field"
+  },
+  "record_status": "Historical snapshots before phone_topup34; current verification is verification_current_20261008.json",
+  "current_verification_file": "tasks/verification_current_20261008.json"
+}

@@ -1,0 +1,47 @@
+{
+  "status": "prepared",
+  "kept": {
+    "weights/campaign_20261010/BEST_Project8_v05.pt": "087eaca77696eb323464f4294fce43b877de430e0bb26efb55e18322a3c02758",
+    "weights/kaggle/BEST_Project8_v05_20261009.pt": "92adfeb2516861a6958e8adc4a15cf764faa3956078da1ebc81db1fbb7014e31",
+    "weights/recovered_20261010/R01_epoch0.pt": "3323fb2f72a91e2b827d4d7dc696fa66e57ed168d6e138e9e8af9a7c41ee5ece"
+  },
+  "default": "weights/campaign_20261010/BEST_Project8_v05.pt",
+  "files": [
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\weights\\BEST_Project8.pt",
+      "sha256": "d6fa68a79abd7eebfc91724c683d2cfd0c2ace6f6623a019fbef44729bf47adb",
+      "bytes": 15725347
+    },
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\weights\\BEST_Project8_20261008.pt",
+      "sha256": "d4244d26e69d78a066944b22ba64f80ea68602f2f994d6cf6bbae7970ff123f9",
+      "bytes": 5547077
+    },
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\weights\\BEST_Project8_v04_20261008.pt",
+      "sha256": "d6fa68a79abd7eebfc91724c683d2cfd0c2ace6f6623a019fbef44729bf47adb",
+      "bytes": 15725347
+    },
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\weights\\yolo26n.pt",
+      "sha256": "9b09cc8bf347f0fc8a5f7657480587f25db09b34bf33b0652110fb03a8ad4fef",
+      "bytes": 5544453
+    },
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\weights\\kaggle\\BEST_Project8_20261006.pt",
+      "sha256": "ad136a17611ff29fd5b4dc39bed7826706a08c8d5283f63f7af8fefc8860eddf",
+      "bytes": 5546053
+    },
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\weights\\kaggle\\LAST_Project8_v05_20261009.pt",
+      "sha256": "328d5f7e80f3cf0b32f02c61fb37821345d60f4b2182d75902b784621a4db25f",
+      "bytes": 5544517
+    },
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\weights\\kaggle\\project8_26n_kaggle_20261005_092653_fd9cb282f05f.pt",
+      "sha256": "fd9cb282f05f0053166174e6c8d13221f7bfff54e8f06673b21bf8134951a3a8",
+      "bytes": 5487813
+    }
+  ],
+  "total_bytes": 59120607
+}

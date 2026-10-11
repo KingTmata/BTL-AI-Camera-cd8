@@ -1,0 +1,1 @@
+{"status": "PASS", "scope": "archive/data/weights preflight only; no training", "images": 14500, "boxes": 41631, "checkpoint_sha256": "d6fa68a79abd7eebfc91724c683d2cfd0c2ace6f6623a019fbef44729bf47adb", "archive_sha256": "236972ca3e6142d977a29068cf217dc5312c8fb870c8094a98c4960386a0eb5b", "seconds": 263.7}

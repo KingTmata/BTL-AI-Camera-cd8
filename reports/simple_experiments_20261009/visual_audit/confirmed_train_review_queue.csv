@@ -1,0 +1,4 @@
+﻿panel,manifest_image_id,source_id,file_name,issue,observation,label_changed
+3,merge3k__318b61ed98e3f311e58c,merged_3k_local,images/train/merge3k__318b61ed98e3f311e58c.jpg,confirmed_partial_labels,"Nhiều người và bàn ăn hiện rõ, GT chỉ có chair; cần thêm person/table và kiểm bottle.",False
+5,addition1__de124eb65b6ca65a,celulares,images/train/addition1__celulares__hp_155_jpg.rf.47087b10fb4d76e94368a15f9a530728__de124eb65b6ca65a.jpg,confirmed_partial_labels,Người và balô rõ trong ảnh điện thoại; GT chỉ có cell phone; cần person/backpack và kiểm book/người nền.,False
+6,addition1__2857ce9fa5780380,celulares,images/train/addition1__celulares__hp_26_jpg.rf.c89624f6bf9136d61148ed43ea007222__2857ce9fa5780380.jpg,confirmed_partial_labels,"Hai người, bàn, sách/tài liệu và ghế hiện rõ; GT chỉ hai phone; cần person/table/book/chair theo chính sách.",False

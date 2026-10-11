@@ -1,3 +1,7 @@
+> **Dataset hiện hành08/10/2026:**v0.5 đủ15.000 ảnh (12.000train/2.500val/500test), tất cảfull_review_pending, chưatrainv05. Weight/metricv04 bên dưới làlịch sử. XemREADME gốc vàtasks/plan.md.
+
+> **Cập nhật v0.4 — 08/10/2026:** Recognition mặc định dùng `weights/BEST_Project8.pt`, alias của best v0.4 epoch 19. Tám nhãn hiện hành kết thúc bằng `bottle` (gộp cup+bottle). Dataset 12k: 9.540 train / 1.754 val / 706 test. Training local và exporter v0.3 vẫn dùng hợp đồng cũ `cup`; notebook v0.4 và `configs/data_v04.yaml` dành cho bộ mới. Các phần v0.3 bên dưới là lịch sử hoặc hướng dẫn cho bộ cũ.
+
 # Protocol đánh giá detection v1 — project8
 
 Trạng thái: công cụ đã triển khai; chưa có baseline validation dataset nhóm. Áp dụng quyết định lớp ngày 02/10/2026. Hướng dẫn lệnh: [workflow tuần 2](docs/WEEK2_WORKFLOW.md).

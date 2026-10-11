@@ -1,3 +1,7 @@
+> **Dataset hiện hành08/10/2026:**v0.5 đủ15.000 ảnh (12.000train/2.500val/500test), tất cảfull_review_pending, chưatrainv05. Weight/metricv04 bên dưới làlịch sử. XemREADME gốc vàtasks/plan.md.
+
+> **Cập nhật v0.4 — 08/10/2026:** Recognition mặc định dùng `weights/BEST_Project8.pt`, alias của best v0.4 epoch 19. Tám nhãn hiện hành kết thúc bằng `bottle` (gộp cup+bottle). Dataset 12k: 9.540 train / 1.754 val / 706 test. Training local và exporter v0.3 vẫn dùng hợp đồng cũ `cup`; notebook v0.4 và `configs/data_v04.yaml` dành cho bộ mới. Các phần v0.3 bên dưới là lịch sử hoặc hướng dẫn cho bộ cũ.
+
 # Quy chuẩn gán nhãn — project8, cập nhật 02/10/2026
 
 **Mục đích:** để hai thành viên cùng gán 20 ảnh rồi so lỗi trước khi thu và gán dataset chính. Bộ COCO128 hiện chỉ là ảnh tham khảo kỹ thuật; chưa có ảnh tự thu đã được review.
@@ -13,7 +17,7 @@
 | 4 | `cell phone` | 67 | Điện thoại; không bao cả bàn tay. |
 | 5 | `backpack` | 24 | Balo; không gán túi xách hoặc vali. |
 | 6 | `book` | 73 | Sách và vở, mở hoặc đóng; không gán tờ giấy rời. |
-| 7 | `cup` | 41 | Cốc/ly uống nước, kể cả có quai; không gán chai. |
+| 7 | `bottle` | Nguồn bottle 39 / cup 41 cần remap về ID 7 | Gộp cả cốc/ly và chai theo quyết định 08/10/2026; không báo AP riêng cho chai từ lớp gộp này. |
 
 ID trong file nhãn **dataset tám lớp** phải dùng cột `ID dự án`. Nhãn gốc COCO128 dùng cột `ID COCO`; không chép nguyên raw ID vào dataset nhóm. Nhãn bốn lớp cũ có bottle phải được gán lại; đổi cấu hình không tự chuyển nhãn. Mapping được quản lý tại `src/classes.py`.
 
