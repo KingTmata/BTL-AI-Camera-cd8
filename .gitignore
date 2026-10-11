@@ -24,7 +24,11 @@ data/reference/
 demo/smoke/
 weights/*.pt
 runs/
-reports/results/
+/reports/results/*
+# Preserve the versioned training summary inside the local results tree.
+!/reports/results/project8_v03_26n_cpu_r1best_e4_20261004_192709_35d01d41/
+/reports/results/project8_v03_26n_cpu_r1best_e4_20261004_192709_35d01d41/*
+!/reports/results/project8_v03_26n_cpu_r1best_e4_20261004_192709_35d01d41/REPORT.md
 reports/errors/
 demo/private/
 *.log
@@ -45,6 +49,9 @@ htmlcov/
 .env
 .env.*
 !.env.example
+# Kaggle CLI credentials belong to the local machine.
+/.kaggle/
+/kaggle.json
 
 # Model checkpoints and generated inference/training outputs
 *.pt
@@ -56,6 +63,20 @@ htmlcov/
 *.plan
 
 # Local datasets, source media, and demo outputs
+/merged_3k/
+/data/exports/
+*.zip
+*.7z
+*.rar
+*.tar
+*.tar.gz
+*.tgz
+
+# Generated media in archived reports; keep report text and metrics
+/README_DA_HOAN_THANH/reports/results/**/*.jpg
+/README_DA_HOAN_THANH/reports/results/**/*.jpeg
+/README_DA_HOAN_THANH/reports/results/**/*.png
+/README_DA_HOAN_THANH/reports/results/**/*.mp4
 
 # Ultralytics local runtime settings (may include account-specific configuration)
 /Ultralytics/
