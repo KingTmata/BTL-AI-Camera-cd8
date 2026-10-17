@@ -12,6 +12,10 @@ Chuẩn bị ngày 17/10/2026. Các gói riêng tư nằm trong `transfer_backup
 
 Đây là snapshot lúc đang sử dụng Codex: các database được chụp bằng SQLite backup để hợp nhất WAL, không chép database đang ghi một cách thô. Các file hội thoại và các database không có một thời điểm giao dịch chung; tin nhắn sau thời điểm chụp chưa nằm trong gói. Chỉ coi gói hoàn tất khi `backup_report.json` có `finished_local`, `errors` rỗng và đủ ba file ZIP/bundle.
 
+Kiểm tra nguồn ngày 17/10: profile chính có 67 bản ghi chat; profile lồng có 146 bản ghi, không cộng hai số này thành số chat duy nhất. ZIP giữ 234 file JSONL trong các thư mục sessions. Có hai bản ghi profile chính thiếu file rollout ngay trên máy cũ; không thể khẳng định đã cứu nội dung hai chat đó. Các rollout của profile lồng tìm thấy trong ZIP theo tên file nhưng đường dẫn database cũ không còn đúng. Hai profile được giữ riêng, chưa hợp nhất database hoặc sửa index. Không bảo đảm tất cả chat cũ tự xuất hiện trong sidebar sau khi giải nén.
+
+Kiểm tra code trước push: Ruff đạt, 80 file đúng format. Pytest chưa đạt: Windows dùng encoding `gbk` gây lỗi đọc notebook; chạy Python ở UTF-8 đi tiếp được 24 test nhưng gặp lỗi encoding đầu ra subprocess ở test TUI. Lượt pytest trong sandbox không hoàn tất và đã dừng. Đây là snapshot bảo toàn công việc, không phải bản phát hành đã qua toàn bộ test.
+
 ## Khôi phục dự án
 
 1. Trên máy Windows mới, cài Git, Python 3.11 và FFmpeg/FFprobe. Giải nén dự án vào thư mục trống; ưu tiên giữ `C:\Users\aawm8\Downloads\BTL-AI-Camera-cd8` nếu khả thi để các tham chiếu lịch sử tiếp tục đúng.

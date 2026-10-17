@@ -28,6 +28,8 @@ Nếu cài phần video trên môi trường đã có thư viện nền:
 
 GPU có [quy trình cài PyTorch riêng](docs/guides/gpu_setup.md). Không chạy lại bootstrap CPU trên môi trường GPU đang dùng.
 
+Chuyển máy: [sao lưu/khôi phục code, dataset, weights và lịch sử Codex local](docs/guides/move_to_another_computer.md).
+
 Full nhận diện mọi frame rồi xuất MP4; fast lấy mẫu và phát cuốn chiếu. Tracking person chỉ áp dụng full, cần bật tường minh. Video mặc định conf 0,05, imgsz 1280, checkpoint E3 hiện hành. [Hướng dẫn video](docs/guides/video_processing.md) có cấu hình demo LIGHT_CONTRAST seed123 và giải thích OpenCV/backend/TUI.
 
 ## Cấu trúc
