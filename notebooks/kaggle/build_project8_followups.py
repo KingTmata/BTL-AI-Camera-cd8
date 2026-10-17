@@ -5,24 +5,22 @@ import hashlib
 import json
 from pathlib import Path
 import zlib
-
-
 CAMPAIGN = '/kaggle/working/BTL-AI-Camera-v05-campaign-20261010/batch_20261010_001917'
 JOBS = {
     'inference_followup': dict(
-        sources=('kaggle_tools/experiment_campaign.py', 'kaggle_tools/inference_variants.py',
-                 'kaggle_tools/validation_replay.py', 'kaggle_tools/view_replay.py',
+        sources=('src/classroom_ai/experiments/experiment_campaign.py', 'src/classroom_ai/inference/variants.py',
+                 'src/classroom_ai/experiments/validation_replay.py', 'src/classroom_ai/experiments/view_replay.py',
                  'notebooks/kaggle/project8_v05_inference_followup_20261010.py'),
         variable='INFERENCE_FOLLOWUP_SOURCE',
         entry=f"run_inference_followup('{CAMPAIGN}', DATA_YAML, MANIFEST_SHA256)"),
     'nms_sweep': dict(
-        sources=('kaggle_tools/experiment_campaign.py', 'kaggle_tools/inference_variants.py',
-                 'kaggle_tools/validation_replay.py', 'notebooks/kaggle/project8_v05_nms_sweep_20261010.py'),
+        sources=('src/classroom_ai/experiments/experiment_campaign.py', 'src/classroom_ai/inference/variants.py',
+                 'src/classroom_ai/experiments/validation_replay.py', 'notebooks/kaggle/project8_v05_nms_sweep_20261010.py'),
         variable='NMS_SWEEP_SOURCE',
         entry=f"run_nms_sweep('{CAMPAIGN}', MANIFEST_SHA256)"),
     'source_ablations_train': dict(
-        sources=('kaggle_tools/experiment_campaign.py', 'kaggle_tools/inference_variants.py',
-                 'kaggle_tools/training_subsets.py',
+        sources=('src/classroom_ai/experiments/experiment_campaign.py', 'src/classroom_ai/inference/variants.py',
+                 'src/classroom_ai/experiments/training_subsets.py',
                  'notebooks/kaggle/project8_v05_prepare_source_ablations_20261010.py',
                  'notebooks/kaggle/project8_v05_source_ablations_train_20261010.py'),
         variable='SOURCE_ABLATION_TRAIN_SOURCE',
@@ -34,15 +32,11 @@ assert len([row for row in rows if row['split'] == 'val']) == 2500
 assert not (DATA_DIR / 'images/test').exists()
 assert ultralytics.__version__ == '8.4.165'
 """
-
-
 def digest(payload):
     return hashlib.sha256(payload).hexdigest()
-
-
 def build_followups(root):
     root = Path(root).resolve()
-    log = root / 'reports/PROJECT8_V05_LOG.md'
+    log = root / 'reports/training/project8_v05_log.md'
     if not log.is_file():
         raise FileNotFoundError('Existing campaign Markdown log is required')
     packages, records = {}, {}
@@ -54,15 +48,15 @@ def build_followups(root):
             payload = path.read_bytes()
             source_hashes[relative] = digest(payload)
             source = payload.decode('utf-8').replace('\r\n', '\n')
-            source = source.replace('from kaggle_tools.inference_variants import merge_detections\n', '')
-            source = source.replace('from kaggle_tools.inference_variants import EndToEndViews, restore_boxes\n', '')
-            source = source.replace('from kaggle_tools.validation_replay import CacheDetectionValidator\n', '')
+            source = source.replace('from classroom_ai.inference.variants import merge_detections\n', '')
+            source = source.replace('from classroom_ai.inference.variants import EndToEndViews, restore_boxes\n', '')
+            source = source.replace('from classroom_ai.experiments.validation_replay import CacheDetectionValidator\n', '')
             pieces.append(source)
         combined = '\n\n'.join(pieces) + GUARDS + config['entry'] + '\n'
         tree = ast.parse(combined)
-        if any(isinstance(node, ast.ImportFrom) and (node.module or '').startswith('kaggle_tools')
+        if any(isinstance(node, ast.ImportFrom) and (node.module or '').startswith('classroom_ai.experiments')
                for node in ast.walk(tree)):
-            raise ValueError('Embedded source still depends on a local kaggle_tools import')
+            raise ValueError('Embedded source still depends on a local classroom_ai.experiments import')
         payload = combined.encode('utf-8')
         packed = base64.b64encode(zlib.compress(payload, 9)).decode('ascii')
         assert zlib.decompress(base64.b64decode(packed)) == payload
@@ -97,8 +91,6 @@ def build_followups(root):
         stream.write('\n\n### GPU follow-up cells — rebuilt without deleted archive dependencies\n\n```json\n'
                      + json.dumps(records, indent=2) + '\n```\n')
     return records
-
-
 if __name__ == '__main__':
     records = build_followups(Path(__file__).resolve().parents[2])
     print(json.dumps({name: dict(cell=value['cell'], cell_sha256=value['cell_sha256'],

@@ -1,0 +1,2 @@
+# Optional terminal interface; the video CLI itself does not import Textual.
+textual==8.2.8

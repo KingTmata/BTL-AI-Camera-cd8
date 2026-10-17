@@ -1,0 +1,49 @@
+[build-system]
+requires = ["setuptools>=79", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "classroom-ai"
+version = "0.1.0"
+description = "Local classroom video detection, tracking and research tooling"
+requires-python = ">=3.11"
+dynamic = ["dependencies"]
+
+[project.optional-dependencies]
+terminal = ["textual==8.2.8"]
+tracking = ["lap==0.5.12"]
+dev = ["pytest==8.4.2", "ruff==0.17.1"]
+
+[project.scripts]
+classroom-video = "classroom_ai.video.__main__:main"
+classroom-web = "classroom_ai.interfaces.web.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["classroom_ai*"]
+namespaces = false
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["requirements/base.in"]}
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_functions = ["test_*"]
+python_classes = ["Test*"]
+addopts = ["--import-mode=importlib", "--strict-markers"]
+# Research notebook builders are repository tools, not distributed application modules.
+pythonpath = ["."]
+markers = ["integration: real media, subprocess, or UI integration", "unit: isolated module behavior"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["src"]
+extend-exclude = [".python", ".temp", ".tools", "data", "weights", "reports", "runs", "docs/archive", "notebooks"]
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F", "I"]
+
+[tool.ruff.format]
+line-ending = "lf"

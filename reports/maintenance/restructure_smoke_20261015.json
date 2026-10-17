@@ -1,0 +1,556 @@
+{
+  "metadata": {
+    "config": {
+      "source": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\.temp\\restructure_smoke_input.mp4",
+      "mode": "full",
+      "weights": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\weights\\seed_repeats_20261014\\E3_LIGHT_CONTRAST_seed123_E2_best.pt",
+      "device": "cpu",
+      "imgsz": 1280,
+      "confidence": 0.05,
+      "nms_iou": null,
+      "sample_fps": 5,
+      "buffer_ms": 250,
+      "output_dir": "runs\\restructure_smoke",
+      "no_display": true,
+      "baseline": false,
+      "tracking": "bytetrack",
+      "track_max_lost_seconds": 3.0,
+      "track_gap_max_ms": 300.0,
+      "track_smooth_alpha": 0.65
+    },
+    "python": "3.11.16",
+    "platform": "Windows-10-10.0.26200-SP0",
+    "versions": {
+      "numpy": "2.4.6",
+      "opencv-python": "5.0.0.93",
+      "torch": "2.14.0+cpu",
+      "ultralytics": "8.4.165",
+      "psutil": "7.2.2",
+      "lap": "0.5.12"
+    },
+    "source": {
+      "path": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\.temp\\restructure_smoke_input.mp4",
+      "fps_fraction": "30",
+      "fps": 30.0,
+      "width": 1914,
+      "height": 844,
+      "frame_count": 30,
+      "duration_seconds": 1.0,
+      "has_audio": true,
+      "video_start_time": 0.0,
+      "audio_offset_seconds": 0.0
+    },
+    "weights_sha256": "5487978ad53e7c5fc9d5cbe0c043edab8497f4e83dc248a7c0f785775654e816",
+    "notes": {
+      "preflight": "Strict streamed full-source timestamp scan; included in cold cost.",
+      "preview": "Silent. Display FPS is not inference FPS. Headless presentation latency is null.",
+      "percentiles": "At most 2000 recent samples per stage; lifetime count/mean/max retained.",
+      "audio": "First audio track AAC in full MP4. Odd dimensions padded to even."
+    },
+    "resolved_device": "cpu",
+    "device_note": null,
+    "tracking": {
+      "track_high_thresh": 0.05,
+      "track_low_thresh": 0.04000000000000001,
+      "new_track_thresh": 0.05,
+      "match_thresh": 0.8,
+      "fuse_score": false,
+      "track_buffer": 90,
+      "algorithm": "bytetrack",
+      "class_id": 0,
+      "confirm_consecutive_frames": 2,
+      "max_lost_seconds": 3.0,
+      "gap_max_ms": 300.0,
+      "smooth_alpha": 0.65,
+      "scene_cut": {
+        "width": 160,
+        "height": 90,
+        "histogram_bins": [
+          32,
+          32
+        ],
+        "bhattacharyya_threshold": 0.6,
+        "gray_mean_threshold": 0.25
+      },
+      "colors": "HSV pseudo-random by session ID; seed 20261015; stable across frames",
+      "interpolation": "Two confirmed same-ID same-scene anchors; no extrapolation",
+      "gap_size_ratio": [
+        0.5,
+        2
+      ],
+      "gap_center_diagonal_ratio": 0.75
+    }
+  },
+  "report": {
+    "elapsed_seconds": 13.28650159999961,
+    "counts": {
+      "frames_decoded": 30,
+      "frames_inferred": 30,
+      "tracks_ended": 5,
+      "tracks_created": 5,
+      "frames_tracked": 30,
+      "tracks_confirmed": 4,
+      "tracks_refound": 1,
+      "frames_render_decoded": 30,
+      "frames_encoded": 30,
+      "track_boxes_interpolated": 1,
+      "track_gaps_interpolated": 1,
+      "track_frames_interpolated": 1
+    },
+    "stages": {
+      "source_preflight": {
+        "count": 1,
+        "total_ms": 379.56269999267533,
+        "max_ms": 379.56269999267533,
+        "p50_ms": 379.56269999267533,
+        "p95_ms": 379.56269999267533,
+        "percentile_window_samples": 1
+      },
+      "runtime_device_setup": {
+        "count": 1,
+        "total_ms": 0.007099995855242014,
+        "max_ms": 0.007099995855242014,
+        "p50_ms": 0.007099995855242014,
+        "p95_ms": 0.007099995855242014,
+        "percentile_window_samples": 1
+      },
+      "model_load": {
+        "count": 1,
+        "total_ms": 404.40870000747964,
+        "max_ms": 404.40870000747964,
+        "p50_ms": 404.40870000747964,
+        "p95_ms": 404.40870000747964,
+        "percentile_window_samples": 1
+      },
+      "warmup": {
+        "count": 1,
+        "total_ms": 250.439000010374,
+        "max_ms": 250.439000010374,
+        "p50_ms": 250.439000010374,
+        "p95_ms": 250.439000010374,
+        "percentile_window_samples": 1
+      },
+      "tracking_setup": {
+        "count": 1,
+        "total_ms": 28.634399990551174,
+        "max_ms": 28.634399990551174,
+        "p50_ms": 28.634399990551174,
+        "p95_ms": 28.634399990551174,
+        "percentile_window_samples": 1
+      },
+      "decode": {
+        "count": 31,
+        "total_ms": 161.657299977378,
+        "max_ms": 33.97419999237172,
+        "p50_ms": 4.356199991889298,
+        "p95_ms": 5.942750001850072,
+        "percentile_window_samples": 31
+      },
+      "manager_lock_wait": {
+        "count": 30,
+        "total_ms": 48.68029999488499,
+        "max_ms": 1.8330000020796433,
+        "p50_ms": 1.6010000035748817,
+        "p95_ms": 1.7561349995958153,
+        "percentile_window_samples": 30
+      },
+      "manager_active_check": {
+        "count": 30,
+        "total_ms": 15.224199974909425,
+        "max_ms": 0.6147000094642863,
+        "p50_ms": 0.4939500067848712,
+        "p95_ms": 0.5989299963403028,
+        "percentile_window_samples": 30
+      },
+      "inference_callback": {
+        "count": 30,
+        "total_ms": 2477.742999966722,
+        "max_ms": 102.04179999709595,
+        "p50_ms": 82.22185000340687,
+        "p95_ms": 90.00829499782411,
+        "percentile_window_samples": 30
+      },
+      "model_processing": {
+        "count": 30,
+        "total_ms": 2409.395900031086,
+        "max_ms": 100.09700000227895,
+        "p50_ms": 79.77340000070399,
+        "p95_ms": 87.79288000368977,
+        "percentile_window_samples": 30
+      },
+      "inspector_lock_wait": {
+        "count": 30,
+        "total_ms": 0.028899943572469056,
+        "max_ms": 0.0013999961083754897,
+        "p50_ms": 0.000900006853044033,
+        "p95_ms": 0.0012100012099836015,
+        "percentile_window_samples": 30
+      },
+      "track_scene_check": {
+        "count": 30,
+        "total_ms": 237.78070001571905,
+        "max_ms": 8.434200004558079,
+        "p50_ms": 8.086200003162958,
+        "p95_ms": 8.351194994611433,
+        "percentile_window_samples": 30
+      },
+      "tracking": {
+        "count": 30,
+        "total_ms": 23.171799970441498,
+        "max_ms": 1.2301999959163368,
+        "p50_ms": 0.8266000004368834,
+        "p95_ms": 1.0836250025022307,
+        "percentile_window_samples": 30
+      },
+      "render_decode": {
+        "count": 31,
+        "total_ms": 185.80199999269098,
+        "max_ms": 34.35600000375416,
+        "p50_ms": 5.167700001038611,
+        "p95_ms": 6.184099998790771,
+        "percentile_window_samples": 31
+      },
+      "track_smoothing": {
+        "count": 30,
+        "total_ms": 3.156800026772544,
+        "max_ms": 0.40550000267103314,
+        "p50_ms": 0.0926000066101551,
+        "p95_ms": 0.27752000023610857,
+        "percentile_window_samples": 30
+      },
+      "track_interpolation": {
+        "count": 30,
+        "total_ms": 0.5664999625878409,
+        "max_ms": 0.14050000754650682,
+        "p50_ms": 0.014299999747890979,
+        "p95_ms": 0.029735000134678554,
+        "percentile_window_samples": 30
+      },
+      "draw": {
+        "count": 30,
+        "total_ms": 153.27529997739475,
+        "max_ms": 34.04250000312459,
+        "p50_ms": 4.00880000233883,
+        "p95_ms": 6.012599996756758,
+        "percentile_window_samples": 30
+      },
+      "encode_write": {
+        "count": 30,
+        "total_ms": 102.49470008420758,
+        "max_ms": 36.97320001083426,
+        "p50_ms": 2.014099998632446,
+        "p95_ms": 5.441585001972259,
+        "percentile_window_samples": 30
+      },
+      "track_gap_duration": {
+        "count": 1,
+        "total_ms": 66.66666666666666,
+        "max_ms": 66.66666666666666,
+        "p50_ms": 66.66666666666666,
+        "p95_ms": 66.66666666666666,
+        "percentile_window_samples": 1
+      },
+      "export_finalize_validate": {
+        "count": 1,
+        "total_ms": 539.3660999980057,
+        "max_ms": 539.3660999980057,
+        "p50_ms": 539.3660999980057,
+        "p95_ms": 539.3660999980057,
+        "percentile_window_samples": 1
+      }
+    },
+    "first_result_display_warm_ms": null,
+    "first_result_display_cold_ms": null,
+    "first_result_available_warm_ms": 199.046299996553,
+    "first_result_available_cold_ms": 9327.036000002408,
+    "lifecycle": [
+      {
+        "stage": "Validating source timestamps (CFR scan)",
+        "cold_elapsed_ms": 542.71080000035
+      },
+      {
+        "stage": "Checking device and loading runtime",
+        "cold_elapsed_ms": 8472.971399998642
+      },
+      {
+        "stage": "Loading model",
+        "cold_elapsed_ms": 8472.994000010658
+      },
+      {
+        "stage": "Warming up YOLO",
+        "cold_elapsed_ms": 8877.423900004942
+      },
+      {
+        "stage": "Detecting and tracking",
+        "cold_elapsed_ms": 9162.874800007557
+      },
+      {
+        "stage": "Rendering tracked video",
+        "cold_elapsed_ms": 12165.965000007418
+      },
+      {
+        "stage": "Finalizing and validating MP4",
+        "cold_elapsed_ms": 12740.789400006179
+      }
+    ],
+    "resolved_device": "cpu",
+    "model_ready_rss_bytes": 313536512,
+    "model_ready_cold_ms": 9127.989700005855,
+    "tracking_settings": {
+      "track_high_thresh": 0.05,
+      "track_low_thresh": 0.04000000000000001,
+      "new_track_thresh": 0.05,
+      "match_thresh": 0.8,
+      "fuse_score": false,
+      "track_buffer": 90,
+      "algorithm": "bytetrack",
+      "class_id": 0,
+      "confirm_consecutive_frames": 2,
+      "max_lost_seconds": 3.0,
+      "gap_max_ms": 300.0,
+      "smooth_alpha": 0.65,
+      "scene_cut": {
+        "width": 160,
+        "height": 90,
+        "histogram_bins": [
+          32,
+          32
+        ],
+        "bhattacharyya_threshold": 0.6,
+        "gray_mean_threshold": 0.25
+      },
+      "colors": "HSV pseudo-random by session ID; seed 20261015; stable across frames",
+      "interpolation": "Two confirmed same-ID same-scene anchors; no extrapolation",
+      "gap_size_ratio": [
+        0.5,
+        2
+      ],
+      "gap_center_diagonal_ratio": 0.75
+    },
+    "track_state_peak": 4,
+    "track_metadata_peak_frames": 11,
+    "track_render_peak_history": 4,
+    "processing_complete_cold_ms": 13282.546200003708,
+    "resource_samples": [
+      {
+        "elapsed_seconds": 1.8074070000002393,
+        "rss_bytes": 157040640,
+        "cpu_percent": 70.9,
+        "threads": 20
+      },
+      {
+        "elapsed_seconds": 2.8203314000129467,
+        "rss_bytes": 189550592,
+        "cpu_percent": 100.1,
+        "threads": 20
+      },
+      {
+        "elapsed_seconds": 3.832154300005641,
+        "rss_bytes": 189607936,
+        "cpu_percent": 98.4,
+        "threads": 20
+      },
+      {
+        "elapsed_seconds": 4.844383900010143,
+        "rss_bytes": 189657088,
+        "cpu_percent": 100.1,
+        "threads": 20
+      },
+      {
+        "elapsed_seconds": 5.85783020000963,
+        "rss_bytes": 189710336,
+        "cpu_percent": 96.9,
+        "threads": 20
+      },
+      {
+        "elapsed_seconds": 6.866600400011521,
+        "rss_bytes": 189751296,
+        "cpu_percent": 100.0,
+        "threads": 20
+      },
+      {
+        "elapsed_seconds": 7.9367995000066,
+        "rss_bytes": 209666048,
+        "cpu_percent": 100.0,
+        "threads": 20
+      },
+      {
+        "elapsed_seconds": 8.941434000007575,
+        "rss_bytes": 254541824,
+        "cpu_percent": 120.1,
+        "threads": 27
+      },
+      {
+        "elapsed_seconds": 9.955555799999274,
+        "rss_bytes": 461783040,
+        "cpu_percent": 772.0,
+        "threads": 65
+      },
+      {
+        "elapsed_seconds": 10.96996040000522,
+        "rss_bytes": 465375232,
+        "cpu_percent": 797.4,
+        "threads": 65
+      },
+      {
+        "elapsed_seconds": 11.97751560001052,
+        "rss_bytes": 465383424,
+        "cpu_percent": 806.2,
+        "threads": 65
+      },
+      {
+        "elapsed_seconds": 13.005629999999655,
+        "rss_bytes": 357003264,
+        "cpu_percent": 314.9,
+        "threads": 36
+      }
+    ],
+    "status": "completed",
+    "error": null,
+    "rss_initial_bytes": 42283008,
+    "rss_peak_sampled_bytes": 465383424,
+    "rss_final_bytes": 341704704,
+    "inferred_fraction_of_source": 1.0,
+    "inference_callback_fps": 12.10779326201423,
+    "frames_without_inference": 0,
+    "display_drop_fraction": null,
+    "first_display_under_3s_warm": null
+  },
+  "output_probe": {
+    "streams": [
+      {
+        "index": 0,
+        "codec_name": "h264",
+        "codec_long_name": "H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10",
+        "profile": "High",
+        "codec_type": "video",
+        "codec_tag_string": "avc1",
+        "codec_tag": "0x31637661",
+        "mime_codec_string": "avc1.640028",
+        "width": 1914,
+        "height": 844,
+        "coded_width": 1920,
+        "coded_height": 848,
+        "has_b_frames": 2,
+        "pix_fmt": "yuv420p",
+        "level": 40,
+        "chroma_location": "left",
+        "field_order": "progressive",
+        "refs": 4,
+        "is_avc": "true",
+        "nal_length_size": "4",
+        "id": "0x1",
+        "r_frame_rate": "30/1",
+        "avg_frame_rate": "30/1",
+        "time_base": "1/15360",
+        "start_pts": 0,
+        "start_time": "0.000000",
+        "duration_ts": 15360,
+        "duration": "1.000000",
+        "bit_rate": "4552232",
+        "bits_per_raw_sample": "8",
+        "nb_frames": "30",
+        "nb_read_frames": "30",
+        "extradata_size": 46,
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0,
+          "multilayer": 0
+        },
+        "tags": {
+          "language": "und",
+          "handler_name": "VideoHandler",
+          "encoder": "Lavc62.28.102 libx264"
+        }
+      },
+      {
+        "index": 1,
+        "codec_name": "aac",
+        "codec_long_name": "AAC (Advanced Audio Coding)",
+        "profile": "LC",
+        "codec_type": "audio",
+        "codec_tag_string": "mp4a",
+        "codec_tag": "0x6134706d",
+        "mime_codec_string": "mp4a.40.2",
+        "sample_fmt": "fltp",
+        "sample_rate": "48000",
+        "channels": 2,
+        "channel_layout": "stereo",
+        "bits_per_sample": 0,
+        "initial_padding": 0,
+        "id": "0x2",
+        "r_frame_rate": "0/0",
+        "avg_frame_rate": "0/0",
+        "time_base": "1/48000",
+        "start_pts": 0,
+        "start_time": "0.000000",
+        "duration_ts": 48000,
+        "duration": "1.000000",
+        "bit_rate": "135830",
+        "nb_frames": "48",
+        "nb_read_frames": "47",
+        "extradata_size": 5,
+        "disposition": {
+          "default": 1,
+          "dub": 0,
+          "original": 0,
+          "comment": 0,
+          "lyrics": 0,
+          "karaoke": 0,
+          "forced": 0,
+          "hearing_impaired": 0,
+          "visual_impaired": 0,
+          "clean_effects": 0,
+          "attached_pic": 0,
+          "timed_thumbnails": 0,
+          "non_diegetic": 0,
+          "captions": 0,
+          "descriptions": 0,
+          "metadata": 0,
+          "dependent": 0,
+          "still_image": 0,
+          "multilayer": 0
+        },
+        "tags": {
+          "language": "und",
+          "handler_name": "SoundHandler"
+        }
+      }
+    ],
+    "format": {
+      "filename": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\runs\\restructure_smoke\\20261015_235133_cbe6b6dec1\\annotated.mp4",
+      "nb_streams": 2,
+      "nb_programs": 0,
+      "nb_stream_groups": 0,
+      "format_name": "mov,mp4,m4a,3gp,3g2,mj2",
+      "format_long_name": "QuickTime / MOV",
+      "start_time": "0.000000",
+      "duration": "1.000000",
+      "size": "588874",
+      "bit_rate": "4710992",
+      "probe_score": 100,
+      "tags": {
+        "major_brand": "isom",
+        "minor_version": "512",
+        "compatible_brands": "isomiso2avc1mp41",
+        "encoder": "Lavf62.12.102"
+      }
+    }
+  }
+}

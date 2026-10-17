@@ -4,40 +4,30 @@ import datetime
 import json
 import traceback
 from pathlib import Path
-
 import torch
 import ultralytics
 import yaml
 from ultralytics import YOLO
-
-from kaggle_tools.experiment_campaign import file_sha
-from kaggle_tools.validation_replay import CacheDetectionValidator, replay_metrics
-
-
+from classroom_ai.experiments.experiment_campaign import file_sha
+from classroom_ai.experiments.validation_replay import CacheDetectionValidator, replay_metrics
 class CanvasCache(CacheDetectionValidator):
     def update_metrics(self, preds, batch):
         start = len(self.cached_samples)
         super().update_metrics(preds, batch)
         for sample in self.cached_samples[start:]:
             sample['canvas_hw'] = tuple(batch['img'].shape[-2:])
-
-
 def scores(metrics):
     return dict(mAP50=float(metrics.box.map50), mAP50_95=float(metrics.box.map),
                 precision=float(metrics.box.mp), recall=float(metrics.box.mr),
                 per_class={metrics.names[int(cls)]: dict(AP50=float(metrics.box.ap50[j]),
                     AP50_95=float(metrics.box.ap[j]))
                     for j, cls in enumerate(metrics.box.ap_class_index)})
-
-
 def differences(left, right):
     result = {key: right[key] - left[key]
               for key in ('mAP50', 'mAP50_95', 'precision', 'recall')}
     result['per_class'] = {name: {key: right['per_class'][name][key] - value
         for key, value in values.items()} for name, values in left['per_class'].items()}
     return result
-
-
 if __name__ == '__main__':
     root = Path.cwd().resolve()
     selection_path = root / '.temp/single_best_selection_20261010.json'
@@ -65,12 +55,10 @@ if __name__ == '__main__':
                   source_sha256=file_sha(__file__), checkpoint_sha256=file_sha(checkpoint),
                   manifest_sha256=selection['manifest_sha256'], protocol=protocol,
                   validation_images=2500, validation_boxes=8359, published_model_replaced=False)
-
     def log(title):
-        with (root / 'reports/PROJECT8_V05_LOG.md').open('a', encoding='utf-8') as stream:
+        with (root / 'reports/training/project8_v05_log.md').open('a', encoding='utf-8') as stream:
             stream.write('\n\n### ' + title + '\n\n```json\n' + json.dumps(record, indent=2) + '\n```\n')
         print(title, json.dumps(record), flush=True)
-
     log('Identity clipping — full validation bắt đầu')
     try:
         model = YOLO(str(checkpoint))

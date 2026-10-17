@@ -7,17 +7,14 @@ import shutil
 import traceback
 from functools import partial
 from pathlib import Path
-
 import torch
 import ultralytics
 import yaml
 from ultralytics import YOLO
-
-from kaggle_tools.experiment_campaign import file_sha, select_epoch
-from kaggle_tools.inference_variants import ExplicitViewsValidator
-
+from classroom_ai.experiments.experiment_campaign import file_sha, select_epoch
+from classroom_ai.inference.variants import ExplicitViewsValidator
 root = Path.cwd().resolve()
-log = root / 'reports/PROJECT8_V05_LOG.md'
+log = root / 'reports/training/project8_v05_log.md'
 candidate = root / '.temp/project8_v05_candidates/R04_epoch3.pt'
 checkpoint_sha = '087eaca77696eb323464f4294fce43b877de430e0bb26efb55e18322a3c02758'
 manifest_sha = '22a0140ab5e4d454d7e0c46ab24145c6d52d8b949db67ab8142fdd3bb8bb9ccd'
@@ -58,18 +55,14 @@ old_best = json.loads(best_metadata_path.read_text())
 assert {key: value for key, value in protocol.items() if key != 'data'} == {
     key: value for key, value in old_best['protocol'].items() if key != 'data'}
 assert file_sha(best_path) == old_best['checkpoint_sha256']
-
-
 def append_record(title, record):
     text = '\n\n### ' + title + '\n\n```json\n' + json.dumps(record, indent=2) + '\n```\n'
     with log.open('a', encoding='utf-8') as stream:
         stream.write(text)
-
-
 append_record('R04 CPU explicit views — bắt đầu', dict(
     timestamp_utc=stamp, status='running', checkpoint_sha256=checkpoint_sha,
     manifest_sha256=manifest_sha, validation_images=2500, validation_boxes=8359,
-    source_sha256=file_sha(__file__), inference_helper_sha256=file_sha(root / 'kaggle_tools/inference_variants.py'),
+    source_sha256=file_sha(__file__), inference_helper_sha256=file_sha(root / 'src/classroom_ai/inference/variants.py'),
     csv_sha256=file_sha(candidate.parent / 'R04_results.csv'), selected_epoch=4,
     protocol=protocol, validation_yaml_sha256=file_sha(data_yaml), test_used=False,
     views_to_measure={'R04_flip': [[1., False], [1., True]],

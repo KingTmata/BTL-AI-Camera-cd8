@@ -1,0 +1,9 @@
+**Cập nhật v0.4 — 08/10/2026:** đã nhập ZIP full train 20/50 epoch; dùng `weights/BEST_Project8_v04_20261008.pt` (best epoch 19), alias `weights/BEST_Project8.pt`. Trainer 1280/NMS-free: 75,356% / 53,488%; cùng protocol COCO 640/NMS=True trên val v0.4: trước 47,593% / 31,047% → mới 70,706% / 50,694%. Trên val v0.3: 56,727% / 35,896% → 55,279% / 35,049%, nên giữ best cũ để đối chứng. Dataset mới 12.000 ảnh (9.540/1.754/706); ID 7 bottle gồm cup+bottle. Recognition đã đổi mapping; local Training/export v0.3 vẫn giữ riêng. [Báo cáo và AP từng lớp](../archive/completed/reports/results/kaggle/project8_v04_12k_from_best50_20261008_151936/report.md).
+
+# Kết quả
+
+**Cập nhật 08/10/2026:** [bảng đủ 50 epoch trong 6 run](../archive/completed/reports/results/training_50_epochs_20261008/report.md) · [K3 20 epoch, kiểm hash/model và AP từng lớp](../archive/completed/reports/results/kaggle/project8_26n_kaggle_20261008_040051/report.md). CSV/JSON ở `reports/results/`; ZIP, last và log ở `runs/kaggle/`; báo cáo Markdown hoàn tất ở `README_DA_HOAN_THANH/`.
+
+Đối soát 06/10/2026: [bảng đủ 30 epoch thuộc 5 run, loss/P/R/AP/thời gian và kiểm trọng số](../archive/completed/reports/results/training_30_epochs_20261006/report.md). JSON kiểm toán và CSV gốc tổng hợp ở `reports/results/training_30_epochs_20261006/`; Markdown báo cáo ở `README_DA_HOAN_THANH/`.
+
+`results/` dành cho bảng chỉ số và dự đoán được tạo từ run thật; `errors/` dành cho ca lỗi phân tích. R1/R2 là hai run CPU tuần 3. Run Kaggle Project8 14 epoch đã chấm pretrained baseline và fine-tuned best trên cùng protocol validation 798 ảnh; xem [báo cáo đầy đủ](../archive/completed/reports/results/kaggle/project8_26n_kaggle_20261006_083226/report.md) và [danh mục báo cáo hoàn thành](../archive/completed/README.md). Chưa có kết quả test độc lập hay nghiệm thu triển khai.

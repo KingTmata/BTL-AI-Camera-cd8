@@ -1,7 +1,11 @@
 """Actual full validation on local CPU while Kaggle trains independently.
 
+
+
 Run from the project root. Requires the downloaded R02 epoch4 checkpoint. Uses the identical CPU validation YAML as the baseline/R01 run.
+
 CPU FP32 measurements form their own table, separate from Kaggle GPU FP16.
+
 """
 import csv
 import datetime
@@ -11,16 +15,13 @@ import shutil
 import traceback
 from functools import partial
 from pathlib import Path
-
 import torch
 import ultralytics
 import yaml
 from ultralytics import YOLO
-
-from kaggle_tools.experiment_campaign import file_sha, rank_results, verified_bundle
-from kaggle_tools.inference_variants import ExplicitViewsValidator
-from kaggle_tools.validation_replay import CacheDetectionValidator, replay_metrics
-
+from classroom_ai.experiments.experiment_campaign import file_sha, rank_results, verified_bundle
+from classroom_ai.inference.variants import ExplicitViewsValidator
+from classroom_ai.experiments.validation_replay import CacheDetectionValidator, replay_metrics
 root = Path.cwd()
 stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%d_%H%M%S')
 output = root / 'reports/campaign_20261010' / ('local_R02_inference_' + stamp)
@@ -61,16 +62,12 @@ state = dict(status='running', target_mAP50=.80, manifest_sha256=manifest_sha,
              selection_note='NMS/view tuning on validation; not independent test.',
              protocol_note='Local CPU FP32 table; separate from Kaggle CUDA FP16.',
              timing_note='R01 flip validation may run concurrently on this host. Accuracy protocol identical; timings are not a controlled latency benchmark.')
-
-
 def preserve(label):
     (output / 'comparison.json').write_text(json.dumps(state, indent=2))
     payload = [path for path in output.rglob('*') if path.is_file() and path.suffix != '.zip']
     archive = output.parent / (output.name + '_' + label + '.zip')
     digest = verified_bundle(output, payload, archive)
     print('LOCAL_VALIDATED_ARCHIVE', archive, digest, flush=True)
-
-
 def record_metrics(metrics, label, checkpoint, checkpoint_sha, **extra):
     assert int(sum(metrics.nt_per_class)) == 8359
     record = dict(manifest_sha256=manifest_sha, protocol=protocol,
@@ -83,19 +80,15 @@ def record_metrics(metrics, label, checkpoint, checkpoint_sha, **extra):
     (output / (label + '.json')).write_text(json.dumps(record, indent=2))
     print('LOCAL_FULL_VAL_METRIC', label, json.dumps(record), flush=True)
     return record
-
-
 preserve('preflight')
 for label, (checkpoint, checkpoint_sha) in checkpoints.items():
     try:
         assert file_sha(checkpoint) == checkpoint_sha
         holder = []
-
         def factory(**kwargs):
             validator = CacheDetectionValidator(**kwargs)
             holder.append(validator)
             return validator
-
         model = YOLO(str(checkpoint))
         assert model.model.end2end and [model.names[index] for index in range(8)] == list(data['names'].values())
         metrics = model.val(validator=factory, project=str(output / 'evaluation'), name=label + '_cache',

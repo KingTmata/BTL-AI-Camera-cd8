@@ -13,14 +13,11 @@ import subprocess
 import time
 import traceback
 from pathlib import Path
-
 import torch
 import yaml
 from ultralytics import YOLO
 from ultralytics.cfg import get_cfg
 from ultralytics.models.yolo.detect import DetectionValidator
-
-
 def run_source_ablations(campaign_path, data_root, manifest_path, original_data_yaml, expected_manifest):
     campaign = Path(campaign_path)
     original = json.loads((campaign / 'comparison.json').read_text())
@@ -56,7 +53,6 @@ def run_source_ablations(campaign_path, data_root, manifest_path, original_data_
                  selection_note='Epochs, datasets and NMS selected on validation; no independent test claim.')
     if 'SOURCE_ABLATION_TRAIN_SOURCE' in globals():
         (output / 'executed_source.py').write_text(SOURCE_ABLATION_TRAIN_SOURCE)
-
     def preserve(label):
         (output / 'comparison.json').write_text(json.dumps(state, indent=2))
         selected_paths = {Path(run['checkpoint']).resolve() for run in state['runs'].values() if run.get('checkpoint')}
@@ -75,7 +71,6 @@ def run_source_ablations(campaign_path, data_root, manifest_path, original_data_
         archive = campaign.parent / (output.name + '_' + label + '.zip')
         digest = verified_bundle(output, sources, archive)
         print('SOURCE_ABLATION_VERIFIED_ARCHIVE', archive, digest, flush=True)
-
     class SourceNMSValidator(DetectionValidator):
         def postprocess(self, predictions):
             items = super().postprocess(predictions)
@@ -84,7 +79,6 @@ def run_source_ablations(campaign_path, data_root, manifest_path, original_data_
                 merged = merge_detections([raw], iou=.6)
                 item.update(bboxes=merged[:, :4], conf=merged[:, 4], cls=merged[:, 5], extra=merged[:, 6:])
             return items
-
     for label, selection in jobs.items():
         if shutil.disk_usage(output).free < 2 * 1024**3:
             state['status'] = 'stopped_disk_space'

@@ -5,15 +5,12 @@ import datetime
 import json
 import traceback
 from pathlib import Path
-
 import torch
 import ultralytics
 import yaml
 from ultralytics import YOLO
-
-from kaggle_tools.experiment_campaign import file_sha
-from kaggle_tools.inference_variants import EndToEndViews
-
+from classroom_ai.experiments.experiment_campaign import file_sha
+from classroom_ai.inference.variants import EndToEndViews
 root = Path.cwd().resolve()
 selection_path = root / '.temp/single_best_selection_20261010.json'
 selection = json.loads(selection_path.read_text())
@@ -36,21 +33,19 @@ for index, row in enumerate(rows, 1):
         assert file_sha(dataset / row[p]) == row[h], row['image_id']
     if index % 500 == 0:
         print('BEST_RELOAD_PAYLOAD_VERIFIED', index, flush=True)
-
 torch.set_num_threads(4)
 folder = root / '.temp' / ('best_pipeline_full_' + datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%d_%H%M%S'))
 folder.mkdir(exist_ok=False)
 artifact = folder / 'single_pipeline.pt'
 record = dict(status='running', scope='Full 2500-image validation through serialized pipeline and default YOLO validator',
-    source_sha256=file_sha(__file__), helper_sha256=file_sha(root / 'kaggle_tools/inference_variants.py'),
+    source_sha256=file_sha(__file__), helper_sha256=file_sha(root / 'src/classroom_ai/inference/variants.py'),
     component_checkpoint_sha256=selection['checkpoint_sha256'], manifest_sha256=selection['manifest_sha256'],
     protocol=protocol, validation_images=2500, validation_boxes=8359,
     views=selection['views'], extra_nms_iou=selection['extra_nms_iou'], test_used=False,
     reference_pipeline=selection['pipeline'], published_model_replaced=False)
 def append(title, value):
-    with (root / 'reports/PROJECT8_V05_LOG.md').open('a', encoding='utf-8') as stream:
+    with (root / 'reports/training/project8_v05_log.md').open('a', encoding='utf-8') as stream:
         stream.write('\n\n### ' + title + '\n\n```json\n' + json.dumps(value, indent=2) + '\n```\n')
-
 try:
     views = tuple(tuple(v) for v in selection['views'])
     wrapper = EndToEndViews([YOLO(str(checkpoint)).model], views=views,

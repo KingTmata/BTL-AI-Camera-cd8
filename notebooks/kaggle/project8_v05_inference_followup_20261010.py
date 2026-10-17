@@ -10,13 +10,10 @@ import math
 import traceback
 from functools import partial
 from pathlib import Path
-
 import torch
 import ultralytics
 from ultralytics import YOLO
 import yaml
-
-
 def build_inference_jobs(chosen):
     if not chosen or len(chosen) > 3 or len(set(chosen)) != len(chosen):
         raise ValueError('Select one to three distinct measured checkpoints')
@@ -31,8 +28,6 @@ def build_inference_jobs(chosen):
     if len(chosen) == 3:
         jobs.append(('ensemble_top3', chosen, ((1., False),)))
     return jobs
-
-
 def _require_scores_parity(actual, expected):
     for key in ('mAP50', 'mAP50_95', 'precision', 'recall'):
         values = float(actual[key]), float(expected[key])
@@ -46,23 +41,17 @@ def _require_scores_parity(actual, expected):
                 values = float(actual['per_class'][name][key]), float(expected_values[key])
                 if not all(math.isfinite(value) for value in values) or abs(values[0] - values[1]) > 1e-6:
                     raise ValueError('Inference class parity failed: ' + name + ' ' + key)
-
-
 def require_full_cache_parity(samples, actual, replayed):
     if len(samples) != 2500 or len({sample['im_name'] for sample in samples}) != 2500:
         raise ValueError('Missing or duplicate validation images')
     if sum(len(sample['target_cls']) for sample in samples) != 8359:
         raise ValueError('Full validation ground truth differs')
     _require_scores_parity(actual, replayed)
-
-
 def _metric_record(metrics):
     return dict(mAP50=float(metrics.box.map50), mAP50_95=float(metrics.box.map),
         precision=float(metrics.box.mp), recall=float(metrics.box.mr),
         per_class={metrics.names[int(cls)]: dict(AP50=float(metrics.box.ap50[j]),
             AP50_95=float(metrics.box.ap[j])) for j, cls in enumerate(metrics.box.ap_class_index)})
-
-
 def _capture_views(paths, views, protocol, output, label):
     holders = []
     def factory(**kwargs):
@@ -74,8 +63,6 @@ def _capture_views(paths, views, protocol, output, label):
     if len(holders) != 1:
         raise ValueError('Unexpected raw-cache validator count')
     return metrics, holders[0].cached_samples
-
-
 def _smoke_raw_pipeline(paths, views, protocol, output, label):
     data = yaml.safe_load(Path(protocol['data']).read_text())
     val_root = Path(data['path']) / data['val']
@@ -109,8 +96,6 @@ def _smoke_raw_pipeline(paths, views, protocol, output, label):
                 if not path.resolve().is_relative_to(output.resolve()):
                     raise ValueError('Smoke file resolves outside output')
                 path.unlink()
-
-
 def run_inference_followup(campaign_path, data_yaml, expected_manifest):
     campaign = Path(campaign_path)
     state = json.loads((campaign / 'comparison.json').read_text())
@@ -156,14 +141,12 @@ def run_inference_followup(campaign_path, data_yaml, expected_manifest):
     if 'INFERENCE_FOLLOWUP_SOURCE' in globals():
         (output / 'executed_source.py').write_text(INFERENCE_FOLLOWUP_SOURCE)
         report['source_sha256'] = file_sha(output / 'executed_source.py')
-
     def preserve(label):
         (output / 'comparison.json').write_text(json.dumps(report, indent=2))
         sources = [path for path in output.rglob('*') if path.is_file() and path.suffix != '.zip']
         archive = campaign.parent / (output.name + '_' + label + '.zip')
         digest = verified_bundle(output, sources, archive)
         print('INFERENCE_VERIFIED_ARCHIVE', archive, digest, flush=True)
-
     for label, members, views in jobs:
         paths = [measurements[name]['checkpoint'] for name in members]
         samples, metrics = None, None

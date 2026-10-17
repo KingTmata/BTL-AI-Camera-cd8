@@ -1,5 +1,156 @@
 # Mục tiêu và kế hoạch phát triển BTL-AI-Camera-cd8
 
+## Mục tiêu và yêu cầu chính thức — 15/10/2026
+
+Đây là nguồn chính thức cho tên đề tài, mục tiêu và nội dung nghiên cứu đã thống nhất. Định hướng này thay các hướng đề xuất trước đó và ưu tiên tối đa FPS webcam. Những phần kế hoạch có ngày trước 15/10/2026 bên dưới được giữ làm hồ sơ kỹ thuật/tham khảo; không mặc định trở thành yêu cầu hoặc ưu tiên của hướng nghiên cứu mới. Các chỉ tiêu detector/dataset cũ không tự trở thành tiêu chí nghiệm thu nhận dạng hành vi hay đánh giá tương tác.
+
+### Tên đề tài
+
+Nghiên cứu xây dựng hệ thống nhận dạng và đánh giá tính tương tác của sinh viên trong quá trình học tập trên lớp với hệ sinh thái AI-Native
+
+### Mục tiêu đề tài
+
+Nghiên cứu xây dựng hệ thống ứng dụng trí tuệ nhân tạo nhằm nhận dạng các hành vi học tập và hỗ trợ đánh giá mức độ tương tác của sinh viên trong quá trình học tập trên lớp thông qua dữ liệu video. Hệ thống hướng đến khả năng ghi nhận, phân tích và tổng hợp các biểu hiện tương tác theo thời gian, cung cấp thông tin tham khảo cho giảng viên trong việc theo dõi sự tham gia của sinh viên và điều chỉnh hoạt động giảng dạy. Trên cơ sở hệ sinh thái AI-Native, đề tài hướng tới giải pháp có khả năng xử lý gần thời gian thực, phù hợp với điều kiện lớp học thực tế, đồng thời bảo đảm tính minh bạch trong đánh giá và quyền riêng tư của người học.
+
+### Nội dung nghiên cứu
+
+1. Khảo sát hoạt động học tập trên lớp và xây dựng bộ tiêu chí đánh giá tính tương tác của sinh viên.
+2. Thu thập, gán nhãn và tổ chức dữ liệu video phục vụ nghiên cứu, huấn luyện và kiểm thử mô hình.
+3. Nghiên cứu phương pháp phát hiện, theo dõi người và phân tích chuỗi tư thế, hình ảnh để nhận dạng hành vi học tập.
+4. Xây dựng phương pháp tổng hợp tần suất, thời lượng và ngữ cảnh hành vi nhằm hỗ trợ đánh giá mức độ tương tác.
+5. Tích hợp hệ thống trong hệ sinh thái AI-Native, hướng tới độ trễ xử lý dưới ba giây và trực quan hóa kết quả.
+6. Thử nghiệm trong lớp học thực tế; đánh giá độ chính xác, tính ổn định, hiệu quả sử dụng và bảo đảm quyền riêng tư của sinh viên.
+
+**Công cụ dự kiến:** Python, OpenCV, YOLO, ByteTrack và các mô hình phân tích hành động theo thời gian; khảo sát bổ sung RTMPose, ST-GCN, PoseC3D và Jev của TypeSafe theo yêu cầu thực nghiệm.
+
+### Ràng buộc diễn giải và trạng thái lựa chọn công nghệ
+
+- Chỉ dùng hành vi quan sát được làm bằng chứng; phân biệt kết quả quan sát với nhận định suy luận. Không đồng nhất cúi/gục đầu trong 1–3 giây với ngủ, hoặc một hành động đơn lẻ với mức độ năng nổ của sinh viên.
+- Mục tiêu độ trễ xử lý dưới 3 giây khác với độ dài lịch sử quan sát. Phân tích diễn biến có thể cần lịch sử dài hơn; không mặc định giới hạn cửa sổ quan sát ở 1–3 giây.
+- YOLO Pose, ByteTrack, RTMPose, ST-GCN, PoseC3D và Jev chỉ là phương án đã thảo luận, chưa quyết định áp dụng và không phải yêu cầu bắt buộc. Các cấu hình/thành phần kỹ thuật cũ không xác lập lựa chọn cho hướng nghiên cứu mới.
+- Giữ các dữ liệu, phép đo, báo cáo và lịch sử kỹ thuật còn giá trị. Nội dung nghiên cứu nêu công việc hướng tới, không khẳng định hệ thống đã triển khai hoặc đã đạt độ trễ/chất lượng mục tiêu.
+
+Ghi nhớ cho các phiên tiếp theo: [project_memory.md](project_memory.md). Khi thay đổi nội dung chính thức, cập nhật ngay mục này và điều chỉnh ghi nhớ tham chiếu; không tạo thêm bản mục tiêu độc lập.
+
+---
+
+> **Bổ sung định hướng ngày 12/10/2026 — chỉ lập kế hoạch, chưa triển khai.** Mục 0 kết nối nền tảng BTL hiện tại với một hướng nghiên cứu có đầu ra riêng. Người dùng xác nhận nhóm nhận biết gian lận trong phòng thi làm đề tài **độc lập**, vì vậy dự án này cần tránh trùng nội dung. Hướng tối ưu theo tài nguyên bên dưới là **đề xuất**, chưa được coi là quyết định chọn đề tài của người dùng. Mục 1–13 giữ hồ sơ chất lượng dữ liệu/model ngày 08/10; không dùng các trạng thái lịch sử đó để kết luận tình trạng chạy hiện tại.
+
+## 0. Mục tiêu cao hơn và hướng mở rộng không trùng đề tài
+
+### 0.1. Đánh giá kế hoạch đang có
+
+Kế hoạch này chi tiết về nhãn, split, metric, training và phát hành checkpoint, nhưng mục tiêu cuối chủ yếu dừng ở **một model đạt chất lượng**. Kế hoạch [tuần 4–6](../docs/archive/plans/week4_5_6_plan.md) đã bổ sung laptop mở/gập, giơ tay, tracking, đếm và cảnh báo. Các chức năng đó chưa tự trả lời được câu hỏi: người dùng nhận được giá trị gì sau cùng, và phần đóng góp nghiên cứu riêng của nhóm là gì?
+
+Bối cảnh bổ sung: đã đọc chat [Đề cương GANs và tối ưu YOLO](codex://threads/01a12f75-0bbe-7c02-9863-0f7cb7de141a). Chat đó bàn về GAN/sinh trắc học, tối ưu huấn luyện theo VRAM và ứng dụng phòng thi; đây là các hướng được đề xuất, không phải tất cả đều đã được chọn. Làm theo toàn bộ sẽ gộp nhiều bài toán có dữ liệu và tiêu chí đánh giá khác nhau. Người dùng đã làm rõ ở chat hiện tại rằng cần tránh trùng đề tài nhận biết gian lận của nhóm khác.
+
+**Ranh giới đã rõ:** không lấy phát hiện gian lận, đánh giá vi phạm, hay một module phụ thuộc nhóm kia làm mục tiêu/điều kiện nghiệm thu của dự án này. Hai nhóm có thể cùng dùng YOLO hoặc camera; khác biệt cần nằm ở câu hỏi nghiên cứu, đầu ra và phép đánh giá.
+
+### 0.2. Phát biểu mục tiêu cuối đề xuất
+
+> Xây dựng công cụ tự động lựa chọn và kiểm chứng cấu hình huấn luyện mô hình nhận diện camera dưới giới hạn bộ nhớ GPU và thời gian cho trước. Từ dataset đã kiểm tra và ngân sách người dùng nhập, công cụ tìm cấu hình khả thi, so sánh chất lượng các ứng viên, rồi bàn giao model, cấu hình và báo cáo để chạy thử trên ứng dụng camera thực tế.
+
+**Người dùng dự kiến:** sinh viên/nhóm phát triển có dataset riêng và GPU hạn chế, đang phải thử thủ công nhiều cấu hình, gặp lỗi hết bộ nhớ hoặc chưa biết nên đổi model, kích thước ảnh hay batch.
+
+**Giá trị cần chứng minh:** trong cùng ngân sách, tìm được model đạt chất lượng tốt hơn, hoặc đạt chất lượng tương đương với ít chi phí tìm kiếm/thử lỗi hơn. Chưa cam kết mức cải thiện trước thí nghiệm; không gọi kết quả tìm được là tối ưu toàn cục.
+
+Tên đề tài đề xuất: **Tự động lựa chọn cấu hình huấn luyện YOLO dưới ràng buộc bộ nhớ GPU và đánh giá trên ứng dụng camera thực tế.**
+
+| Tầng mục tiêu | Kết quả phải có | Vai trò trong toàn dự án |
+|---|---|---|
+| Nền tảng BTL | Dataset có kiểm chứng, detector 8 lớp, ứng dụng ảnh/video/webcam, baseline và báo cáo lỗi | Giữ nền đã làm, hoàn thiện chất lượng theo mục 1–13 |
+| Sản phẩm mở rộng | Người dùng nhập dataset + thiết bị + ngân sách; nhận cấu hình/model được kiểm chứng và giải thích lựa chọn | Biến quy trình thử thủ công thành một luồng sử dụng cụ thể |
+| Đóng góp nghiên cứu | Phương pháp chọn cấu hình có xét tài nguyên, so với đối chứng cùng ngân sách | Đây là phần cần chứng minh riêng, không suy từ mAP của một model |
+| Mở rộng tùy chọn | Thử GAN để giải quyết một thiếu hụt dữ liệu đã xác minh | Chỉ đưa vào khi có giả thuyết, dữ liệu và ngân sách riêng |
+
+### 0.3. Một phiên sử dụng hoàn chỉnh
+
+1. Người dùng chọn dataset đã khóa, GPU huấn luyện, trần VRAM, thời gian tìm kiếm và máy chạy camera dự kiến.
+2. Công cụ kiểm class map, split, chất lượng dữ liệu và tính tương thích môi trường; báo cụ thể điều kiện chưa đạt.
+3. Đo thử chi phí của các cấu hình nhỏ; ghi bộ nhớ đỉnh, thời gian và lỗi để xác định vùng cấu hình khả thi.
+4. Tìm kiếm trong vùng đó, cấp thêm tài nguyên cho ứng viên có triển vọng và dừng đúng ngân sách.
+5. Xuất bảng chất lượng–VRAM–thời gian, đề xuất ứng viên theo quy tắc đã khóa; có thể trả kết quả **chưa có cấu hình đạt yêu cầu**.
+6. Kiểm ứng viên trên bộ đánh giá độc lập sau khi khóa lựa chọn; đo riêng tốc độ/độ trễ trên máy camera đích.
+7. Bàn giao weights, cấu hình, class map, hash, báo cáo và cách tái lập. Việc đổi model ứng dụng là bước phát hành riêng, có kiểm tra và rollback.
+
+Máy huấn luyện và máy chạy camera có thể khác nhau. Vừa VRAM khi train không chứng minh chạy camera đủ nhanh. Tự động hóa ở đây là một job được khởi chạy với ngân sách rõ ràng, không mặc định tự lấy hình webcam để học hoặc tự thay model đang dùng.
+
+### 0.4. Phần nghiên cứu cần làm thêm
+
+**Câu hỏi nghiên cứu:** với cùng dữ liệu, phần cứng và tổng thời gian, cách chọn cấu hình có xét bộ nhớ có tìm được model hữu ích hơn các cách chọn cấu hình đối chứng không? Khi giảm tài nguyên, mức đánh đổi ở vật nhỏ và các lớp yếu là bao nhiêu?
+
+Ultralytics đã có AutoBatch và công cụ tuning. Tài liệu chính thức mô tả AutoBatch chọn batch theo mức sử dụng bộ nhớ; trong không gian tuning mặc định, batch và kiến trúc không được tìm kiếm. Vì vậy gọi lại một chức năng có sẵn chưa đủ để xác lập đóng góp nghiên cứu. Nguồn: [Train](https://docs.ultralytics.com/modes/train/), [Hyperparameter tuning](https://docs.ultralytics.com/guides/hyperparameter-tuning/), đối chiếu ngày 12/10/2026. Khi triển khai phải kiểm lại source của phiên bản đang khóa.
+
+**Phương pháp đề xuất để kiểm chứng**, chưa khẳng định mới so với toàn bộ nghiên cứu đã công bố:
+
+- Bước một: đo và loại cấu hình vượt ngân sách bộ nhớ trước khi đầu tư huấn luyện dài; đo cả train và validation.
+- Bước hai: tìm đồng thời trong một tập nhỏ các lựa chọn model, kích thước ảnh và batch khả thi. Khởi đầu chỉ khảo sát YOLO26n/s; danh sách kích thước ảnh và tham số khác được khóa sau pilot, không mở mọi siêu tham số cùng lúc.
+- Bước ba: phân bổ ngân sách theo các mốc đánh giá cố định; kiểm nguy cơ loại sớm cấu hình học chậm nhưng tốt về sau bằng một nhánh đối chứng.
+- Bước bốn: đưa ra các lựa chọn đánh đổi chất lượng–chi phí, chọn theo quy tắc định trước và kiểm lại ở ngân sách huấn luyện đầy đủ.
+
+Model n/s phải khởi tạo từ pretrained tương ứng và cùng quy tắc so sánh; không dùng warm-start n đã fine-tune nhiều lần rồi quy toàn bộ chênh lệch với s mới cho kiến trúc. Cấu hình của chiến dịch checkpoint07 hiện có không bị thay đổi bởi đề xuất này.
+
+| Đối chứng | Thiết kế đề xuất | Điều cần tách rõ |
+|---|---|---|
+| B0 — cấu hình cố định | Một recipe được khóa trước khi xem kết quả so sánh | Chi phí chọn recipe lịch sử và chi phí lượt đo hiện tại |
+| B1 — AutoBatch | Giữ model/ảnh/recipe B0, dùng batch tự động của phiên bản đã khóa | Tác dụng chọn batch, không gọi là tìm đồng thời mọi cấu hình |
+| B2 — random search | Cùng không gian, dữ liệu và ngân sách tổng với phương pháp đề xuất | Đối chứng chính cho chất lượng lựa chọn cấu hình |
+| P — phương pháp đề xuất | Đo vùng khả thi + phân bổ ngân sách có quy tắc | Chi phí đo thử cũng nằm trong ngân sách |
+| P-ablation | Bỏ lần lượt bước lọc tài nguyên hoặc phân bổ sớm | Đo thành phần nào tạo ra lợi ích; giữ ngân sách so sánh công bằng |
+
+Tuner có sẵn có thể thêm làm đối chứng mở rộng khi các biến tìm kiếm tương thích. So sánh tại các mốc ngân sách bằng nhau, tính cả profiling, run thất bại, validation và overhead; ghi riêng ngân sách huấn luyện lại cuối và tổng chi phí từ đầu đến cuối. Không dùng số epoch bằng nhau như bằng chứng chi phí bằng nhau.
+
+**Chỉ số:** mAP50–95/per-class AP, recall vật nhỏ tại threshold khóa trên validation; VRAM đỉnh từng GPU; tỷ lệ/lần OOM; thời gian đến cấu hình đạt yêu cầu; chất lượng tốt nhất theo thời gian; chi phí toàn chiến dịch. Lặp các phương pháp với seed ghép cặp nếu ngân sách cho phép, báo độ dao động; một lượt sàng lọc chưa chứng minh lợi thế ổn định.
+
+VRAM đo trên GPU thực. Nếu chỉ kiểm bằng hạn mức phần mềm trên GPU lớn, ghi đúng là mô phỏng ràng buộc; chưa chứng minh tương đương GPU nhỏ khác kiến trúc. Hai GPU không được coi là một vùng bộ nhớ gộp khi báo kết quả.
+
+### 0.5. Kế thừa dự án hiện tại và vị trí của GAN
+
+| Thành phần | Cách sử dụng trong hướng mới |
+|---|---|
+| Project8 và 8 ID hiện hành | Bộ dữ liệu kiểm chứng đầu tiên; giữ ràng buộc 15.000 ảnh, split và full review đã chốt |
+| Recognition/Training UI và lịch sử run | Nền cho chọn input, theo dõi công việc và xem kết quả; chưa coi là bộ tối ưu tự động hoàn chỉnh |
+| [Ma trận checkpoint07](experiments/kaggle_classroom_07_plan.md) | Thí nghiệm sàng lọc cấu hình cố định; không tự đổi tên thành thuật toán tìm kiếm có xét VRAM |
+| Webcam và benchmark CPU | Kiểm model được chọn có dùng được trên máy đích hay không |
+| Giơ tay, laptop mở/gập, đếm/vùng trong kế hoạch tuần 4–6 | Các nhánh sản phẩm BTL đã được đề xuất trước; không mở thêm tất cả vào đường nghiên cứu chính. Phạm vi bàn giao cũ cần đối soát trước khi thay đổi |
+| GAN | Nhánh thí nghiệm tùy chọn: chỉ chọn một lỗi cụ thể như thiếu đa dạng điều kiện ảnh; so tăng cường thông thường với dữ liệu GAN trên cùng bộ ảnh thật giữ riêng |
+| GAN và sinh trắc học | Là hướng nghiên cứu riêng nếu chọn sau này; cần dữ liệu và phép đo nhận dạng riêng. Dataset 8 lớp hiện tại không tự cung cấp nhãn danh tính |
+
+GAN chưa phải điều kiện để hoàn thành công cụ tối ưu. Nếu thử GAN: chỉ dùng dữ liệu phát triển hợp lệ, kiểm lại nội dung/nhãn ảnh sinh, không tính ảnh sinh là ảnh gốc độc lập để đáp ứng chỉ tiêu 15.000; tạo phiên bản thí nghiệm riêng. Tính cả công tạo/kiểm dữ liệu và không đưa ảnh xử lý vào cột ảnh gốc khi đối chiếu. Giữ nhánh GAN tách khỏi thí nghiệm tối ưu đầu tiên để biết lợi ích đến từ đâu.
+
+Pointer dataset hiện vẫn ghi `full_visual_review_complete=false`, `training_ready=false` khi đọc ngày 12/10. [Plan checkpoint07](experiments/kaggle_classroom_07_plan.md) ghi một ngoại lệ được người dùng cho phép để thử phương pháp trên dữ liệu chưa review, không kết luận cải thiện lớp học. Ngoại lệ của chiến dịch đó không tự biến thành quyền chạy các thí nghiệm mới hoặc chứng nhận dữ liệu sạch.
+
+### 0.6. Lộ trình mở rộng theo đầu ra
+
+Các công việc R0–R7 được chi tiết hóa trong [todo.md](todo.md). Đây là phần mở rộng cùng dự án; giữ nguyên các việc T0–T10 còn mở của nhánh chất lượng dữ liệu/model.
+
+| Mốc | Đầu ra xem được | Cổng hoàn thành |
+|---|---|---|
+| R0 — chốt bài toán | Đặc tả input/output, giới hạn, câu hỏi nghiên cứu, bảng phân biệt với đề tài gian lận | Người dùng chọn hướng; GPU/ngân sách/phạm vi đánh giá được ghi rõ |
+| R1 — dữ liệu và đối chứng | Release hợp lệ + B0/B1 + protocol chung | Đủ bằng chứng chất lượng, không lấy kết quả test để thiết kế tìm kiếm |
+| R2 — đo tài nguyên | Bảng cấu hình khả thi, VRAM/thời gian/OOM | Có số đo train/val trên thiết bị thật, xử lý thất bại có log |
+| R3 — tìm kiếm nền | Random search B2 có giới hạn tài nguyên và thời gian | Có thể tái lập lựa chọn, dừng và khôi phục đúng |
+| R4 — phương pháp đề xuất | Bộ lựa chọn P + ablation + so sánh ngân sách | Có bảng kết quả dù giả thuyết không được hỗ trợ |
+| R5 — bàn giao model cho camera | Gói model/config/report và benchmark máy đích | UI dùng đúng artifact; kiểm chất lượng, latency và rollback |
+| R6 — nghiệm thu nghiên cứu/sản phẩm | Test sau khóa lựa chọn, kết quả lặp, hướng dẫn máy khác | Tách rõ hoàn thành công cụ với chứng minh phương pháp tốt hơn |
+| R7 — GAN tùy chọn | Một thí nghiệm có/không GAN | Chỉ mở sau khi tuyến chính ổn và có giả thuyết/ngân sách riêng |
+
+Phụ thuộc chính: R0 → R1 → R2 → R3 → R4 → R5 → R6; R7 là nhánh tùy chọn sau R6. Thiết kế giao diện/log và ca kiểm dữ liệu mô phỏng có thể chuẩn bị trước khi full review kết thúc, nhưng không thay cổng dữ liệu của các thí nghiệm chất lượng. Không áp lịch 12 tuần từ chat tham khảo làm hạn cam kết; cần đo tốc độ review và runtime trước.
+
+### 0.7. Điều kiện gọi là hoàn thành
+
+- **Sản phẩm:** từ dataset hợp lệ và ngân sách rõ, chạy được trọn luồng đến gói kết quả; cấu hình thất bại được ghi nhận, không vượt ngân sách do tự mở thêm trial, không tự đổi checkpoint ứng dụng.
+- **Nghiên cứu:** có đối chứng B0/B1/B2/P và ablation phù hợp, cùng dữ liệu/phép đo/ngân sách, công bố chi phí thất bại và giới hạn lặp. Chỉ tuyên bố tốt hơn khi kết quả thực nghiệm hỗ trợ.
+- **Ứng dụng:** model qua kiểm độc lập và benchmark camera thực tế; FPS hiển thị tách FPS xử lý, GPU train tách máy inference. Một thành viên khác tái lập được từ gói bàn giao.
+- **Chất lượng detection:** các mốc 85/60 và sàn AP từng lớp ở mục 5 vẫn là đề xuất của nhánh chất lượng, không dùng chúng thay cho phép đo hiệu quả bộ tối ưu hoặc tự hạ để công bố thành công.
+- **Phạm vi:** không có tiêu chí nhận biết gian lận; GAN và xác minh danh tính không phải phụ thuộc bắt buộc của bản chính được đề xuất.
+
+### 0.8. Quyết định còn mở và rủi ro
+
+**Còn mở:** người dùng có chọn tối ưu theo tài nguyên làm hướng chính hay ưu tiên GAN/sinh trắc học; GPU thực và trần thời gian; hạn bàn giao/số người; ngưỡng chi phí–chất lượng chấp nhận được; phạm vi giữ lại của nhánh recognition tuần 4–6. Những điểm này cần chốt trước triển khai, không ngăn việc hoàn thành bản đề xuất hiện tại.
+
+**Rủi ro chính:** dữ liệu chưa đủ sạch làm sai kết luận; search dùng hết ngân sách mà chưa hơn baseline; sàng lọc ngắn ưu tiên model hội tụ nhanh; chỉ một GPU/dataset hạn chế khả năng khái quát; model tốt trên GPU train nhưng chậm trên CPU camera; mở đồng thời GAN/sinh trắc học/recognition làm loãng đóng góp. Giảm rủi ro bằng cổng dữ liệu cũ, không gian tìm kiếm nhỏ, đối chứng cùng ngân sách, log đầy đủ và báo rõ phạm vi thiết bị/dữ liệu đã đo. Tính mới khoa học còn phải khảo sát tài liệu, không được suy từ việc repo hiện chưa có chức năng.
+
 **Ngày đối chiếu: 08/10/2026 — Asia/Saigon. Trạng thái: kế hoạch đã cập nhật sau khi ghép v0.5 được người dùng ủy quyền; full review, training và triển khai checkpoint tiếp theo chưa hoàn tất.**
 
 ## 1. Kết luận dành cho người dùng
@@ -206,7 +357,7 @@ Train-subset chẩn đoán phải giữ đúng roletrain, chọn trước theo n
 | B — vận hành | Chất lượng camera và latency | CPU 640, nms=False, xác nhận actual_end2end=True, batch 1; cùng tiền xử lý backend; conf vận hành khóa trên validation; thêm lượt conf 0.001 để báo AP head vận hành riêng; ghi rõ max_det/effective defaults và tracking bật/tắt |
 | C — trainer | Chọn best mỗi lượt | imgsz 1280/NMS-free theo recipe; lưu đầy đủ CSV; không trộn điểm với A/B |
 
-A giữ chính sách hộp dự đoán zero-area sau clip: bỏ và đếm; NaN/Inf gây lỗi. Metadata bốn lượt cũ ghi số bỏ33/25/94/71; lượt best mới trên v04 là 71. Không được bỏ GT khó/nhỏ vì model không tìm thấy. Evaluator cũ `kaggle_tools/evaluate.py` vẫn hard-code cup và có hành vi bỏ nonfinite; khi chuẩn hóa evaluator v04 phải bám protocol đã ghi ở run.json, không gọi thẳng luồng v03 rồi đổi tên kết quả. Lưu hash evaluator để tái lập.
+A giữ chính sách hộp dự đoán zero-area sau clip: bỏ và đếm; NaN/Inf gây lỗi. Metadata bốn lượt cũ ghi số bỏ33/25/94/71; lượt best mới trên v04 là 71. Không được bỏ GT khó/nhỏ vì model không tìm thấy. Evaluator cũ `src/classroom_ai/experiments/evaluate.py` vẫn hard-code cup và có hành vi bỏ nonfinite; khi chuẩn hóa evaluator v04 phải bám protocol đã ghi ở run.json, không gọi thẳng luồng v03 rồi đổi tên kết quả. Lưu hash evaluator để tái lập.
 
 AP dùng danh sách confidence thấp cố định để tích phân đường precision–recall; **confidence0.25 trên giao diện không phải độ chính xác model**. Tăng ngưỡng có thể đổi precision/recall vận hành nhưng không phải cách tạo ra mAP85%. Không có hệ số cố định đổi mAP50 sang mAP50–95; ví dụ51/71×95≈68 chỉ là phép minh họa, không là dự báo hay trần.
 
@@ -353,9 +504,9 @@ MuSGD/LR trên là điểm xuất phát theo lịch sử, chưa chứng minh t�
 
 ## 10. Kiểm CPU backend và triển khai có rollback
 
-[X] `configs/app.yaml` chọn aliasbest, CPU 640/nmsFalse, display_conf0.25; `src/inference/detector.py` gọi predict CPU 640/nmsFalse và chấp nhận hai ordered8profiles. `src/ui/app.py` đọc pointer `configs/dataset_current.json` để lấy manifest v0.5 (fallback v0.4 nếu chưa có pointer), bằngutf-8-sig, lấy50 ảnh mẫu train, đường dẫn ảnh/thumbnail theo dataset root; đây là tiện ích demo, không là bộ test. `src/app.py` là entrypoint Streamlit.
+[X] `configs/app.yaml` chọn aliasbest, CPU 640/nmsFalse, display_conf0.25; `src/classroom_ai/inference/detector.py` gọi predict CPU 640/nmsFalse và chấp nhận hai ordered8profiles. `src/classroom_ai/interfaces/web/app.py` đọc pointer `configs/dataset_current.json` để lấy manifest v0.5 (fallback v0.4 nếu chưa có pointer), bằngutf-8-sig, lấy50 ảnh mẫu train, đường dẫn ảnh/thumbnail theo dataset root; đây là tiện ích demo, không là bộ test. `src/classroom_ai/interfaces/web/app.py` là entrypoint Streamlit.
 
-[X] `src/dataset.py`, `src/training/worker.py`, `src/training/kaggle_export.py` vẫn giữ legacy cup. Trang training có cảnh báo v03; notebook v04 tách riêng. `COCO_TO_PROJECT` hiện vẫn mapping cup41→7 lịch sử, không tự khẳng định baseline COCO80 đã gộp bottle 39 vào lớp 7. Khi làm baseline merged pretrained phải định nghĩa mapping đúng và version hóa riêng. Không tuyên bố toàn bộ ứng dụng đã chuyển train v04.
+[X] `src/classroom_ai/datasets.py`, `src/classroom_ai/training/worker.py`, `src/classroom_ai/training/kaggle_export.py` vẫn giữ legacy cup. Trang training có cảnh báo v03; notebook v04 tách riêng. `COCO_TO_PROJECT` hiện vẫn mapping cup41→7 lịch sử, không tự khẳng định baseline COCO80 đã gộp bottle 39 vào lớp 7. Khi làm baseline merged pretrained phải định nghĩa mapping đúng và version hóa riêng. Không tuyên bố toàn bộ ứng dụng đã chuyển train v04.
 
 [Đ] Đo trong phiên riêng được giao, không ảnh hưởng backend đang dùng: cùng CPU/threads/OS/package/power mode, cùng input640 và video/camera, warmup 30 frame, ít nhất 300 frame mỗi kịch bản hoặc 60 giây nếu dài hơn, lặp3 lần. Tách detection-only và pipeline thật có tracking/rendering. Dùng đồng hồ monotonic, ghi capture timestamp, enqueue/dequeue và display time.
 
@@ -382,7 +533,7 @@ Lịch theo **cổng hoàn thành**, không hứa xong review hàng nghìn ảnh
 
 **DoD cho nhiệm vụ hiện tại:** tài liệu tiếng Việt đầy đủ, đối chiếu report/code, tách số đo/giả thuyết/mục tiêu, bảng8 lớp, kế hoạch review/budget/split/test/training/deploy và link review; chưa thực thi các bước sau M0.
 
-**DoD cho sản phẩm:** vượt các ràng buộc đã chốt và ngưỡng nghiệm thu cuối cùng, test sạch đủ chứng cứ, repeatability/old-domain/CPU vận hành có số đo, provenance và rollback đầy đủ. Nếu còn thiếu coverage/CI hoặc ngưỡng FPS chưa chốt thì ghi trạng thái đó, không đánh dấu hoàn thành chỉ vì mAP tổng cao.
+**DoD cho nhánh dữ liệu/model:** vượt các ràng buộc đã chốt và ngưỡng nghiệm thu cuối cùng, test sạch đủ chứng cứ, repeatability/old-domain/CPU vận hành có số đo, provenance và rollback đầy đủ. Nếu còn thiếu coverage/CI hoặc ngưỡng FPS chưa chốt thì ghi trạng thái đó, không đánh dấu hoàn thành chỉ vì mAP tổng cao. Hướng sản phẩm/nghiên cứu mở rộng có DoD riêng tại mục 0.7; hoàn tất nhánh này chưa đồng nghĩa đã có bộ tối ưu tự động.
 
 ## 12. Rủi ro và các quyết định cần chốt
 
@@ -404,21 +555,20 @@ Người dùng cần chốt khi chuyển sang triển khai: (1) phạm vi camera
 
 ## 13. Nguồn đối chiếu và hồ sơ tái lập
 
-- [Báo cáo merge v05](../reports/results/dataset_merge_v05_20261008/REPORT.md), [summaryv05](../reports/results/dataset_merge_v05_20261008/summary.json), [629 splitmoves](../reports/results/dataset_merge_v05_20261008/split_moves.json), [overlap ZIP phone](../reports/results/merge_3k_intake_20261008/replacement_zip_overlap.json), [verification v05](../reports/results/dataset_merge_v05_20261008/verification.json), [lỗi nhãn trực quan](../reports/results/dataset_merge_v05_20261008/visual_label_issues.json), [ảnh mapping mẫu](../reports/results/dataset_merge_v05_20261008/label_mapping_samples.jpg), [ledger loại3 pizza](../reports/results/dataset_merge_v05_20261008/removed_pizza_images.json).
-- [Manifestv05](../data/dataset/project8_v0.5_merged_20261008/manifest.csv), [pointerdataset](../configs/dataset_current.json), [data_v05](../configs/data_v05.yaml), [đối chiếu cập nhậtv05](verification_v05_20261008.json).
+- [Báo cáo merge v05](../reports/archive/results/dataset_merge_v05_20261008/report.md), [summaryv05](../reports/archive/results/dataset_merge_v05_20261008/summary.json), [629 splitmoves](../reports/archive/results/dataset_merge_v05_20261008/split_moves.json), [overlap ZIP phone](../reports/archive/results/merge_3k_intake_20261008/replacement_zip_overlap.json), [verification v05](../reports/archive/results/dataset_merge_v05_20261008/verification.json), [lỗi nhãn trực quan](../reports/archive/results/dataset_merge_v05_20261008/visual_label_issues.json), [ảnh mapping mẫu](../reports/archive/results/dataset_merge_v05_20261008/label_mapping_samples.jpg), [ledger loại3 pizza](../reports/archive/results/dataset_merge_v05_20261008/removed_pizza_images.json).
+- [Manifestv05](../data/dataset/project8_v0.5_merged_20261008/manifest.csv), [pointerdataset](../configs/dataset_current.json), [data_v05](../configs/data_v05.yaml), [đối chiếu cập nhậtv05](../reports/audits/verification_v05_20261008.json).
 
 Các đường dẫn bên dưới tương đối với thư mục tasks để tài liệu đi cùng workspace:
 
-- [Báo cáo chính lượt 20 epoch](../README_DA_HOAN_THANH/reports/results/kaggle/project8_v04_12k_from_best50_20261008_151936/REPORT.md).
-- [Audit](../reports/results/kaggle/project8_v04_12k_from_best50_20261008_151936/audit.json), [comparison bốn phép chấm](../reports/results/kaggle/project8_v04_12k_from_best50_20261008_151936/comparison.json), [results.csv](../reports/results/kaggle/project8_v04_12k_from_best50_20261008_151936/results.csv), [args.yaml](../reports/results/kaggle/project8_v04_12k_from_best50_20261008_151936/args.yaml).
-- [Run metadata v04 best](../reports/results/kaggle/project8_v04_12k_from_best50_20261008_151936/after_on_v04_val/run.json); cùng thư mục có GT/predictions/metrics, ba phép chấm còn lại nằm cạnh.
-- [Error report](../reports/results/kaggle/project8_v04_12k_from_best50_20261008_151936/error_audit_conf025/REPORT.md), [summary](../reports/results/kaggle/project8_v04_12k_from_best50_20261008_151936/error_audit_conf025/summary.json), [CSV ảnh/lớp](../reports/results/kaggle/project8_v04_12k_from_best50_20261008_151936/error_audit_conf025/image_class_errors.csv), [vị trí box](../reports/results/kaggle/project8_v04_12k_from_best50_20261008_151936/error_audit_conf025/images.json).
-- [Manifest v04](../data/dataset/project8_v0.4_merged_20261008/manifest.csv), [data config](../configs/data_v04.yaml), [app config](../configs/app.yaml), [hợp đồng lớp](../src/classes.py), [detector](../src/inference/detector.py), [UI](../src/ui/app.py), [entrypoint](../src/app.py).
-- [Dataset legacy](../src/dataset.py), [worker legacy](../src/training/worker.py), [exporter legacy](../src/training/kaggle_export.py), [training UI](../src/ui/training.py), [evaluator Kaggle](../kaggle_tools/evaluate.py), [protocol lịch sử](../README/EVALUATION_PROTOCOL.md).
-- [Checklist công việc](todo.md), [biên bản kiểm chứng phiên lập kế hoạch](verification_20261008.json).
+- [Báo cáo chính lượt 20 epoch](../docs/archive/completed/reports/results/kaggle/project8_v04_12k_from_best50_20261008_151936/report.md).
+- [Audit](../reports/archive/results/kaggle/project8_v04_12k_from_best50_20261008_151936/audit.json), [comparison bốn phép chấm](../reports/archive/results/kaggle/project8_v04_12k_from_best50_20261008_151936/comparison.json), [results.csv](../reports/archive/results/kaggle/project8_v04_12k_from_best50_20261008_151936/results.csv), [args.yaml](../reports/archive/results/kaggle/project8_v04_12k_from_best50_20261008_151936/args.yaml).
+- [Run metadata v04 best](../reports/archive/results/kaggle/project8_v04_12k_from_best50_20261008_151936/after_on_v04_val/run.json); cùng thư mục có GT/predictions/metrics, ba phép chấm còn lại nằm cạnh.
+- [Error report](../reports/archive/results/kaggle/project8_v04_12k_from_best50_20261008_151936/error_audit_conf025/report.md), [summary](../reports/archive/results/kaggle/project8_v04_12k_from_best50_20261008_151936/error_audit_conf025/summary.json), [CSV ảnh/lớp](../reports/archive/results/kaggle/project8_v04_12k_from_best50_20261008_151936/error_audit_conf025/image_class_errors.csv), [vị trí box](../reports/archive/results/kaggle/project8_v04_12k_from_best50_20261008_151936/error_audit_conf025/images.json).
+- [Manifest v04](../data/dataset/project8_v0.4_merged_20261008/manifest.csv), [data config](../configs/data_v04.yaml), [app config](../configs/app.yaml), [hợp đồng lớp](../src/classroom_ai/classes.py), [detector](../src/classroom_ai/inference/detector.py), [UI](../src/classroom_ai/interfaces/web/app.py), [entrypoint](../src/classroom_ai/interfaces/web/app.py).
+- [Dataset legacy](../src/classroom_ai/datasets.py), [worker legacy](../src/classroom_ai/training/worker.py), [exporter legacy](../src/classroom_ai/training/kaggle_export.py), [training UI](../src/classroom_ai/interfaces/web/training.py), [evaluator Kaggle](../src/classroom_ai/experiments/evaluate.py), [protocol lịch sử](../docs/research/evaluation_protocol.md).
+- [Checklist công việc](todo.md), [biên bản kiểm chứng phiên lập kế hoạch](../reports/audits/verification_20261008.json).
 
 Đối chiếu hướng dẫn chính thức ngày 08/10/2026: [YOLO26](https://docs.ultralytics.com/models/yolo26/) về n/s và head; [Train](https://docs.ultralytics.com/modes/train/) về resume/close_mosaic. Tài liệu online có thể đổi default; run metadata/version cài và code mới là chuẩn tái lập số liệu dự án. Mọi quota, ngưỡngQA, thời gian review và recipe tương lai ở đây là đề xuất của kế hoạch, không phải bảo đảm từ nhà cung cấp.
-
 
 ### Cập nhật Kaggle theo ủy quyền mới
 

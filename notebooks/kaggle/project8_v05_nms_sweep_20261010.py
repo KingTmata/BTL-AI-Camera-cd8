@@ -8,11 +8,8 @@ import gc
 import json
 import traceback
 from pathlib import Path
-
 import torch
 from ultralytics import YOLO
-
-
 def run_nms_sweep(campaign_path, expected_manifest):
     campaign = Path(campaign_path)
     state = json.loads((campaign / 'comparison.json').read_text())
@@ -31,17 +28,14 @@ def run_nms_sweep(campaign_path, expected_manifest):
                   full_visual_review_complete=False)
     if 'NMS_SWEEP_SOURCE' in globals():
         (output / 'executed_source.py').write_text(NMS_SWEEP_SOURCE)
-
     def preserve(label):
         (output / 'comparison.json').write_text(json.dumps(report, indent=2))
         archive = campaign.parent / (output.name + '_' + label + '.zip')
         digest = verified_bundle(output, [path for path in output.rglob('*') if path.is_file()], archive)
         print('NMS_SWEEP_VERIFIED_ARCHIVE', archive, digest, flush=True)
-
     def metric_record(metrics):
         return dict(mAP50=float(metrics.box.map50), mAP50_95=float(metrics.box.map),
                     precision=float(metrics.box.mp), recall=float(metrics.box.mr))
-
     for label in selected:
         reference = measurements[label]
         checkpoint = reference['checkpoint']
@@ -49,12 +43,10 @@ def run_nms_sweep(campaign_path, expected_manifest):
             raise ValueError('Selected checkpoint bytes differ')
         try:
             holder = []
-
             def factory(**kwargs):
                 validator = CacheDetectionValidator(**kwargs)
                 holder.append(validator)
                 return validator
-
             model = YOLO(checkpoint)
             if [model.names[i] for i in range(8)] != prepared['classes'] or not model.model.end2end:
                 raise ValueError('Ordered classes or native head differ')

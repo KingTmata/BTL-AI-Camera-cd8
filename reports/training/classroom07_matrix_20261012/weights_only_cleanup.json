@@ -1,0 +1,93 @@
+{
+  "packages": [
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\E2_E3_WEIGHTS_20261012\\E2_YOLO26n_Project8_v05_from_CP07_v04_best19_MuSGD_lr0p0003_bestEpoch10_20261012.zip",
+      "bytes": 4853206,
+      "sha256": "5cee8222a4b532c4ea8b1cbf19c9b845089e473851e659ed8427ea6d0d6bfe0e"
+    },
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\E2_E3_WEIGHTS_20261012\\E3_YOLO26n_Project8_v05_from_CP07_v04_best19_AdamW_lr0p0001_bestEpoch10_20261012.zip",
+      "bytes": 4852791,
+      "sha256": "11a27c8381c365f4a6f8a37ea7c2f78441fc286ba218f2c4d90b6e1de136acf8"
+    }
+  ],
+  "removed_archives": [
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\E1_MuSGD_lr1e4.zip",
+      "bytes": 158782610,
+      "sha256": "d9837461ee3001108c5f3ae6a6ac624e7a9488f22eb501b14357fea31cc15181"
+    },
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\E2_MuSGD_lr3e4.zip",
+      "bytes": 158767608,
+      "sha256": "853093fa749a1c4dc600c4703929542b2ba2c127c7b3072b16df4896af2e9854"
+    },
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\E3_AdamW_lr1e4.zip",
+      "bytes": 203316928,
+      "sha256": "763af06efb414ef0a032bb03db47b19a08287c4ae73a156f92f15ce4ac30b65e"
+    },
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\E4_AdamW_lr3e4.zip",
+      "bytes": 203251022,
+      "sha256": "c363a6a92ecba92bc6319fb60c67d9f079d45bafb0ae02f104a7b3b2d23b982d"
+    },
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\E5_MuSGD_scale02.zip",
+      "bytes": 158980052,
+      "sha256": "bf916e173674db176bac2f9a49c8941e75796108f68cdcc663d5d6fd942317c4"
+    },
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\E6_MuSGD_frozen_backbone.zip",
+      "bytes": 108050478,
+      "sha256": "3da7a9c3f4b027b780edc34a3cecc8cea52a4dcbb0729723c91fc0e728dcf046"
+    },
+    {
+      "path": "C:\\Users\\aawm8\\Downloads\\results.zip",
+      "bytes": 2229851733,
+      "sha256": "01ebc363eb68530c300bf9fefc9b09171e76da135ac0da462ec4aa652e22ea9d"
+    }
+  ],
+  "preserved_best_last_runs": [
+    "E1_MuSGD_lr1e4",
+    "E2_MuSGD_lr3e4",
+    "E3_AdamW_lr1e4",
+    "E4_AdamW_lr3e4",
+    "E5_MuSGD_scale02",
+    "E6_MuSGD_frozen_backbone"
+  ],
+  "preserved_evidence": [
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\E1_MuSGD_lr1e4_config.yaml",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\E1_MuSGD_lr1e4_training.log",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\E2_MuSGD_lr3e4_config.yaml",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\E2_MuSGD_lr3e4_training.log",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\E3_AdamW_lr1e4_config.yaml",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\E3_AdamW_lr1e4_training.log",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\E4_AdamW_lr3e4_config.yaml",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\E4_AdamW_lr3e4_training.log",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\E5_MuSGD_scale02_config.yaml",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\E5_MuSGD_scale02_training.log",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\E6_MuSGD_frozen_backbone_config.yaml",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\E6_MuSGD_frozen_backbone_training.log",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\SMOKE_checkpoint07_config.yaml",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\SMOKE_checkpoint07_training.log",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\early_stopping_source.py",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\prepared.json",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\status.json",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\train\\E1_MuSGD_lr1e4\\args.yaml",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\train\\E1_MuSGD_lr1e4\\results.csv",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\train\\E2_MuSGD_lr3e4\\args.yaml",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\train\\E2_MuSGD_lr3e4\\results.csv",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\train\\E3_AdamW_lr1e4\\args.yaml",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\train\\E3_AdamW_lr1e4\\results.csv",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\train\\E4_AdamW_lr3e4\\args.yaml",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\train\\E4_AdamW_lr3e4\\results.csv",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\train\\E5_MuSGD_scale02\\args.yaml",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\train\\E5_MuSGD_scale02\\results.csv",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\train\\E6_MuSGD_frozen_backbone\\args.yaml",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\train\\E6_MuSGD_frozen_backbone\\results.csv",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\train\\SMOKE_checkpoint07\\args.yaml",
+    "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\kaggle_evidence\\train\\SMOKE_checkpoint07\\results.csv"
+  ],
+  "note": "Only large downloaded archives removed after exact best/last byte checks. Share ZIPs contain one .pt each; no images."
+}

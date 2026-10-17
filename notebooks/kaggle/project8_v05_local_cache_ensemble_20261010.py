@@ -5,14 +5,11 @@ import json
 import shutil
 import traceback
 from pathlib import Path
-
 import torch
 import ultralytics
-
-from kaggle_tools.cache_ensemble import ensemble_cached_predictions
-from kaggle_tools.experiment_campaign import file_sha, rank_results, verified_bundle
-from kaggle_tools.validation_replay import replay_metrics
-
+from classroom_ai.experiments.cache_ensemble import ensemble_cached_predictions
+from classroom_ai.experiments.experiment_campaign import file_sha, rank_results, verified_bundle
+from classroom_ai.experiments.validation_replay import replay_metrics
 root = Path.cwd()
 reports = root / 'reports/campaign_20261010'
 first_run = reports / 'local_inference_20261009_180723'
@@ -24,9 +21,9 @@ stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%d_%H%M%S')
 output = reports / ('local_cache_ensemble_' + stamp)
 output.mkdir(exist_ok=False)
 shutil.copy2(Path(__file__), output / 'executed_source.py')
-for relative in ('kaggle_tools/cache_ensemble.py', 'kaggle_tools/experiment_campaign.py',
-                 'kaggle_tools/inference_variants.py', 'kaggle_tools/validation_replay.py',
-                 'tests/test_cache_ensemble.py'):
+for relative in ('src/classroom_ai/experiments/cache_ensemble.py', 'src/classroom_ai/experiments/experiment_campaign.py',
+                 'src/classroom_ai/inference/variants.py', 'src/classroom_ai/experiments/validation_replay.py',
+                 'tests/unit/test_cache_ensemble.py'):
     destination = output / relative
     destination.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(root / relative, destination)
@@ -66,15 +63,11 @@ state = dict(status='running', validation_images=2500, validation_boxes=8359,
              runtime=dict(ultralytics=ultralytics.__version__, torch=str(torch.__version__),
                           device='CPU', torch_threads=2),
              note='Actual cached native predictions, identical batch-canvas GT. CPU FP32 only; inference latency not measured.')
-
-
 def preserve():
     (output / 'comparison.json').write_text(json.dumps(state, indent=2))
     digest = verified_bundle(output, [p for p in output.rglob('*') if p.is_file()],
                              reports / (output.name + '.zip'))
     print('CACHE_ENSEMBLE_VERIFIED_ARCHIVE', digest, flush=True)
-
-
 preserve()
 best_score = -1.
 for size in (2, 3):

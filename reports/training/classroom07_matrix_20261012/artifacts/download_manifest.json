@@ -1,0 +1,44 @@
+[
+  {
+    "run": "E1_MuSGD_lr1e4",
+    "archive": "C:\\Users\\aawm8\\Downloads\\E1_MuSGD_lr1e4.zip",
+    "archive_sha256": "d9837461ee3001108c5f3ae6a6ac624e7a9488f22eb501b14357fea31cc15181",
+    "best_path": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\artifacts\\E1_MuSGD_lr1e4\\weights\\best.pt",
+    "best_sha256": "3da5512681686208cdeaf64f25d8fbe644bc1d9688c5521d938c310dff7aa521"
+  },
+  {
+    "run": "E2_MuSGD_lr3e4",
+    "archive": "C:\\Users\\aawm8\\Downloads\\E2_MuSGD_lr3e4.zip",
+    "archive_sha256": "853093fa749a1c4dc600c4703929542b2ba2c127c7b3072b16df4896af2e9854",
+    "best_path": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\artifacts\\E2_MuSGD_lr3e4\\weights\\best.pt",
+    "best_sha256": "7f214f51576abce18704a7434822d6db8bed5f14a50ff13e0a03eeb3623758cb"
+  },
+  {
+    "run": "E3_AdamW_lr1e4",
+    "archive": "C:\\Users\\aawm8\\Downloads\\E3_AdamW_lr1e4.zip",
+    "archive_sha256": "763af06efb414ef0a032bb03db47b19a08287c4ae73a156f92f15ce4ac30b65e",
+    "best_path": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\artifacts\\E3_AdamW_lr1e4\\weights\\best.pt",
+    "best_sha256": "9474d7f2b4c869e2101cf9f4f64b0f7f0411b859a8d31d3b2425aba48f479a13"
+  },
+  {
+    "run": "E4_AdamW_lr3e4",
+    "archive": "C:\\Users\\aawm8\\Downloads\\E4_AdamW_lr3e4.zip",
+    "archive_sha256": "c363a6a92ecba92bc6319fb60c67d9f079d45bafb0ae02f104a7b3b2d23b982d",
+    "best_path": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\artifacts\\E4_AdamW_lr3e4\\weights\\best.pt",
+    "best_sha256": "b65448c5c67f41126eeeb3c10e220c2453e72d8dfe0bfcff5aadcbae13bfdcaf"
+  },
+  {
+    "run": "E5_MuSGD_scale02",
+    "archive": "C:\\Users\\aawm8\\Downloads\\E5_MuSGD_scale02.zip",
+    "archive_sha256": "bf916e173674db176bac2f9a49c8941e75796108f68cdcc663d5d6fd942317c4",
+    "best_path": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\artifacts\\E5_MuSGD_scale02\\weights\\best.pt",
+    "best_sha256": "a594018f87ca91775fbac0aae7ded0b5cb44670849cb5e6cbfa928a2c328cf24"
+  },
+  {
+    "run": "E6_MuSGD_frozen_backbone",
+    "archive": "C:\\Users\\aawm8\\Downloads\\E6_MuSGD_frozen_backbone.zip",
+    "archive_sha256": "3da7a9c3f4b027b780edc34a3cecc8cea52a4dcbb0729723c91fc0e728dcf046",
+    "best_path": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\reports\\classroom07_matrix_20261012\\artifacts\\E6_MuSGD_frozen_backbone\\weights\\best.pt",
+    "best_sha256": "c77c1c6abb061a382c936b83c6bd299c36dd2609f9f058554d64d3138bd00c36"
+  }
+]

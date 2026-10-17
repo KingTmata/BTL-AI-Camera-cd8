@@ -1,0 +1,20 @@
+{
+  "measurement": "Textual Pilot headless, 100x30, idle 8s; not real terminal FPS guarantee",
+  "elapsed_seconds": 8.007889999993495,
+  "frontend_cpu_percent_one_core": 1.3658404398672914,
+  "frontend_rss_bytes": 43712512,
+  "rss_before_textual_import_bytes": 25686016,
+  "backend_exit_code": 0,
+  "backend_with_frontend": {
+    "status": "completed",
+    "display_fps_excluding_user_pause": 29.994216752667207,
+    "display_drop_fraction": 0.0,
+    "counts": {
+      "frames_decoded": 150,
+      "frames_displayed": 150,
+      "frames_consumed": 150
+    }
+  },
+  "backend_report": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\runs\\video_tui\\20261015_211614_f70f2e0cdb\\20261015_211615_46aaddbb63\\report.json",
+  "heavy_modules_in_frontend": []
+}

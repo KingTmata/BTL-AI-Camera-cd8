@@ -1,6 +1,6 @@
 """Run after the four verified preflight cells of the v05 Kaggle notebook.
 
-This source is joined with kaggle_tools/experiment_campaign.py by the local
+This source is joined with src/classroom_ai/experiments/experiment_campaign.py by the local
 notebook builder. User authorized exploration; unchanged, unreviewed v05 GT.
 """
 import csv
@@ -12,7 +12,6 @@ import subprocess
 import time
 import traceback
 from pathlib import Path
-
 import torch
 import ultralytics
 import yaml
@@ -20,7 +19,6 @@ from ultralytics import YOLO
 from ultralytics.cfg import get_cfg
 from ultralytics.models.yolo.detect import DetectionValidator
 from ultralytics.utils.nms import TorchNMS
-
 assert ultralytics.__version__ == '8.4.165'
 assert torch.cuda.device_count() >= 2
 assert file_sha(initial) == BEST_SHA256
@@ -30,7 +28,6 @@ assert PREPARED['training_boxes'] == 41631
 assert OUT.name == 'BTL-AI-Camera-v05-campaign-20261010'
 assert len([r for r in rows if r['split'] == 'val']) == 2500
 assert not (DATA_DIR / 'images/test').exists()
-
 class CampaignNMSValidator(DetectionValidator):
     def postprocess(self, preds):
         items = super().postprocess(preds)
@@ -47,7 +44,6 @@ class CampaignNMSValidator(DetectionValidator):
                 for key in ['bboxes', 'conf', 'cls', 'extra']:
                     item[key] = item[key][keep]
         return items
-
 stamp = datetime.datetime.now(datetime.timezone(datetime.timedelta(hours=7))).strftime('%Y%m%d_%H%M%S')
 campaign_dir = OUT / ('batch_' + stamp)
 campaign_dir.mkdir(exist_ok=False)
@@ -59,12 +55,10 @@ state = dict(status='running', target_mAP50=.80, parent_sha256=BEST_SHA256,
              full_visual_review_complete=bool(TRAIN_GATE),
              selection_note='Epoch, configurations and NMS selected on validation; not independent test.',
              started_at=stamp, runs={}, errors={}, archives={})
-
 def write_state():
     temporary = campaign_dir / 'comparison.json.partial'
     temporary.write_text(json.dumps(state, indent=2), encoding='utf-8')
     temporary.replace(campaign_dir / 'comparison.json')
-
 def preserve(label):
     trial_label = label.removesuffix('_trained').removesuffix('_complete').removesuffix('_error')
     selected_paths = {Path(r['checkpoint']) for r in state['runs'].values() if r.get('checkpoint')}
@@ -85,7 +79,6 @@ def preserve(label):
     state['archives'][label] = dict(path=str(archive), sha256=digest, bytes=archive.stat().st_size)
     write_state()
     print('VERIFIED_ARCHIVE', archive, digest, flush=True)
-
 def evaluate(checkpoint, label):
     result = {}
     checkpoint_hash = file_sha(checkpoint)
@@ -114,7 +107,6 @@ def evaluate(checkpoint, label):
         gc.collect()
         torch.cuda.empty_cache()
     return result
-
 base = dict(model=str(initial), data=str(DATA_YAML), project=str(campaign_dir / 'train'),
             device='0,1', workers=2, cache=False, fraction=1., patience=0,
             imgsz=1280, batch=32, optimizer='MuSGD', lr0=.0005, lrf=1.,

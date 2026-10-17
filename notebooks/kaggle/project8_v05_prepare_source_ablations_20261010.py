@@ -9,10 +9,7 @@ import json
 import math
 from collections import Counter
 from pathlib import Path
-
 import yaml
-
-
 def prepare_source_ablations(data_root, manifest_path, output, expected_manifest, names):
     data_root, manifest_path, output = Path(data_root), Path(manifest_path), Path(output)
     if file_sha(manifest_path) != expected_manifest:

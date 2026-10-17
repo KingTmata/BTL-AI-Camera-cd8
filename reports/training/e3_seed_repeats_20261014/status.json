@@ -1,0 +1,47 @@
+{
+  "status": "running_background_confirmed",
+  "version": 2,
+  "script_version_id": null,
+  "url": "https://www.kaggle.com/code/awm3636/e3-seeds123-2026-control-light-invert-e7-b32-t4x2/log",
+  "active_events": 1,
+  "epochs_completed_verified": 0,
+  "training": {
+    "recipes": [
+      "CONTROL",
+      "LIGHT_CONTRAST",
+      "INVERT"
+    ],
+    "seeds": [
+      123,
+      2026
+    ],
+    "runs": 6,
+    "epochs_each": 2,
+    "total_epochs": 12,
+    "imgsz": 1280,
+    "batch": 32,
+    "device": "0,1",
+    "accelerator": "T4x2",
+    "optimizer": "AdamW",
+    "lr0": 0.0001,
+    "patience": 0,
+    "resume": false
+  },
+  "source_sha256": "9474d7f2b4c869e2101cf9f4f64b0f7f0411b859a8d31d3b2425aba48f479a13",
+  "notebook_sha256": "1fea267ce5ab3a088103ff073bdd1ac20020aca18515214d647e1e75dce231cc",
+  "evaluation": {
+    "primary": "full2500 val",
+    "supplemental": "paired uniformrandom500 val perseed",
+    "test_used": false
+  },
+  "budget": {
+    "per_run_minutes": 60,
+    "campaign_hours": 5
+  },
+  "estimated_campaign_hours": [
+    1,
+    1.5
+  ],
+  "launch_submissions": 2,
+  "latest_evidence": "Version2 Running GPU T4x2,1ActiveEvent. Imported code verified EPOCHS2/1280/B32/device0,1. Version1 Cancelled; no epoch verified in Version2 yet."
+}

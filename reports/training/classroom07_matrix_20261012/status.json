@@ -1,0 +1,330 @@
+{
+  "status": "training_completed_artifacts_verified_evaluation_pending",
+  "last_checked_at_utc": "2026-10-12T15:32:54.0513909Z",
+  "matrix_progress": {
+    "E1": {
+      "latest_mAP50_95": 0.55911,
+      "history": [
+        {
+          "epoch": 1,
+          "mAP50_95": 0.53987,
+          "session_seconds": 925.9
+        },
+        {
+          "epoch": 2,
+          "mAP50_95": 0.55123,
+          "session_seconds": 1226.0
+        },
+        {
+          "epoch": 3,
+          "mAP50_95": 0.55395,
+          "session_seconds": 1516.0
+        },
+        {
+          "epoch": 4,
+          "mAP50_95": 0.55527,
+          "session_seconds": 1796.0
+        },
+        {
+          "epoch": 5,
+          "mAP50_95": 0.55478,
+          "session_seconds": 2086.1
+        },
+        {
+          "epoch": 6,
+          "mAP50_95": 0.55884,
+          "session_seconds": 2376.1
+        },
+        {
+          "epoch": 7,
+          "mAP50_95": 0.56078,
+          "session_seconds": 2656.1
+        },
+        {
+          "epoch": 8,
+          "mAP50_95": 0.56154,
+          "session_seconds": 2946.3
+        },
+        {
+          "epoch": 9,
+          "mAP50_95": 0.55823,
+          "session_seconds": 3226.3
+        },
+        {
+          "epoch": 10,
+          "mAP50_95": 0.55911,
+          "session_seconds": 3506.3
+        }
+      ],
+      "best_epoch": 8,
+      "archive_sha256_from_log": "d9837461ee3001108c5f3ae6a6ac624e7a9488f22eb501b14357fea31cc15181",
+      "trainer_final_log_rounded": {
+        "recall": 0.711,
+        "mAP50_95": 0.562,
+        "harmonic_of_mean_PR_approx": 0.76162,
+        "precision": 0.82,
+        "mAP50": 0.785
+      },
+      "native_validation_log_rounded": {
+        "recall": 0.681,
+        "session_seconds": 3627.1,
+        "batch": 8,
+        "mAP50": 0.761,
+        "harmonic_of_mean_PR_approx": 0.73741,
+        "precision": 0.804,
+        "mAP50_95": 0.546
+      },
+      "status": "completed",
+      "epochs_completed": 10,
+      "local_artifact_verified": true
+    },
+    "E2": {
+      "latest_mAP50_95": 0.56787,
+      "history": [
+        {
+          "epoch": 1,
+          "mAP50_95": 0.54309,
+          "session_seconds": 3988.1
+        },
+        {
+          "epoch": 2,
+          "mAP50_95": 0.55011,
+          "session_seconds": 4277.7
+        },
+        {
+          "epoch": 3,
+          "mAP50_95": 0.55384,
+          "session_seconds": 4567.7
+        },
+        {
+          "epoch": 4,
+          "mAP50_95": 0.5565,
+          "session_seconds": 4847.8
+        },
+        {
+          "epoch": 5,
+          "mAP50_95": 0.55906,
+          "session_seconds": 5137.7
+        },
+        {
+          "epoch": 6,
+          "mAP50_95": 0.56644,
+          "session_seconds": 5427.8
+        },
+        {
+          "epoch": 7,
+          "mAP50_95": 0.564,
+          "session_seconds": 5717.9
+        },
+        {
+          "epoch": 8,
+          "mAP50_95": 0.56782,
+          "session_seconds": 6007.9
+        },
+        {
+          "epoch": 9,
+          "mAP50_95": 0.56411,
+          "session_seconds": 6288.0
+        },
+        {
+          "epoch": 10,
+          "mAP50_95": 0.56787,
+          "session_seconds": 6568.0
+        }
+      ],
+      "best_epoch_so_far": 6,
+      "best_epoch": 10,
+      "archive_sha256_from_log": "853093fa749a1c4dc600c4703929542b2ba2c127c7b3072b16df4896af2e9854",
+      "trainer_final_log_rounded": {
+        "precision": 0.819,
+        "harmonic_of_mean_PR_approx": 0.76404,
+        "mAP50": 0.791,
+        "recall": 0.716,
+        "mAP50_95": 0.568
+      },
+      "native_validation_log_rounded": {
+        "recall": 0.676,
+        "mAP50_95": 0.552,
+        "mAP50": 0.766,
+        "harmonic_of_mean_PR_approx": 0.74107,
+        "precision": 0.82,
+        "session_seconds": 6688.5
+      },
+      "status": "completed",
+      "epochs_completed": 10,
+      "local_artifact_verified": true
+    },
+    "E3": {
+      "latest_mAP50_95": 0.57204,
+      "history": [
+        {
+          "epoch": 1,
+          "mAP50_95": 0.5385,
+          "session_seconds": 7029.1
+        },
+        {
+          "epoch": 2,
+          "mAP50_95": 0.54677,
+          "session_seconds": 7309.1
+        },
+        {
+          "epoch": 3,
+          "mAP50_95": 0.55249,
+          "session_seconds": 7599.1
+        },
+        {
+          "epoch": 4,
+          "mAP50_95": 0.55695,
+          "session_seconds": 7879.2
+        },
+        {
+          "epoch": 5,
+          "mAP50_95": 0.55835,
+          "session_seconds": 8159.2
+        },
+        {
+          "epoch": 6,
+          "mAP50_95": 0.56536,
+          "session_seconds": 8439.2
+        },
+        {
+          "epoch": 7,
+          "mAP50_95": 0.56445,
+          "session_seconds": 8719.3
+        },
+        {
+          "epoch": 8,
+          "mAP50_95": 0.56948,
+          "session_seconds": 8989.3
+        },
+        {
+          "epoch": 9,
+          "mAP50_95": 0.56891,
+          "session_seconds": 9269.4
+        },
+        {
+          "epoch": 10,
+          "mAP50_95": 0.57204,
+          "session_seconds": 9549.4
+        }
+      ],
+      "best_epoch_so_far": 10,
+      "archive_sha256_from_log": "763af06efb414ef0a032bb03db47b19a08287c4ae73a156f92f15ce4ac30b65e",
+      "native_validation_log_rounded": {
+        "precision": 0.798,
+        "mAP50": 0.772,
+        "session_seconds": 9663.1,
+        "recall": 0.697,
+        "mAP50_95": 0.557
+      },
+      "best_epoch": 10,
+      "trainer_final_log_rounded": {
+        "precision": 0.836,
+        "recall": 0.71,
+        "mAP50": 0.795,
+        "mAP50_95": 0.572,
+        "session_seconds": 9599.3
+      },
+      "status": "completed",
+      "epochs_completed": 10,
+      "local_artifact_verified": true
+    },
+    "E4": {
+      "latest_mAP50_95": 0.49279,
+      "history": [
+        {
+          "epoch": 1,
+          "mAP50_95": 0.49279,
+          "session_seconds": 10013.7
+        }
+      ],
+      "status": "completed",
+      "epochs_completed": 10,
+      "local_artifact_verified": true
+    },
+    "E5": {
+      "status": "completed",
+      "epochs_completed": 10,
+      "local_artifact_verified": true
+    },
+    "E6": {
+      "status": "completed",
+      "epochs_completed": 10,
+      "local_artifact_verified": true
+    }
+  },
+  "smoke": {
+    "status": "completed",
+    "epochs_completed": 1,
+    "fitness_from_csv_log": 0.54093,
+    "final_validation_log_rounded": {
+      "mAP50": 0.768,
+      "mAP50_95": 0.541
+    },
+    "log_completed_at_session_seconds": 575.8,
+    "estimated_elapsed_seconds_approx": 430.6,
+    "initializer_used_for_matrix": false
+  },
+  "baseline_native_log_rounded": {
+    "images": 2500,
+    "boxes": 8359,
+    "precision": 0.735,
+    "recall": 0.663,
+    "mAP50": 0.718,
+    "mAP50_95": 0.508,
+    "imgsz": 1280,
+    "nms": false
+  },
+  "kaggle_version": 2,
+  "script_version_id": 357596703,
+  "logs_url": "https://www.kaggle.com/code/awm3636/cp07-yolo26n-project8-v0-4-best19-e1-e6-e10-p3?scriptVersionId=357596703",
+  "ultralytics": "8.4.165",
+  "torch": "2.11.0+cu128",
+  "cuda": "12.8",
+  "gpus": [
+    "Tesla T4",
+    "Tesla T4"
+  ],
+  "backbone_layers_verified": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10
+  ],
+  "train_val_hash_labels_checked": 14500,
+  "train_images": 12000,
+  "validation_images": 2500,
+  "test_media_staged": false,
+  "notebook_sha256": "5026ee6823de9bcc4c9ed3d6ed470cf077fad5024f43505b9b7a4da1ad28d3ed",
+  "kaggle_version1_status": "cancelled_before_matrix_confirmation",
+  "notebook_url": "https://www.kaggle.com/code/awm3636/cp07-yolo26n-project8-v0-4-best19-e1-e6-e10-p3",
+  "checkpoint_name": "checkpoint 07 — YOLO26n Project8 v0.4, phiên Kaggle ngày 08/10/2026, best epoch 19",
+  "checkpoint_sha256": "d6fa68a79abd7eebfc91724c683d2cfd0c2ace6f6623a019fbef44729bf47adb",
+  "user_authorized_unreviewed_method_experiment": true,
+  "classroom_claim_allowed": false,
+  "device": "0,1",
+  "batch": 32,
+  "max_epochs_per_config": 10,
+  "patience": 3,
+  "training_epochs_confirmed": 60,
+  "automation_id": "theo-d-i-6-c-u-h-nh-checkpoint-07-tr-n-kaggle",
+  "visualization_path": "C:/Users/aawm8/.codex/visualizations/2026/10/12/01a12f17-edcb-7f91-b7b9-bd552ff3c8f1/checkpoint07-progress.html",
+  "last_error": null,
+  "evidence": "Kaggle Version2 Successfully ran18687s. All six runs10epochs. Six local ZIP hashes match remote archive logs; ZIP integrity passes. best/last weights extracted, native comparison complete; E3 highest native mAP50-95 .557. No classroom/test claim. COCO640/application and original YOLO26n control pending.",
+  "pause_request": {
+    "runtime_stop_after_run_supported": false,
+    "reason": "Background commit auto advances; only Stop Session exposed, live output unavailable.",
+    "scope": "after_current_run_preserve_artifacts",
+    "user_choice_pending": false,
+    "requested": true,
+    "user_choice": "preserve_results_allow_session_to_finish"
+  },
+  "completed_report": "C:\\Users\\aawm8\\Downloads\\BTL-AI-Camera-cd8\\README_DA_HOAN_THANH\\classroom07_matrix_20261012\\README.md"
+}

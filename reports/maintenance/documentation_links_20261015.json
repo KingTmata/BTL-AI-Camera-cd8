@@ -1,0 +1,82 @@
+{
+  "resolvable_original_links": 497,
+  "migration_regressions": [],
+  "preexisting_missing_links": [
+    {
+      "file": "docs/archive/plans/week3_handoff.md",
+      "original": "weights/BEST_Project8.pt"
+    },
+    {
+      "file": "docs/archive/plans/week3_handoff.md",
+      "original": "weights/yolo26n.pt"
+    },
+    {
+      "file": "docs/archive/plans/week3_handoff.md",
+      "original": "weights/kaggle/project8_26n_kaggle_20261005_092653_fd9cb282f05f.pt"
+    },
+    {
+      "file": "docs/archive/plans/week3_handoff.md",
+      "original": "weights/BEST_Project8.pt"
+    },
+    {
+      "file": "docs/archive/plans/week3_handoff.md",
+      "original": "weights/BEST_Project8.pt"
+    },
+    {
+      "file": "docs/reference/weights.md",
+      "original": "weights/BEST_Project8_20261008.pt"
+    },
+    {
+      "file": "docs/reference/weights.md",
+      "original": "weights/kaggle/BEST_Project8_20261006.pt"
+    },
+    {
+      "file": "docs/archive/completed/reports/results/kaggle/project8_26n_kaggle_20261008_040051/report.md",
+      "original": "weights/BEST_Project8_20261008.pt"
+    },
+    {
+      "file": "docs/archive/completed/reports/results/kaggle/project8_26n_kaggle_20261008_040051/report.md",
+      "original": "weights/BEST_Project8.pt"
+    },
+    {
+      "file": "docs/archive/completed/reports/results/kaggle/project8_26n_kaggle_20261008_040051/report.md",
+      "original": "weights/kaggle/BEST_Project8_20261006.pt"
+    },
+    {
+      "file": "docs/archive/completed/reports/results/kaggle/project8_v04_12k_from_best50_20261008_151936/report.md",
+      "original": "weights/BEST_Project8_v04_20261008.pt"
+    },
+    {
+      "file": "docs/archive/completed/reports/results/kaggle/project8_v04_12k_from_best50_20261008_151936/report.md",
+      "original": "weights/BEST_Project8.pt"
+    },
+    {
+      "file": "docs/archive/completed/reports/results/kaggle/project8_v04_12k_from_best50_20261008_151936/report.md",
+      "original": "weights/BEST_Project8_20261008.pt"
+    },
+    {
+      "file": "docs/archive/completed/reports/results/kaggle/project8_v04_12k_from_best50_20261008_151936/report.md",
+      "original": "project8_result.zip"
+    },
+    {
+      "file": "docs/archive/completed/reports/results/training_30_epochs_20261006/report.md",
+      "original": "weights/kaggle/BEST_Project8_20261006.pt"
+    },
+    {
+      "file": "docs/archive/completed/reports/results/training_50_epochs_20261008/report.md",
+      "original": "weights/BEST_Project8_20261008.pt"
+    },
+    {
+      "file": "docs/archive/completed/reports/results/training_50_epochs_20261008/report.md",
+      "original": "weights/BEST_Project8.pt"
+    },
+    {
+      "file": "reports/archive/results/new_zip_filter_20261008/report.md",
+      "original": "reports/results/new_zip_filter_20261008/filter_archives.py"
+    },
+    {
+      "file": "reports/archive/results/new_zip_filter_20261008/report.md",
+      "original": "data/exports/new_zip_8classes_20261008.zip"
+    }
+  ]
+}

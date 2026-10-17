@@ -1,5 +1,7 @@
 # Checklist triển khai — BTL-AI-Camera-cd8
 
+> **Bổ sung 12/10/2026:** các mục R0–R7 cuối file là kế hoạch mở rộng được đề xuất, **chưa triển khai**. Người dùng đã xác nhận cần tránh trùng đề tài nhận biết gian lận của nhóm độc lập. Chưa coi lựa chọn tối ưu YOLO theo tài nguyên là đã được người dùng chốt. T0–T10 và phần Kaggle 08/10 bên dưới giữ trạng thái lịch sử; chiến dịch checkpoint07 ngày 12/10 có [checklist riêng](experiments/kaggle_classroom_07_todo.md).
+
 Ngày08/10/2026. Đi cùng [kế hoạch chi tiết](plan.md). Đã ghép v0.5 trong chat chính theo ủy quyền: **15.000 ảnh (12.000/2.500/500), đã đủ số ảnh, còn thiếu0. Mục tiêu15.000/12.000 train/2.500 val/500 test giữ nguyên. Tất cả 15.000 ảnh full_review_pending; đã phát hiệnmẫu pizza/collage cóchairID2, nên **training_ready=False**. Các dấu[x] dướiđây chỉ ghi phầnđã thựchiện, không chứngnhận full review. Lượt này cậpnhậttàiliệu theoartifact, chưa sửa nhãn hoặctrain.
 
 ## T0 — Đối chiếu và bàn giao tài liệu (M0)
@@ -103,13 +105,12 @@ Phụ thuộc: T8 hoặc dừng ởT7 nếu nano đủ. Artifact: benchmark, fin
 
 Phụ thuộc: T9 đạt và được giao deploy. Artifact: deployment record, artifact deploy, rollback record. Kiểm chứng: không xóa/stripbản gốc; nếu lỗi vận hành thì rollback có log.
 
-### Definition of Done cuối
+### Definition of Done nhánh dữ liệu/model
 
 - [ ] Target15.000 ảnh/split/full review và hợp đồng8 ID đạt.
 - [ ] Testđộc lập đủ chứng cứ, protocol/GT/hash cố định, không tuning bằng test.
 - [ ] Chất lượng/lớp/camera/old-domain/latency/size theo tiêu chí đã chốt.
 - [ ] Hồ sơ tái lập vàrollback đầy đủ; nếu không đạt thì bàn giao evidence cùng lựa chọn tradeoff.
-
 
 ## Kaggle — cập nhật 08/10/2026
 
@@ -118,3 +119,99 @@ Phụ thuộc: T9 đạt và được giao deploy. Artifact: deployment record, 
 - [x] Người dùng cho phép smoke trước khi full review xong: 1 epoch, fraction=0.05; full run vẫn chặn.
 - [x] Notebook v0.5 đã nhập vào Kaggle; gói đã upload, đang được Kaggle xử lý.
 - [ ] Smoke GPU chạy xong, kiểm log/loss/checkpoint và lưu kết quả.
+
+## Kế hoạch mở rộng R — cấu hình YOLO theo giới hạn tài nguyên
+
+Đọc mục 0 của [plan.md](plan.md). Mọi checkbox R đều để mở: đây là đề xuất cho bước sau, không ghi nhận chức năng đã có. Phạm vi loại trừ nhận biết gian lận; GAN tùy chọn. Những đường dẫn chưa tồn tại dưới đây là **tệp dự kiến**, cần đối chiếu kiến trúc repo khi triển khai.
+
+### R0 — Chốt mục tiêu và hợp đồng thí nghiệm
+
+- [ ] Chọn hướng nghiên cứu chính, người dùng, input/output; đối soát phạm vi BTL/recognition cũ và ranh giới với nhóm khác.
+- [ ] Ghi GPU thực, VRAM, ngân sách search/huấn luyện cuối, máy inference và quy tắc chọn model trên validation.
+- [ ] Khóa câu hỏi nghiên cứu, không gian tìm kiếm, đối chứng và cách tính chi phí/thất bại.
+
+Phụ thuộc: không. Tệp dự kiến: `tasks/plan.md`, `tasks/todo.md`, `docs/RESOURCE_AWARE_EXPERIMENT_PROTOCOL.md` (3 tệp). Kiểm chứng: truy được từng mục tiêu đến metric/đối chứng; không có ngưỡng thiếu đơn vị hay lẫn VRAM với RAM. Cổng: người dùng chọn phạm vi trước khi chuyển từ plan sang thực hiện.
+
+### R1 — Tạo baseline và hồ sơ dữ liệu dùng chung
+
+- [ ] Dùng release đạt quality gate T6 cho kết luận chất lượng; khóa train/val/test và lịch sử exposure. Ngoại lệ thử phương pháp phải ghi đúng phạm vi riêng.
+- [ ] Chạy B0 cấu hình cố định và B1 AutoBatch theo protocol; lưu quality, VRAM, thời gian, seed và hash.
+- [ ] Kiểm mọi model dùng cùng nhãn/evaluator, test chưa tham gia chọn cấu hình.
+
+Phụ thuộc: R0, T6 cho nhánh nghiệm thu chính. Tệp dự kiến: protocol, baseline config, evaluation adapter, bài kiểm class map/protocol (4 tệp, chưa kể artifact run). Kiểm chứng: chấm lại cùng predictions cho kết quả nhất quán; các trường hợp trống/sai lớp/box trùng được xử lý đúng. Baseline chỉ hoàn tất khi có artifact thật.
+
+### Cổng R0–R1
+
+- [ ] Mục tiêu/phần cứng/ngân sách đã chốt và baseline tái lập được; trạng thái dữ liệu được báo đúng.
+
+### R2 — Đo chi phí và nhận biết cấu hình không khả thi
+
+- [ ] Đo bộ nhớ đỉnh và thời gian qua train/validation, ghi chi phí theo từng GPU và phần dự phòng.
+- [ ] Phân biệt OOM với lỗi nhãn/runtime; lưu trial thất bại rồi thu hồi tài nguyên trước trial kế tiếp.
+- [ ] Xuất bảng khả thi cho model/kích thước ảnh/batch mà không mặc định batch lớn nhất là tốt nhất.
+
+Phụ thuộc: R1. Tệp dự kiến: `src/training/resource_profile.py`, cấu hình profiling, `tests/test_resource_profile.py` (3 tệp). Kiểm chứng: unit test đường thất bại/giới hạn; số đo trên GPU thật qua ít nhất một cấu hình vừa và một cấu hình không phù hợp được kiểm soát; không dùng mô phỏng làm bằng chứng GPU nhỏ thực.
+
+### R3 — Chạy random search có ngân sách
+
+- [ ] B2 lấy mẫu có seed từ không gian đã khóa, mỗi trial có init và thư mục kết quả độc lập.
+- [ ] Tính cả profiling/evaluation/run lỗi vào budget, dừng launch đúng hạn và giữ checkpoint/log khi gián đoạn.
+- [ ] Xuất lịch sử trial và lựa chọn bằng validation; không dùng test để chọn model.
+
+Phụ thuộc: R2. Tệp dự kiến: `src/training/search.py`, `src/training/trial_store.py`, search config, `tests/test_training_search.py` (4 tệp). Kiểm chứng: mô phỏng clock, OOM và restart; không chạy lặp trial hoàn tất, không tự nới ngân sách; pilot thật đối chiếu thời gian với ledger.
+
+### Cổng R2–R3
+
+- [ ] Profiling và bộ chạy có ngân sách đã được kiểm; B2 tạo được một bảng kết quả hợp lệ trước khi thêm phương pháp phức tạp hơn.
+
+### R4a — Thử chính sách lựa chọn có xét tài nguyên
+
+- [ ] Triển khai P với bước lọc khả thi và phân bổ tài nguyên theo quy tắc R0; log lý do giữ/dừng từng cấu hình.
+- [ ] Kiểm việc dừng sớm ở các mốc so sánh tương thích; ghi rõ cách xử lý lịch học khi cấp thêm tài nguyên.
+- [ ] Có biến thể bỏ từng thành phần để đo lợi ích riêng, không đổi đồng thời dữ liệu và phương pháp tìm kiếm.
+
+Phụ thuộc: R3. Tệp dự kiến: search policy, search runner, policy config, bài kiểm policy (4 tệp). Kiểm chứng: dùng các đường cong mô phỏng có cấu hình học chậm; chạy pilot và lưu quyết định để replay được.
+
+### R4b — Đánh giá giả thuyết dưới cùng ngân sách
+
+- [ ] So B0/B1/B2/P và ablation; báo chất lượng theo thời gian, chi phí đầy đủ, OOM, AP từng lớp và recall vật nhỏ.
+- [ ] Lặp seed ghép cặp khi đủ budget; nếu chỉ một lượt, ghi kết quả sàng lọc sơ bộ.
+- [ ] Lưu kết luận cả khi P không hơn B2; không gọi tích hợp công cụ có sẵn là tính mới đã chứng minh.
+
+Phụ thuộc: R4a. Tệp dự kiến: comparison script, `docs/RESOURCE_AWARE_EXPERIMENT_PROTOCOL.md`, báo cáo đối chứng (3 tệp). Kiểm chứng: tính lại bảng từ trial ledger; cùng ngân sách và quy tắc lựa chọn, không chọn seed đẹp nhất. Khảo sát công trình liên quan trước khi tuyên bố đóng góp mới.
+
+### R5a — Bàn giao gói model có thể kiểm tra
+
+- [ ] Xuất weights/config/class map/hash/model card và trạng thái đạt/chưa đạt theo quy tắc đã khóa.
+- [ ] Đo trên máy camera đích; tách chất lượng, FPS xử lý, FPS hiển thị, p95 độ trễ và RAM.
+- [ ] Có bản đối chứng và cách rollback; chưa tự chuyển alias ứng dụng.
+
+Phụ thuộc: R4b. Tệp dự kiến: model bundle writer, benchmark adapter, bài kiểm bundle, hướng dẫn bàn giao (4 tệp). Kiểm chứng: nạp lại gói đúng hash, đúng mapping; benchmark lặp cùng input/máy và có ca ứng viên không đạt.
+
+### R5b — Hoàn thiện luồng người dùng
+
+- [ ] UI nhận dataset/thiết bị/ngân sách và hiển thị điều kiện chưa đạt trước khi chạy.
+- [ ] Hiển thị trạng thái trial, chi phí đã dùng, lựa chọn chất lượng–chi phí và lý do đề xuất.
+- [ ] Cho xem gói kết quả trên camera, xử lý được không có GPU hoặc không tìm thấy ứng viên đạt.
+
+Phụ thuộc: R5a. Tệp dự kiến: `src/classroom_ai/interfaces/web/training.py`, `src/classroom_ai/training/manager.py`, bài kiểm luồng job, hướng dẫn UI (4 tệp). Kiểm chứng: một lượt từ input đến report; Stop/restart không tạo job trùng; đối chiếu số UI với ledger. Không đưa toàn bộ máy tìm kiếm vào file UI.
+
+### Cổng R4–R5
+
+- [ ] Đối chứng đủ để đánh giá giả thuyết; người khác mở được gói và kiểm đúng model trên ứng dụng.
+
+### R6 — Nghiệm thu và tái lập
+
+- [ ] Khóa phương pháp/model/threshold trước đánh giá test; báo giới hạn về dataset, thiết bị, seed và điều kiện camera.
+- [ ] Thành viên khác chạy được quy trình từ gói bàn giao; số đo và cấu hình truy nguồn được.
+- [ ] Báo riêng hoàn thành phần mềm, đạt chất lượng camera và bằng chứng cải thiện của phương pháp.
+
+Phụ thuộc: R5b, các cổng chất lượng liên quan T9/T10. Tệp dự kiến: final report, model card, hướng dẫn tái lập, script kiểm gói (4 tệp). Kiểm chứng: kiểm thử luồng thực, kết quả test sau khóa và biên bản chạy máy khác. Hoàn tất báo cáo thất bại không đồng nghĩa đã chứng minh phương pháp tốt hơn.
+
+### R7 — GAN tùy chọn sau tuyến chính
+
+- [ ] Chọn một giả thuyết dữ liệu cụ thể và protocol riêng trước khi làm; nếu chuyển sang sinh trắc học phải tách dataset và metric.
+- [ ] So ảnh thật + augmentation thông thường với nhánh thêm GAN trên cùng test ảnh thật, kiểm nhãn/phân nhóm và lưu provenance.
+- [ ] Báo lợi ích, thất bại và tổng chi phí tạo/kiểm ảnh; không biến ảnh sinh thành ảnh gốc độc lập hoặc tự thay release 15.000 ảnh.
+
+Phụ thuộc: R6, người dùng chọn nhánh và ngân sách riêng. Đây là epic tùy chọn chưa đủ đặc tả triển khai; phải tách thành các task tối đa khoảng 3–5 tệp sau khi chọn loại GAN/bài toán. Kiểm chứng dự kiến: ablation có/không GAN và đánh giá dữ liệu thật giữ riêng; không bắt đầu bằng việc thêm GAN vào camera runtime.

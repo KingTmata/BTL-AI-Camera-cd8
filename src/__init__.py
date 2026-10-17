@@ -1,1 +1,1 @@
-"""Mã nguồn ứng dụng camera AI của nhóm."""
+"""Compatibility entrypoint namespace; application code is classroom_ai."""

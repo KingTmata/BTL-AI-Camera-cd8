@@ -89,3 +89,17 @@ Thumbs.db
 Desktop.ini
 .DS_Store
 *.tmp
+
+# Organized local media and historical experiment artifacts.
+/data/videos/
+/reports/archive/results/*
+!/reports/archive/results/project8_v03_26n_cpu_r1best_e4_20261004_192709_35d01d41/
+/reports/archive/results/project8_v03_26n_cpu_r1best_e4_20261004_192709_35d01d41/*
+!/reports/archive/results/project8_v03_26n_cpu_r1best_e4_20261004_192709_35d01d41/report.md
+/docs/archive/completed/reports/results/**/*.jpg
+/docs/archive/completed/reports/results/**/*.jpeg
+/docs/archive/completed/reports/results/**/*.png
+/docs/archive/completed/reports/results/**/*.mp4
+
+# Private machine-transfer archives and manifests
+/transfer_backup/

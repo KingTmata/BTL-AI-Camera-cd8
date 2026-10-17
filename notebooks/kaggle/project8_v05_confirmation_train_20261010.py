@@ -8,15 +8,12 @@ import subprocess
 import time
 import traceback
 from pathlib import Path
-
 import torch
 import ultralytics
 import yaml
 from ultralytics import YOLO
 from ultralytics.cfg import get_cfg
 from ultralytics.models.yolo.detect import DetectionValidator
-
-
 def run_confirmation(campaign_path, data_root, manifest_path, expected_manifest):
     campaign = Path(campaign_path)
     original = json.loads((campaign / 'comparison.json').read_text())
@@ -72,7 +69,6 @@ def run_confirmation(campaign_path, data_root, manifest_path, expected_manifest)
     if 'CONFIRMATION_TRAIN_SOURCE' in globals():
         (output / 'executed_source.py').write_text(CONFIRMATION_TRAIN_SOURCE)
         state['source_sha256'] = file_sha(output / 'executed_source.py')
-
     class ConfirmationNMSValidator(DetectionValidator):
         def postprocess(self, predictions):
             items = super().postprocess(predictions)
@@ -83,7 +79,6 @@ def run_confirmation(campaign_path, data_root, manifest_path, expected_manifest)
                 merged = merge_detections([raw], iou=.6)
                 item.update(bboxes=merged[:, :4], conf=merged[:, 4], cls=merged[:, 5], extra=merged[:, 6:])
             return items
-
     def preserve(label):
         temporary = output / 'comparison.json.partial'
         temporary.write_text(json.dumps(state, indent=2))
@@ -93,7 +88,6 @@ def run_confirmation(campaign_path, data_root, manifest_path, expected_manifest)
                    and (path.suffix != '.pt' or path.resolve() in selected)]
         archive = campaign.parent / (output.name + '_' + label + '.zip')
         print('CONFIRMATION_VERIFIED_ARCHIVE', archive, verified_bundle(output, sources, archive), flush=True)
-
     print('CONFIRMATION_PLAN', json.dumps(plan), flush=True)
     for job in plan['jobs']:
         label, config = job['label'], job['config']

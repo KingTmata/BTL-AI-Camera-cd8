@@ -1,0 +1,17 @@
+{
+  "mapping_count": 903,
+  "unchanged_artifacts_sha256": 506,
+  "package_python_files": 45,
+  "package_initializers": 7,
+  "removed_empty_legacy_roots": [
+    "README",
+    "README_DA_HOAN_THANH",
+    "kaggle_tools",
+    "src/inference",
+    "src/ui",
+    "src/training",
+    "src/classroom_ai/datasets",
+    "src/classroom_ai/evaluation"
+  ],
+  "note": "No recursive deletion of source or artifacts; only stale .pyc and empty verified legacy directories removed."
+}

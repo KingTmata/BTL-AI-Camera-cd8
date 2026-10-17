@@ -1,0 +1,50 @@
+{
+  "status": "queued",
+  "notebook_url": "https://www.kaggle.com/code/awm3636/cp07-e2-e3-finetune-1536-5epochs-t4x2/edit",
+  "local_notebook": "notebooks/kaggle/cp07_e2_e3_ft1536_e5_20261012.ipynb",
+  "epochs_per_model": 5,
+  "total_epochs": 10,
+  "imgsz": 1536,
+  "batch": 16,
+  "device": "0,1",
+  "patience": 0,
+  "resume": false,
+  "source_models": [
+    "E2_MuSGD_lr3e4",
+    "E3_AdamW_lr1e4"
+  ],
+  "launch_confirmed": true,
+  "gpu_quota_hours_from_ui": 24,
+  "gpu_selection_persisted": true,
+  "runtime_preflight_passed": false,
+  "input_persistence_confirmed_after_reload": true,
+  "local_compile_and_config_checks_passed": true,
+  "last_error": "Version4 failed after310.1s: rank0 torch.OutOfMemoryError in training loss; GPU0 14.56GiB,24.75MiB free, attempted24MiB allocation.",
+  "user_request": "Notify when ready to train; five epochs per model, two sequential new fine-tunes.",
+  "last_checked_utc": "2026-10-13T15:21:04.547650+00:00",
+  "user_authorized_launch": true,
+  "notebook_import_confirmed": true,
+  "version_name": "E2 E3 FT1536 E5 T4x2 batch16 OOM fix",
+  "kaggle_version": 5,
+  "logs_url": "https://www.kaggle.com/code/awm3636/cp07-e2-e3-finetune-1536-5epochs-t4x2/log?scriptVersionId=358041711",
+  "evidence": "User authorized batch32 to16 after Version4 OOM. Config BATCH16 and both run overrides batch16 saved. Version5 accepted, Queued T4x2, one Active Event, Output0B. Source root fix retained; no extra epochs.",
+  "script_version_id": 358041711,
+  "queue_diagnostic": {
+    "active_events_count": 1,
+    "gpu": "T4x2",
+    "log_rows": 0,
+    "output_bytes": 0,
+    "error_visible": false
+  },
+  "previous_failed_version": 3,
+  "previous_failed_script_version_id": 357850330,
+  "model_input_root_fix": true,
+  "regression_check_passed": true,
+  "epochs_completed": {
+    "E2": 0,
+    "E3": 0
+  },
+  "source_weights_sha_verified": true,
+  "output_bytes_display": "7.12 MB",
+  "user_authorized_batch_reduction": true
+}

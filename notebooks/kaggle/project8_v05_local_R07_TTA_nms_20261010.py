@@ -8,19 +8,16 @@ import re
 import shutil
 from functools import partial
 from pathlib import Path
-
 import torch
 import ultralytics
 import yaml
 from ultralytics import YOLO
-
-from kaggle_tools.experiment_campaign import file_sha
-from kaggle_tools.inference_variants import ExplicitViewsValidator
-from kaggle_tools.validation_replay import replay_metrics
-from kaggle_tools.view_replay import CacheViewsValidator
-
+from classroom_ai.experiments.experiment_campaign import file_sha
+from classroom_ai.inference.variants import ExplicitViewsValidator
+from classroom_ai.experiments.validation_replay import replay_metrics
+from classroom_ai.experiments.view_replay import CacheViewsValidator
 root = Path.cwd().resolve()
-log = root / 'reports/PROJECT8_V05_LOG.md'
+log = root / 'reports/training/project8_v05_log.md'
 metadata_path = root / '.temp/single_best_selection_20261010.json'
 references = re.findall(r'### R07_three_views — full validation hoàn tất\s+```json\s+(.*?)\s+```', log.read_text(encoding='utf-8'), re.S)
 assert references, 'Wait for full R07 three-view validation'
@@ -55,26 +52,18 @@ stamp = datetime.datetime.now(datetime.timezone.utc).strftime('%Y%m%d_%H%M%S')
 output = root / '.temp' / ('TTA_NMS_' + stamp)
 output.mkdir(exist_ok=False)
 names = {0:'person', 1:'table', 2:'chair', 3:'laptop', 4:'cell phone', 5:'backpack', 6:'book', 7:'bottle'}
-
-
 def append(title, record):
     with log.open('a', encoding='utf-8') as stream:
         stream.write('\n\n### ' + title + '\n\n```json\n' + json.dumps(record, indent=2) + '\n```\n')
-
-
 def record(metrics):
     return dict(mAP50=float(metrics.box.map50), mAP50_95=float(metrics.box.map),
                 precision=float(metrics.box.mp), recall=float(metrics.box.mr),
                 per_class={metrics.names[int(cls)]: dict(AP50=float(metrics.box.ap50[index]),
                 AP50_95=float(metrics.box.ap[index])) for index, cls in enumerate(metrics.box.ap_class_index)})
-
-
 def parity(a, b):
     for key in ['mAP50', 'mAP50_95', 'precision', 'recall']:
         if abs(a[key] - b[key]) > 1e-6:
             raise ValueError('Actual/replay parity failed: ' + key)
-
-
 def capture(data_yaml, label, count):
     holder = []
     def factory(**kwargs):
@@ -91,15 +80,12 @@ def capture(data_yaml, label, count):
     del model, holder
     gc.collect()
     return samples, measured
-
-
 append('R07 TTA × NMS sweep — bắt đầu', dict(status='running', timestamp_utc=stamp,
     checkpoint_sha256=expected_sha, manifest_sha256=manifest_sha, views=views, protocol=protocol,
-    source_sha256=file_sha(__file__), collector_sha256=file_sha(root / 'kaggle_tools/view_replay.py'),
-    replay_sha256=file_sha(root / 'kaggle_tools/validation_replay.py'),
+    source_sha256=file_sha(__file__), collector_sha256=file_sha(root / 'src/classroom_ai/experiments/view_replay.py'),
+    replay_sha256=file_sha(root / 'src/classroom_ai/experiments/validation_replay.py'),
     validation_images=2500, validation_boxes=8359, test_used=False,
     cache_note='Unmerged restored predictions in RAM only, before class-aware NMS and global max_det.'))
-
 try:
     # Real integration smoke: a control forward pass and raw replay must agree.
     smoke_list = output / 'smoke_val.txt'
