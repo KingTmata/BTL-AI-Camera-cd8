@@ -2,6 +2,8 @@
 
 Chuẩn bị ngày 17/10/2026. Các gói riêng tư nằm trong `transfer_backup/` ở thư mục gốc; thư mục này bị Git bỏ qua. Chép **toàn bộ thư mục này** sang ổ ngoài hoặc nơi lưu trữ riêng tư rồi sang máy mới. Bản sao còn nằm trên máy cũ chưa bảo vệ được khỏi hỏng ổ/mất máy.
 
+Theo yêu cầu đóng gói cuối: bàn giao **một file** `BTL-AI-Camera-FULL-20261017.zip` nằm trực tiếp trong `C:\Users\aawm8\Downloads`, bên ngoài thư mục dự án. Chỉ cần chép file ZIP này. Giải nén lớp ngoài trước để có `READ_ME_FIRST.md`, hai ZIP thành phần, Git bundle, checksum và thông tin môi trường; sau đó làm theo các bước dưới. `transfer_backup/` là thư mục làm việc để tạo gói, không cần chép thêm nếu đã có ZIP cuối.
+
 ## Các thành phần
 
 - GitHub: code, cấu hình dùng chung, notebook, tài liệu và báo cáo được Git theo dõi. Dataset, weights và lịch sử Codex không nằm trên GitHub.
