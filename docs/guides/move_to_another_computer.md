@@ -7,7 +7,7 @@ Theo yêu cầu đóng gói cuối: bàn giao **một file** `BTL-AI-Camera-FULL
 ## Các thành phần
 
 - GitHub: code, cấu hình dùng chung, notebook, tài liệu và báo cáo được Git theo dõi. Dataset, weights và lịch sử Codex không nằm trên GitHub.
-- `project-local.zip`: nội dung dự án local, gồm `data/`, `weights/`, `runs/`, báo cáo bị ignore và các công cụ/runtime local; bỏ `.git`, `.venv`, cache Python và chính thư mục backup.
+- `project-local.zip`: code, cấu hình, tài liệu, `weights/`, `runs/`, video và báo cáo local. Theo yêu cầu cuối, **bỏ dataset huấn luyện** (`data/dataset`, `data/raw`, `data/exports`, `data/reference`), `.venv`, `.python`, `.tools`, node_modules và cache/tạm. Không xóa bản gốc trên máy cũ. Máy mới cần cài lại môi trường; đường dẫn dataset trong cấu hình là tham chiếu lịch sử, không có nghĩa dữ liệu đã được mang theo.
 - `repository.bundle`: toàn bộ refs và lịch sử Git local tại thời điểm tạo; có thể clone khi không có mạng. Không chứa thay đổi chưa commit.
 - `codex-local.zip`: trạng thái local từ `C:\Users\aawm8\.codex`, gồm sessions, archived_sessions nếu có, index, database, cấu hình, skills, plugins, attachments, visualizations và worktrees. Có giữ cả profile `.codex` lồng bên trong nếu tồn tại. Bỏ `auth.json`, sandbox secrets, khóa tiến trình và runtime/cache có thể cài lại. Đây vẫn là dữ liệu riêng tư: hội thoại/cấu hình có thể chứa thông tin nhạy cảm.
 - `backup_report.json`, `SHA256SUMS.txt`: kết quả kiểm CRC ZIP, integrity SQLite, số file, lỗi nếu có và checksum để đối chiếu sau khi chép. Manifest từng file nằm trong mỗi ZIP.
@@ -19,6 +19,8 @@ Kiểm tra nguồn ngày 17/10: profile chính có 67 bản ghi chat; profile l�
 Kiểm tra code trước push: Ruff đạt, 80 file đúng format. Pytest chưa đạt: Windows dùng encoding `gbk` gây lỗi đọc notebook; chạy Python ở UTF-8 đi tiếp được 24 test nhưng gặp lỗi encoding đầu ra subprocess ở test TUI. Lượt pytest trong sandbox không hoàn tất và đã dừng. Đây là snapshot bảo toàn công việc, không phải bản phát hành đã qua toàn bộ test.
 
 ## Khôi phục dự án
+
+Để Codex trên máy mới nắm ngữ cảnh, mở đúng thư mục project và gửi: **“Đọc AGENTS.md, tasks/project_memory.md và mục chính thức trong tasks/plan.md trước. Tiếp đó đọc docs/guides/move_to_another_computer.md và reports/maintenance/restructure_20261015.md. Đây là bản chuyển máy không kèm dataset/môi trường; kiểm tra trạng thái rồi tiếp nối công việc, không tự train hoặc đổi mục tiêu đề tài.”** Các file này ghi mục tiêu, quyết định, cấu trúc, việc đã làm và giới hạn kiểm chứng. Không cần đọc lại toàn bộ lịch sử chat để lấy được ngữ cảnh dự án cốt lõi.
 
 1. Trên máy Windows mới, cài Git, Python 3.11 và FFmpeg/FFprobe. Giải nén dự án vào thư mục trống; ưu tiên giữ `C:\Users\aawm8\Downloads\BTL-AI-Camera-cd8` nếu khả thi để các tham chiếu lịch sử tiếp tục đúng.
 2. Clone repository rồi giải nén `project-local.zip` vào đúng thư mục clone, chấp nhận bản snapshot ghi đè file của clone. Khi không có mạng, clone từ bundle:
