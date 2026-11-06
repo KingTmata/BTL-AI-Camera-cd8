@@ -48,6 +48,7 @@ def main():
             "requirements/demo_cpu.lock.txt" if sys.platform == "win32" else "requirements/demo.in"
         )
         run("-m", "pip", "install", "-r", requirements)
+        run("-m", "pip", "install", "-r", "requirements/web.txt")
         run("-m", "pip", "install", "-e", ".", "--no-deps")
         (ROOT / "weights").mkdir(exist_ok=True)
         run(
@@ -57,10 +58,10 @@ def main():
     run("-m", "pip", "check")
     run(
         "-c",
-        "import cv2, streamlit, torch, ultralytics; from pathlib import Path; from classroom_ai.inference.detector import ImageInspector; ImageInspector(Path('weights/yolo26n.pt')); assert hasattr(cv2, 'imshow'), 'Need opencv-python, not headless'; print('Demo imports and checkpoint OK'); print('Versions:', ultralytics.__version__, torch.__version__, streamlit.__version__, cv2.__version__)",
+        "import cv2, fastapi, lap, streamlit, torch, ultralytics, uvicorn; from pathlib import Path; from classroom_ai.interfaces.web import create_app; from classroom_ai.inference.detector import ImageInspector; ImageInspector(Path('weights/yolo26n.pt')); assert hasattr(cv2, 'imshow'), 'Need opencv-python, not headless'; assert callable(create_app); print('Web imports and checkpoint OK'); print('Versions:', ultralytics.__version__, torch.__version__, fastapi.__version__, uvicorn.__version__, cv2.__version__)",
     )
     print(
-        "Ready. Windows: run_demo.cmd. macOS/Linux: .venv/bin/python -m classroom_ai.interfaces.web --server.headless=false",
+        "Ready. Windows: run_demo.cmd. macOS/Linux: .venv/bin/python -m classroom_ai.interfaces.web --port 8090",
         flush=True,
     )
 

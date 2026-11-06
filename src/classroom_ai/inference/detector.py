@@ -18,13 +18,15 @@ from classroom_ai.inference.devices import validate_device
 
 def class_mapping(names: dict[int, str]) -> dict[int, int]:
     """Từ chối checkpoint không đúng profile để không âm thầm đổi ID."""
+    if names == {0: "person"}:
+        return {0: 0}
     if len(names) == 80 and all(names.get(i) == name for i, name in COCO_NAMES.items()):
         return dict(COCO_TO_PROJECT)
     ordered = tuple(names.get(i) for i in range(len(PROJECT_NAMES)))
     if len(names) == len(PROJECT_NAMES) and ordered in (PROJECT_NAMES, LEGACY_PROJECT_NAMES):
         return {i: i for i in range(len(PROJECT_NAMES))}
     raise ValueError(
-        "Checkpoint phải là COCO80 hoặc project8 đúng thứ tự: " + ", ".join(PROJECT_NAMES)
+        "Checkpoint phải là person1, COCO80 hoặc project8 đúng thứ tự: " + ", ".join(PROJECT_NAMES)
     )
 
 
@@ -123,6 +125,8 @@ class ImageInspector:
             raise FileNotFoundError(f"Không thấy weights: {weights}")
         self.device = validate_device(device)
         self.model = YOLO(str(weights))
+        if self.model.task != "detect":
+            raise ValueError("Detect cần checkpoint task detect; chọn chế độ pose cho model Pose.")
         self.weights = weights
         self.multi_engine = None
         self.mapping = class_mapping(self.model.names)

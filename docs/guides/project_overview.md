@@ -1,5 +1,7 @@
 > **Dataset hiện hành08/10/2026:**v0.5 đủ15.000 ảnh (12.000train/2.500val/500test), tất cảfull_review_pending, chưatrainv05. Weight/metricv04 bên dưới làlịch sử. XemREADME gốc vàtasks/plan.md.
 
+> **Điểm vào hiện hành — 02/11/2026:** mở `run_demo.cmd` để dùng web video local (Detect/Pose/tracking và duyệt timeline), hoặc `run_video.cmd` cho CLI/TUI. Các mô tả baseline tuần 1 và cách dùng Streamlit bên dưới giữ phạm vi lịch sử; Streamlit hiện chạy bằng `python -m classroom_ai.interfaces.streamlit_ui`. Xem [cấu trúc hiện hành](../architecture/project_structure.md).
+
 > **Cập nhật v0.4 — 08/10/2026:** Recognition mặc định dùng `weights/BEST_Project8.pt`, alias của best v0.4 epoch 19. Tám nhãn hiện hành kết thúc bằng `bottle` (gộp cup+bottle). Dataset 12k: 9.540 train / 1.754 val / 706 test. Training local và exporter v0.3 vẫn dùng hợp đồng cũ `cup`; notebook v0.4 và `configs/data_v04.yaml` dành cho bộ mới. Các phần v0.3 bên dưới là lịch sử hoặc hướng dẫn cho bộ cũ.
 
 > **Đối soát 05/10/2026:** xem [trạng thái hiện hành](../archive/project_readme.md#trạng-thái-theo-tuần). Dataset project8_v0.3 đã duyệt/khóa; R1 và R2 hoàn tất tổng 5 epoch. Những mô tả trước đó trong tài liệu là lịch sử hoặc đề xuất; G1/G2/G3 chưa đủ nghiệm thu toàn bộ.
@@ -36,7 +38,7 @@ Repo hiện có **baseline tuần 1** theo [kế hoạch](../archive/plans/week1
 Mở giao diện trên máy:
 
 ```powershell
-& .\.venv\Scripts\python.exe -m streamlit run src/classroom_ai/interfaces/web/app.py
+& .\.venv\Scripts\python.exe -m streamlit run src/classroom_ai/interfaces/streamlit_ui/app.py
 ```
 
 Mở **http://127.0.0.1:8501**, chọn Recognition để xem ảnh/video/webcam hoặc Training để huấn luyện trên CPU. Có thư viện ảnh thu nhỏ, upload ảnh, nhãn project8 để đối chiếu và tải PNG/JSON/CSV. [Training UI](../archive/plans/week3_handoff.md) cho phép chỉnh cấu hình, theo dõi tiến trình riêng và tải checkpoint từng epoch; tải lại/đóng trình duyệt không dừng train. Terminal giữ server chạy; Ctrl+C để dừng server.
@@ -147,7 +149,7 @@ Kỳ vọng tám ID COCO lần lượt là person, dining table, chair, laptop, 
 3. Viết ứng dụng theo các module ở mục 10 của kế hoạch; kiểm camera, tracking, đếm và cảnh báo.
 4. Fine-tune, đánh giá trên test độc lập, đo FPS/độ trễ và ghi kết quả thật vào báo cáo.
 
-Baseline ảnh/video/webcam chạy bằng `python -m src.inference.demo --source <ảnh|video|0>`. Web `streamlit run src/classroom_ai/interfaces/web/app.py` dùng ảnh train của dataset chính, upload hoặc frame video. Lối vào CLI tuần 1 cũ và script chuẩn bị dữ liệu cũ đã bỏ. Các lệnh `python -m src.cli`, `src.train`, `src.evaluate` trong kế hoạch vẫn chưa có; hướng dẫn train hiện dùng CLI Ultralytics.
+Baseline ảnh/video/webcam chạy bằng `python -m src.inference.demo --source <ảnh|video|0>`. Web `streamlit run src/classroom_ai/interfaces/streamlit_ui/app.py` dùng ảnh train của dataset chính, upload hoặc frame video. Lối vào CLI tuần 1 cũ và script chuẩn bị dữ liệu cũ đã bỏ. Các lệnh `python -m src.cli`, `src.train`, `src.evaluate` trong kế hoạch vẫn chưa có; hướng dẫn train hiện dùng CLI Ultralytics.
 
 Chạy một ảnh đã có trong dataset chính, không cần tải thư viện ảnh tham khảo riêng:
 

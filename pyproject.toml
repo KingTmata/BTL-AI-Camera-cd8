@@ -16,12 +16,17 @@ dev = ["pytest==8.4.2", "ruff==0.17.1"]
 
 [project.scripts]
 classroom-video = "classroom_ai.video.__main__:main"
-classroom-web = "classroom_ai.interfaces.web.__main__:main"
+classroom-web = "classroom_ai.interfaces.web:main"
+classroom-demo = "classroom_ai.interfaces.web:main"
+classroom-streamlit = "classroom_ai.interfaces.streamlit_ui.__main__:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
 include = ["classroom_ai*"]
 namespaces = false
+
+[tool.setuptools.package-data]
+classroom_ai = ["interfaces/web.html"]
 
 [tool.setuptools.dynamic]
 dependencies = {file = ["requirements/base.in"]}

@@ -1,0 +1,3 @@
+# Optional Intel iGPU Pose backend; install after the base/demo runtime.
+# Graphics driver must expose GPU to OpenVINO. No automatic CPU fallback.
+openvino==2026.4.1

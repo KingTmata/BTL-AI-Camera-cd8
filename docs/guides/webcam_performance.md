@@ -2,7 +2,7 @@
 
 ## Nguyên nhân và cách sửa (12/10/2026)
 
-`src/classroom_ai/interfaces/web/app.py` dùng `@st.fragment(run_every=0.3)`: timer yêu cầu tối đa
+`src/classroom_ai/interfaces/streamlit_ui/app.py` dùng `@st.fragment(run_every=0.3)`: timer yêu cầu tối đa
 `1 / 0.3 = 3,33` lần/giây, hoàn toàn không đọc `runtime.preview_fps`.
 Mỗi tick còn gọi `manager.active()`, lấy OS guard chung với `inference_slot()`.
 Worker giữ guard suốt lượt suy luận nên UI có thể chờ/retry (tối đa 5 giây),

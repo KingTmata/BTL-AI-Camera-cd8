@@ -1,5 +1,6 @@
 """Minimal clickable terminal launcher; frames stay in the child backend."""
 
+import math
 import time
 from pathlib import Path
 
@@ -94,6 +95,10 @@ class VideoTerminal(App):
     #actions { height: 3; margin-top: 1; }
     #mode { width: 1fr; margin-right: 1; }
     #start, #stop { width: 12; min-width: 10; margin-left: 1; }
+    #thresholds { height: 3; }
+    #thresholds Label { width: auto; padding: 1 1 0 0; }
+    #confidence { width: 12; margin-right: 2; }
+    #nms-iou { width: 1fr; }
     #hint { height: 2; color: $text-muted; }
     #status { height: auto; min-height: 2; margin-top: 1; }
     ProgressBar { height: 1; margin-bottom: 1; }
@@ -129,9 +134,42 @@ class VideoTerminal(App):
                 "OpenCV: Space tạm dừng. Full: kéo thanh tua hoặc A/D ±5 giây; Q để đóng.",
                 id="hint",
             )
+            with Horizontal(id="thresholds"):
+                yield Label("Conf (0–1)")
+                yield Input(str(self.options.get("confidence", 0.05)), id="confidence")
+                yield Label("Lọc box trùng")
+                nms = self.options.get("nms_iou")
+                choices = [
+                    ("Tắt NMS", "off"),
+                    ("NMS IoU 0.50", "0.5"),
+                    ("NMS IoU 0.60", "0.6"),
+                    ("NMS IoU 0.70", "0.7"),
+                ]
+                if nms is not None and str(nms) not in {value for _, value in choices}:
+                    choices.append((f"NMS IoU {nms}", str(nms)))
+                yield Select(
+                    choices,
+                    value="off" if nms is None else str(nms),
+                    allow_blank=False,
+                    id="nms-iou",
+                )
             yield Checkbox(
-                "Bám người (Full) · ID/màu cố định, nội suy tối đa 0,3s",
-                value=self.initial_mode == "full" and self.options.get("tracking") == "bytetrack",
+                "Chỉ hiện người",
+                value=bool(self.options.get("person_only", False)),
+                id="person-only",
+            )
+            yield Label("Kiểu box người")
+            yield Select(
+                [
+                    ("Box gốc · theo từng lần nhận diện", "off"),
+                    ("Box bám người · ID, làm mượt và nối khoảng mất ngắn (Full)", "bytetrack"),
+                ],
+                value=(
+                    "bytetrack"
+                    if self.initial_mode == "full" and self.options.get("tracking") == "bytetrack"
+                    else "off"
+                ),
+                allow_blank=False,
                 disabled=self.initial_mode != "full",
                 id="tracking",
             )
@@ -168,10 +206,18 @@ class VideoTerminal(App):
         try:
             mode = self.query_one("#mode", Select).value
             options = dict(self.options)
+            try:
+                confidence = float(self.query_one("#confidence", Input).value.replace(",", "."))
+            except ValueError:
+                raise ValueError("Conf phải là số lớn hơn 0 và không quá 1.") from None
+            if not math.isfinite(confidence) or not 0 < confidence <= 1:
+                raise ValueError("Conf phải là số lớn hơn 0 và không quá 1.")
+            options["confidence"] = confidence
+            nms = self.query_one("#nms-iou", Select).value
+            options["nms_iou"] = None if nms == "off" else float(nms)
+            options["person_only"] = self.query_one("#person-only", Checkbox).value
             if mode == "full":
-                options["tracking"] = (
-                    "bytetrack" if self.query_one("#tracking", Checkbox).value else "off"
-                )
+                options["tracking"] = self.query_one("#tracking", Select).value
             else:
                 options = {
                     k: v
@@ -190,19 +236,27 @@ class VideoTerminal(App):
         self.set_running(True)
 
     def set_running(self, running):
-        for selector in ("#start", "#browse", "#source", "#mode"):
+        for selector in (
+            "#start",
+            "#browse",
+            "#source",
+            "#mode",
+            "#person-only",
+            "#confidence",
+            "#nms-iou",
+        ):
             self.query_one(selector).disabled = running
         self.query_one("#stop", Button).disabled = not running
-        self.query_one("#tracking", Checkbox).disabled = (
+        self.query_one("#tracking", Select).disabled = (
             running or self.query_one("#mode", Select).value != "full"
         )
 
     def on_select_changed(self, event: Select.Changed):
         if event.select.id == "mode":
-            checkbox = self.query_one("#tracking", Checkbox)
+            checkbox = self.query_one("#tracking", Select)
             checkbox.disabled = self.job.running or event.value != "full"
             if event.value != "full":
-                checkbox.value = False
+                checkbox.value = "off"
 
     def action_stop(self):
         if self.job.running:

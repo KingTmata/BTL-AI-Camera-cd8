@@ -13,11 +13,33 @@ from classroom_ai.video.pipeline import Results, VideoConfig
 
 
 class VideoCoreTests(unittest.TestCase):
-    def test_video_defaults_use_requested_e3_and_minimum_ui_confidence(self):
+    def test_tracking_thresholds_are_explicit_validated_and_legacy_by_default(self):
+        config = VideoConfig(source="sample.mp4", mode="full", tracking="bytetrack")
+        self.assertIsNone(config.track_high_thresh)
+        self.assertIsNone(config.new_track_thresh)
+        config.validate()
+        for overrides in (
+            {"track_high_thresh": 0.04},
+            {"track_high_thresh": 0.15, "new_track_thresh": 0.1},
+            {"track_low_thresh": 0.2},
+            {"new_track_thresh": True},
+            {"recovery_confirm_observations": 0},
+        ):
+            with self.subTest(overrides=overrides), self.assertRaises(ValueError):
+                VideoConfig(source="sample.mp4", mode="full", **overrides).validate()
+        VideoConfig(
+            source="sample.mp4",
+            mode="full",
+            track_high_thresh=0.1,
+            track_low_thresh=0.05,
+            new_track_thresh=0.15,
+        ).validate()
+
+    def test_video_defaults_use_requested_rslora_e1_and_minimum_ui_confidence(self):
         config = VideoConfig(source="sample.mp4", mode="full")
         self.assertEqual(
             config.weights.name,
-            "E3_YOLO26n_Project8_v05_from_CP07_v04_best19_AdamW_lr0p0001_bestEpoch10_20261012.pt",
+            "LIGHT_CONTRAST_rsLoRA_best_E1.pt",
         )
         self.assertEqual(config.confidence, 0.05)
 

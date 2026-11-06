@@ -3,9 +3,11 @@
 import ast
 import hashlib
 import json
+import os
 import re
 import subprocess
 import sys
+from pathlib import Path
 from unittest.mock import Mock
 
 from classroom_ai.paths import PROJECT_ROOT
@@ -33,8 +35,15 @@ def test_production_modules_have_canonical_imports_and_snake_case_names():
 
 def test_migration_targets_exist_and_artifact_bytes_unchanged():
     manifest = PROJECT_ROOT / "docs/architecture/path_migration_20261015.json"
+    # Preserve the historical manifest; resolve only the current Python package rename.
+    current_paths = {
+        f"src/classroom_ai/interfaces/web/{name}": f"src/classroom_ai/interfaces/streamlit_ui/{name}"
+        for name in ("app.py", "preview.py", "training.py", "__init__.py", "__main__.py")
+    }
     for record in json.loads(manifest.read_text(encoding="utf-8")):
-        path = PROJECT_ROOT / record["new"]
+        path = PROJECT_ROOT / current_paths.get(record["new"], record["new"])
+        if os.name == "nt" and path.is_absolute() and len(str(path)) >= 260:
+            path = Path("\\\\?\\" + str(path))
         assert path.is_file(), record
         if path.suffix not in (".py", ".md", ".txt", ".in", ".ipynb", ".yaml", ".toml"):
             with path.open("rb") as stream:

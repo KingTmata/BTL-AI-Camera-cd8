@@ -18,12 +18,11 @@ class Frame:
     frame_index: int
     timestamp_seconds: float
     image: np.ndarray
+    source_pts: int | None = None
+    time_base: str | None = None
 
 
-DEFAULT_WEIGHTS = (
-    ROOT
-    / "weights/checkpoint07_matrix_20261012/E3_YOLO26n_Project8_v05_from_CP07_v04_best19_AdamW_lr0p0001_bestEpoch10_20261012.pt"
-)
+DEFAULT_WEIGHTS = ROOT / "LIGHT_CONTRAST_rsLoRA_best_E1.pt"
 
 
 @dataclass
@@ -40,12 +39,25 @@ class VideoConfig:
     output_dir: Path = ROOT / "runs/video"
     no_display: bool = False
     baseline: bool = False
+    person_only: bool = False
     tracking: str = "off"
     track_max_lost_seconds: float = 3.0
     track_gap_max_ms: float = 300.0
     track_smooth_alpha: float = 0.65
+    track_high_thresh: float | None = None
+    track_low_thresh: float | None = None
+    new_track_thresh: float | None = None
+    recovery_confirm_observations: int = 2
+    analysis_task: str = "detect"
+    allow_vfr: bool = False
 
     def validate(self):
+        if self.analysis_task not in ("detect", "pose"):
+            raise ValueError("analysis_task phải là detect hoặc pose.")
+        if self.device == "intel:gpu" and self.analysis_task != "pose":
+            raise ValueError(
+                "Intel iGPU qua OpenVINO hiện chỉ hỗ trợ Pose; chọn CPU/CUDA cho Detect."
+            )
         if self.mode not in ("full", "fast"):
             raise ValueError("mode phải là full hoặc fast.")
         if not isinstance(self.imgsz, int) or self.imgsz <= 0:
@@ -63,6 +75,15 @@ class VideoConfig:
             raise ValueError("--baseline chỉ dùng với --mode fast (không YOLO).")
         if self.tracking not in ("off", "bytetrack"):
             raise ValueError("--tracking phải là off hoặc bytetrack.")
+        from classroom_ai.video.tracking import resolve_tracking_settings
+
+        resolve_tracking_settings(
+            self.confidence,
+            track_high_thresh=self.track_high_thresh,
+            track_low_thresh=self.track_low_thresh,
+            new_track_thresh=self.new_track_thresh,
+            recovery_confirm_observations=self.recovery_confirm_observations,
+        )
         if self.tracking != "off" and (self.mode != "full" or self.baseline):
             raise ValueError("Tracking chỉ dùng với full, không dùng trong fast/baseline.")
         for name in ("track_max_lost_seconds", "track_gap_max_ms", "track_smooth_alpha"):

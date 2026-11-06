@@ -59,6 +59,7 @@ def play_completed(session, source, controls, display):
     metrics, clock = session.metrics, controls.clock
     started = time.perf_counter()
     index, seeks, shown = 0, 0, 0
+    timing_ready = False
     at_end = completed = False
     first_presented = last_presented = interval_start = None
     initial_pause = controls.pause_seconds
@@ -68,7 +69,6 @@ def play_completed(session, source, controls, display):
         capture.set(cv2.CAP_PROP_ORIENTATION_AUTO, 0)
         display.enable_seek(source.frame_count, source.fps)
         session.progress.set("Playing completed video")
-        clock.start(started, 0)
         while not session.stop.is_set():
             controls.poll()
             target = display.take_seek()
@@ -84,9 +84,6 @@ def play_completed(session, source, controls, display):
                 metrics.observe("playback_seek", (time.perf_counter() - before) * 1000)
                 index, at_end = target, False
                 seeks += 1
-                clock.start(time.perf_counter(), target / float(source.fps))
-                if controls.paused:
-                    clock.suspended_at = time.perf_counter()
                 interval_start = None
             if session.stop.is_set():
                 break
@@ -102,6 +99,13 @@ def play_completed(session, source, controls, display):
                 raise RuntimeError(f"Video kết quả bị ngắt tại frame {index}/{source.frame_count}.")
             metrics.count("playback_frames_decoded")
             timestamp = index / float(source.fps)
+            first_image = not timing_ready
+            if first_image or preview:
+                # Decoder startup/seek latency is not elapsed playback time.
+                clock.start(time.perf_counter(), timestamp)
+                timing_ready = True
+                if controls.paused:
+                    clock.suspended_at = time.perf_counter()
             pause_before = controls.pause_seconds
             if not preview and not controls.wait_until(
                 lambda: clock.deadline(timestamp),
@@ -113,8 +117,11 @@ def play_completed(session, source, controls, display):
                 # Preserve keyboard as well as slider targets received during the wait.
                 display.seek_request = requested
                 continue
-            if not controls.paused and time.perf_counter() - clock.deadline(timestamp) > 1 / float(
-                source.fps
+            if (
+                not preview
+                and not first_image
+                and not controls.paused
+                and time.perf_counter() - clock.deadline(timestamp) > 1 / float(source.fps)
             ):
                 metrics.count("frames_display_dropped")
             else:

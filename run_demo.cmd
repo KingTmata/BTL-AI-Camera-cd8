@@ -6,7 +6,7 @@ if not exist ".venv\Scripts\python.exe" (
   pause
   exit /b 1
 )
-".venv\Scripts\python.exe" -m classroom_ai.interfaces.web --server.address 127.0.0.1 --server.headless false
+".venv\Scripts\python.exe" -m classroom_ai.interfaces.web --port 8090 %*
 set "demo_exit=%errorlevel%"
 if not "%demo_exit%"=="0" pause
 exit /b %demo_exit%

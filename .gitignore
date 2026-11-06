@@ -103,3 +103,16 @@ Desktop.ini
 
 # Private machine-transfer archives and manifests
 /transfer_backup/
+
+# Local Label Studio installation, database, uploaded media and service logs.
+/tools/label_studio/
+
+# Local implementation/review scratch (contains no application data).
+/.superpowers/
+
+# Private local transfer/backend state and source videos kept at the project root.
+/TRANSFER_MANIFEST.json
+/cache.db
+/*.mp4
+/*.MOV
+/*.mov

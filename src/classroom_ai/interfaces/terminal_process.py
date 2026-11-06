@@ -95,6 +95,7 @@ class BackendJob:
             "buffer_ms",
             "no_display",
             "baseline",
+            "person_only",
         }
         allowed |= {"tracking", "track_max_lost_seconds", "track_gap_max_ms", "track_smooth_alpha"}
         for key, value in (options or {}).items():

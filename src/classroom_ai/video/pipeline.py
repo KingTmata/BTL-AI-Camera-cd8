@@ -6,6 +6,7 @@ import hashlib
 import json
 import math
 import platform
+import struct
 import threading
 import time
 import uuid
@@ -74,9 +75,14 @@ class Session:
             self.metrics.values["gpu"] = torch.cuda.get_device_name(self.config.device)
             self.metrics.values["torch_cuda"] = torch.version.cuda
         if self.predictor_factory is None:
-            from classroom_ai.inference.detector import ImageInspector
+            if self.config.analysis_task == "pose":
+                from classroom_ai.inference.pose import PoseInspector
 
-            self.predictor_factory = ImageInspector
+                self.predictor_factory = PoseInspector
+            else:
+                from classroom_ai.inference.detector import ImageInspector
+
+                self.predictor_factory = ImageInspector
         self.metrics.observe("runtime_device_setup", (time.perf_counter() - started) * 1000)
         if self.stop.is_set():
             return
@@ -84,6 +90,8 @@ class Session:
         started = time.perf_counter()
         with self.manager.inference_slot():
             self.predictor = self.predictor_factory(self.config.weights, self.config.device)
+        if hasattr(self.predictor, "set_cancel"):
+            self.predictor.set_cancel(self.stop.is_set)
         load_ms = (time.perf_counter() - started) * 1000
         self.metrics.observe("model_load", load_ms)
         if self.stop.is_set():
@@ -92,13 +100,15 @@ class Session:
         image = np.zeros((source.height, source.width, 3), dtype=np.uint8)
         started = time.perf_counter()
         with self.manager.inference_slot():
-            self.predictor.predict(
+            warmup_output = self.predictor.predict(
                 image,
                 self.config.confidence,
                 imgsz=self.config.imgsz,
                 extra_nms_iou=self.config.nms_iou,
                 passes=1,
             )
+        if warmup_output.get("runtime"):
+            self.metrics.values["runtime"] = warmup_output["runtime"]
         warmup_ms = (time.perf_counter() - started) * 1000
         self.metrics.observe("warmup", warmup_ms)
         self.progress.model_ready(load_ms, warmup_ms)
@@ -122,13 +132,24 @@ class Session:
                 passes=1,
             )
         elapsed = (time.perf_counter() - started) * 1000
+        if output.get("runtime"):
+            self.metrics.values["runtime"] = output["runtime"]
         self.metrics.observe("inference_callback", elapsed)
         self.metrics.observe("model_processing", output["processing_ms"])
         self.metrics.observe("inspector_lock_wait", output.get("inspector_lock_wait_ms", 0))
         result = {
+            "schema_version": 2,
+            "analysis_task": self.config.analysis_task,
             "frame_index": frame.frame_index,
             "timestamp_seconds": frame.timestamp_seconds,
-            "detections": output["detections"],
+            "source_pts": frame.source_pts,
+            "time_base": frame.time_base,
+            "observation": "model_prediction",
+            "detections": [
+                row
+                for row in output["detections"]
+                if not self.config.person_only or row["class_id"] == 0
+            ],
             "processing_ms": output["processing_ms"],
             "callback_ms": elapsed,
         }
@@ -165,9 +186,13 @@ def _full(session, source):
                 result = session.infer(frame, stream)
                 started = time.perf_counter()
                 image = draw_boxes(frame.image, result["detections"])
+                if session.config.analysis_task == "pose":
+                    from classroom_ai.inference.pose import draw_pose
+
+                    image = draw_pose(image, result["detections"])
                 session.metrics.observe("draw", (time.perf_counter() - started) * 1000)
                 started = time.perf_counter()
-                writer.write(image)
+                writer.write(image, frame=frame)
                 session.metrics.observe("encode_write", (time.perf_counter() - started) * 1000)
                 session.metrics.count("frames_encoded")
         if not session.stop.is_set():
@@ -424,11 +449,19 @@ def run_video(
                     raise KeyboardInterrupt
             state.preflight(count, total)
 
-        source = probe_source(config.source, on_progress=source_progress)
+        source = probe_source(
+            config.source, on_progress=source_progress, allow_vfr=config.allow_vfr
+        )
+        if source.vfr and not config.no_display:
+            raise ValueError(
+                "Video VFR: dùng web để tua theo PTS hoặc CLI --no-display; native preview hiện chỉ hỗ trợ CFR."
+            )
         metrics.observe("source_preflight", (time.perf_counter() - started) * 1000)
         if source.width * source.height * 3 > 128 * 1024 * 1024:
             raise ValueError("Một frame vượt giới hạn 128 MiB.")
         metadata["source"] = source.metadata()
+        with config.source.open("rb") as stream:
+            metadata["source_sha256"] = hashlib.file_digest(stream, "sha256").hexdigest()
         if not config.baseline:
             if not config.weights.is_file():
                 raise ValueError(f"Không thấy checkpoint: {config.weights}")
@@ -531,6 +564,8 @@ def run_video(
         report["first_display_under_3s_warm"] = latency < 3000 if latency is not None else None
         metadata["resolved_device"] = report.get("resolved_device")
         metadata["device_note"] = report.get("device_note")
+        if report.get("runtime"):
+            metadata["runtime"] = report["runtime"]
         if "tracking_settings" in report:
             metadata["tracking"] = report["tracking_settings"]
             metadata["versions"]["lap"] = version("lap")
@@ -542,6 +577,7 @@ def run_video(
         (directory / "report.json").write_text(
             json.dumps(report, indent=2, ensure_ascii=False, allow_nan=False), encoding="utf-8"
         )
+        export_contract(directory, metadata, report)
         progress(f"{status.upper()} | {report['elapsed_seconds']:.2f}s | results: {directory}")
         progress(
             f"  device: {report.get('resolved_device', 'baseline')} | {report.get('device_note', '')}"
@@ -569,3 +605,73 @@ def run_video(
     if error:
         raise error
     return directory
+
+
+def export_contract(directory, metadata, report):
+    """Versioned read-only consumer contract, including partial/error coverage."""
+    detections = directory / "detections.jsonl"
+    raw_tracks = directory / "tracks_raw.jsonl"
+    display_tracks = directory / "tracks.jsonl"
+    observed = rendered = None
+    try:
+        if raw_tracks.exists():
+            observed = raw_tracks.open(encoding="utf-8")
+        if display_tracks.exists():
+            rendered = display_tracks.open(encoding="utf-8")
+        with (
+            (directory / "frames.jsonl").open("xb") as output,
+            (directory / "frames.idx").open("xb") as index,
+            (directory / "frames.times").open("xb") as timestamps,
+        ):
+            if detections.exists():
+                with detections.open(encoding="utf-8") as stream:
+                    for line in stream:
+                        row = json.loads(line)
+                        track_line = observed.readline() if observed else ""
+                        display_line = rendered.readline() if rendered else ""
+                        if track_line:
+                            tracking = json.loads(track_line)
+                            if tracking["frame_index"] != row["frame_index"]:
+                                raise ValueError("Frame/track contract mismatch")
+                            row.update(segment_id=tracking["segment_id"], tracks=tracking["tracks"])
+                        else:
+                            row.update(segment_id=None, tracks=[])
+                        row["display_tracks"] = (
+                            json.loads(display_line)["tracks"] if display_line else []
+                        )
+                        index.write(struct.pack("<Q", output.tell()))
+                        timestamps.write(struct.pack("<d", row["timestamp_seconds"]))
+                        output.write(
+                            (json.dumps(row, ensure_ascii=False, allow_nan=False) + "\n").encode(
+                                "utf-8"
+                            )
+                        )
+    finally:
+        if observed:
+            observed.close()
+        if rendered:
+            rendered.close()
+    (directory / "events.jsonl").touch(exist_ok=False)
+    manifest = {
+        "schema_version": 2,
+        "run_id": directory.name,
+        "status": report["status"],
+        "error": report["error"],
+        "source": metadata.get("source"),
+        "source_sha256": metadata.get("source_sha256"),
+        "weights_sha256": metadata.get("weights_sha256"),
+        "runtime": metadata.get("runtime"),
+        "config": metadata["config"],
+        "coordinates": "original pixels xyxy; keypoints original pixels x,y,confidence",
+        "visibility": "unknown unless explicitly human reviewed; confidence is not visibility",
+        "coverage": {
+            "frames_inferred": report["counts"].get("frames_inferred", 0),
+            "source_frames": metadata.get("source", {}).get("frame_count"),
+            "actions_reviewed": False,
+        },
+        "notes": "Model predictions only. tracks raw; display_tracks may contain smoothed/interpolated boxes and display_keypoints13 estimates with display_pose provenance. Raw keypoints17/keypoints13 are preserved. Empty events is unreviewed, not a negative label.",
+    }
+    for name, value in (("manifest.json", manifest), ("summary.json", report)):
+        (directory / name).write_text(
+            json.dumps(value, indent=2, ensure_ascii=False, allow_nan=False), encoding="utf-8"
+        )

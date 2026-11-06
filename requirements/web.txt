@@ -1,0 +1,8 @@
+# Install after the base/demo runtime. HTTP inference uses one bounded worker.
+fastapi==0.162.0
+pydantic==2.14.2
+starlette==1.7.0
+uvicorn==0.54.0
+httpx==0.28.1
+lap==0.5.12
+av==16.1.0

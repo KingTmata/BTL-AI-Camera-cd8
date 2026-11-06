@@ -1,4 +1,4 @@
-"""Thiết bị cho checkpoint PyTorch .pt: CPU hoặc GPU NVIDIA/CUDA."""
+"""Available inference devices; Intel GPU uses optional OpenVINO Pose export."""
 
 import re
 
@@ -33,11 +33,32 @@ def cuda_devices() -> tuple[dict[str, str], str]:
     return devices, reason
 
 
+def intel_gpu_devices() -> tuple[dict[str, str], str]:
+    """Enumerate Intel GPUs without installing dependencies or changing drivers."""
+    try:
+        import openvino as ov
+    except ImportError:
+        return {}, "Thiếu OpenVINO cho iGPU. Cài requirements/intel_gpu.txt rồi khởi động lại web."
+    try:
+        core = ov.Core()
+        if not any(d == "GPU" or d.startswith("GPU.") for d in core.available_devices):
+            return {}, "OpenVINO không tìm thấy GPU Intel; kiểm tra driver Intel Graphics."
+        name = core.get_property("GPU", "FULL_DEVICE_NAME")
+        return {"intel:gpu": f"iGPU Intel · {name} (OpenVINO)"}, ""
+    except Exception as exc:
+        return {}, f"Không khởi tạo được OpenVINO GPU: {exc}"
+
+
 def validate_device(device: str) -> str:
     if device == "cpu":
         return device
+    if device == "intel:gpu":
+        devices, reason = intel_gpu_devices()
+        if device not in devices:
+            raise ValueError(f"Không dùng được iGPU Intel: {reason}")
+        return device
     if not isinstance(device, str) or re.fullmatch(r"cuda:\d+", device) is None:
-        raise ValueError("Thiết bị phải là cpu hoặc cuda:<chỉ số GPU>.")
+        raise ValueError("Thiết bị phải là cpu, cuda:<chỉ số GPU> hoặc intel:gpu (Pose/OpenVINO).")
     devices, reason = cuda_devices()
     if device not in devices:
         raise ValueError(

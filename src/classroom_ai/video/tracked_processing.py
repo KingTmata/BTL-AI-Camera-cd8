@@ -23,7 +23,16 @@ def write_row(stream, row):
 def process_tracked(session, source):
     config, metrics = session.config, session.metrics
     started = time.perf_counter()
-    tracker = PersonTracker(source.fps, config.confidence, config.track_max_lost_seconds, metrics)
+    tracker = PersonTracker(
+        source.fps,
+        config.confidence,
+        config.track_max_lost_seconds,
+        metrics,
+        track_high_thresh=getattr(config, "track_high_thresh", None),
+        track_low_thresh=getattr(config, "track_low_thresh", None),
+        new_track_thresh=getattr(config, "new_track_thresh", None),
+        recovery_confirm_observations=getattr(config, "recovery_confirm_observations", 2),
+    )
     metrics.observe("tracking_setup", (time.perf_counter() - started) * 1000)
     metrics.values["tracking_settings"] = {
         **tracker.settings,
@@ -66,6 +75,11 @@ def process_tracked(session, source):
                 row = tracker.update(
                     packet.frame_index, packet.timestamp_seconds, result["detections"]
                 )
+                row.update(
+                    schema_version=2, source_pts=packet.source_pts, time_base=packet.time_base
+                )
+                for track in row["tracks"]:
+                    track["state"] = "observed"
                 metrics.observe("tracking", (time.perf_counter() - started) * 1000)
                 write_row(raw, row)
                 metrics.count("frames_tracked")
@@ -114,9 +128,13 @@ def process_tracked(session, source):
                         packet.image, [r for r in detection["detections"] if r["class_id"] != 0]
                     )
                     image = draw_tracks(image, track["tracks"])
+                    if config.analysis_task == "pose":
+                        from classroom_ai.inference.pose import draw_pose
+
+                        image = draw_pose(image, track["tracks"])
                     metrics.observe("draw", (time.perf_counter() - started) * 1000)
                     started = time.perf_counter()
-                    writer.write(image)
+                    writer.write(image, frame=packet)
                     metrics.observe("encode_write", (time.perf_counter() - started) * 1000)
                     write_row(rendered, track)
                     metrics.count("frames_encoded")

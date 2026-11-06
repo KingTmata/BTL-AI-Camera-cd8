@@ -1,0 +1,100 @@
+schema_version: 1
+version: classroom-actions-v1-draft-20261103
+status: draft
+scope: Gán nhãn diễn biến quan sát được trên video gốc; cần nhóm duyệt rubric và nhãn.
+source_reference:
+  archive: classroom-engagement (1).zip
+  archive_sha256: 22512cc6c8947ef384ea9cb82f35c42dd9386022f6b0cc07037d949e1b14cf35
+  members:
+    - backend/detectors.py
+    - backend/engagement.py
+    - backend/pipeline.py
+  contribution: Cue cổ tay trên vai và hiện diện vùng bảng; không phải GT hoặc model hành vi đã được đánh giá.
+principles:
+  - Dùng thời gian nguồn/PTS và chuỗi liên tục có trước-sau; không dùng giờ máy hoặc số frame suy từ FPS để đặt biên.
+  - Một người có thể vừa đứng vừa giơ tay hoặc vừa ở bảng vừa giơ tay. Posture và các hành động được gán độc lập.
+  - Ngồi, đứng, chuyển tư thế và không xác định tư thế loại trừ nhau trong cùng người/khoảng thời gian; các nhãn hành động có thể chồng nhau và chồng posture.
+  - Bắt đầu/kết thúc là biên nhìn thấy của hành vi; mốc luật xác nhận sau dwell không thay biên GT.
+  - Khoảng chưa rà soát khác khoảng đã xem và xác nhận không có hành vi. Chỉ thêm coverage cho nhãn thực sự đã kiểm tra.
+  - Nếu hành vi trong phần nhìn thấy là rõ nhưng thiếu onset/end, giữ uncertain=false và đánh dấu biên tương ứng bị cắt. Dùng uncertain=true khi chính nội dung hành vi còn chưa chắc; không tự loại cả episode chỉ vì mất một đầu.
+  - Mỗi người có mã cục bộ, khoảng quan sát và box tham chiếu do người gán đánh dấu; một box không tạo tracking liên tục.
+  - Confidence của model không thay đánh giá nhìn rõ. Ảnh/Pose/bbox đã Submit không tự thành nhãn hành vi theo thời gian.
+  - Không suy năng nổ, ý định gọi giảng viên hoặc điểm tương tác từ một hành động. Điểm và ngưỡng trong archive chưa được duyệt.
+labels:
+  - id: sitting
+    title: Ngồi
+    kind: posture
+    definition: Thấy người được ghế hoặc mặt ngồi đỡ; xem diễn biến và thân/hông/chân khi có thể.
+    onset: Bắt đầu khoảng tư thế ngồi quan sát rõ.
+    end: Tư thế chuyển đi, mất quan sát hoặc hết khoảng rà soát.
+    uncertain: Bàn hoặc người khác che khiến không phân biệt được ngồi với cúi/ngồi xổm; không đoán từ bbox thấp.
+    notes: [Không đồng nhất ngồi với mức độ tập trung.]
+  - id: standing
+    title: Đứng
+    kind: posture
+    definition: Thân được hai chân hoặc chân trụ đỡ trong tư thế đứng quan sát được.
+    onset: Bắt đầu khoảng đứng nhìn rõ, kể cả người đã đứng sẵn ở đầu clip.
+    end: Chuyển tư thế, mất quan sát hoặc hết khoảng rà soát.
+    uncertain: Không đủ bằng chứng phân biệt đứng với ngồi/cúi; giữ không rõ.
+    notes: [Đứng sẵn không tạo sự kiện đứng lên.]
+  - id: transition
+    title: Chuyển tư thế
+    kind: posture
+    definition: Đang chuyển giữa các tư thế tĩnh, chưa rõ đã ổn định ở trạng thái đích.
+    onset: Bắt đầu chuyển tư thế nhìn thấy.
+    end: Tư thế đích ổn định hoặc mất bằng chứng.
+    uncertain: Chuyển động bị che hoặc không xác định được hai trạng thái; ghi chú và uncertainty.
+    notes: [Có thể trùng khoảng với hành động đứng lên.]
+  - id: unknown
+    title: Không xác định
+    kind: posture
+    definition: Khoảng không phân loại được tư thế ngồi/đứng/chuyển từ video; ghi rõ phần bằng chứng bị thiếu. Đây là unknown của posture, không phải unknown chung cho mọi hành vi.
+    onset: Bắt đầu mất khả năng xác định.
+    end: Quan sát rõ lại hoặc kết thúc khoảng.
+    uncertain: Không biến khoảng không rõ thành âm đã rà soát; dùng uncertainty/coverage riêng theo nhãn khi chỉ một hành vi bị che.
+    notes:
+      - Không tự gọi thiếu keypoint là không có hành vi.
+      - Tư thế không rõ vẫn có thể đi cùng giơ tay rõ; uncertainty/coverage của một hành động được ghi riêng theo nhãn đó.
+  - id: raise_hand
+    title: Giơ tay
+    kind: action
+    definition: Một hoặc hai cánh tay được nâng rõ so với tư thế trước đó, cổ tay ở trên vai tương ứng; kiểm diễn biến nâng/giữ/hạ trên RGB.
+    onset: Mốc đầu tiên thấy hành động nâng tay của episode; xem lân cận trước mốc để tránh đếm người đã giơ sẵn thành lần mới.
+    end: Mốc tay hạ khỏi tư thế giơ rõ ràng hoặc hành động kết thúc; mất quan sát thì đánh dấu biên bị cắt.
+    uncertain: Vươn/vẫy/gãi đầu, tay bị che hoặc không rõ động tác; ghi uncertainty để nhóm thống nhất âm khó.
+    notes:
+      - Archive dùng cue trên vai với khoảng xác nhận danh nghĩa0,5giây; đây là tham số gợi ý, không phải ranh giới GT hoặc ngưỡng đã hiệu chỉnh.
+      - Luật demo hiện có dùng trên mũi và vị trí khuỷu tay, khác cue archive; giữ provenance khi so sánh, không trộn các version thành GT.
+  - id: stand_up
+    title: Đứng lên
+    kind: action
+    definition: Chuỗi quan sát được từ ngồi sang đứng; cần bằng chứng trạng thái ngồi trước và tư thế đứng sau.
+    onset: Bắt đầu rời tư thế ngồi và nâng thân/hông nhìn thấy.
+    end: Đạt tư thế đứng ổn định; nếu không thấy hoàn tất thì ghi biên bị cắt hoặc uncertainty.
+    uncertain: Người đã đứng từ đầu, chỉ đổi bbox, cúi hoặc bị che phần chuyển tiếp không chứng minh một lần đứng lên đầy đủ.
+    notes: [Archive không triển khai detector đứng lên; định nghĩa này bổ sung theo phạm vi nghiên cứu chính thức.]
+  - id: move_to_board
+    title: Di chuyển lên bảng
+    kind: action
+    definition: Theo dõi cùng người di chuyển từ ngoài vùng đích tới vùng sàn trước bảng trong chuỗi video; xác nhận hướng đi và đến vùng.
+    onset: Bắt đầu di chuyển về phía bảng quan sát được; không lấy mốc cooldown hoặc mốc luật xác nhận làm onset.
+    end: Đến vùng sàn trước bảng và kết thúc chặng di chuyển; ghi rõ nếu quay đi hoặc clip cắt giữa chặng.
+    uncertain: Đứng sẵn gần bảng, đi ngang, teleport do ID đổi hoặc chỉ lọt bbox/hip vào vùng không đủ chứng minh hành trình.
+    notes:
+      - O BANG trong archive là hiện diện, không phải bằng chứng đã di chuyển lên bảng.
+      - Vùng sàn đến và mặt bảng viết là hai vùng có mục đích khác nhau; không suy mục đích từ việc gần bảng.
+  - id: write_board
+    title: Viết bảng
+    kind: action
+    definition: Thấy tay hoặc dụng cụ tương tác với mặt bảng kèm diễn biến tạo nét viết/vẽ; kiểm RGB và chuyển động liên tục.
+    onset: Mốc đầu tiên thấy thao tác viết có bằng chứng tiếp xúc/tạo nét.
+    end: Kết thúc thao tác viết; nghỉ ngắn có gộp episode hay không phải ghi theo quyết định rubric của nhóm.
+    uncertain: Chỉ giơ tay gần bảng, chỉ trỏ, xóa bảng, bị cơ thể che hoặc video quá mờ để thấy thao tác thì không tự xác nhận viết.
+    notes:
+      - Archive và ba luật demo hiện tại chưa nhận dạng tự động viết bảng.
+      - Khoảng không rõ cần người xem duyệt; có thể cần dữ liệu quay rõ hơn thay vì ép nhãn.
+context_notes:
+  at_board: Hiện diện trong vùng bảng là ngữ cảnh; có thể đồng thời với giơ tay/viết, không tự tạo move_to_board hoặc write_board.
+  combo: Giơ tay rồi tới bảng là quan hệ suy ra giữa các episode; không phải lớp hành vi mới hay bằng chứng ý định.
+  no_suggestion: Không có gợi ý model/luật; không đồng nghĩa reviewed negative.
+rule_timing_policy: Dwell/cooldown chỉ là cấu hình thuật toán theo giây nguồn, được đánh giá sau khi có GT; không áp frame counters, wall clock hoặc điểm tương tác archive vào nhãn người duyệt.

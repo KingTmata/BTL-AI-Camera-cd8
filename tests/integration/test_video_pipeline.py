@@ -148,6 +148,14 @@ class VideoPipelineTests(unittest.TestCase):
                 self.assertEqual(report["status"], "completed")
                 self.assertIsNone(report["first_result_display_warm_ms"])
                 self.assertFalse((directory / "annotated.partial.mp4").exists())
+                self.assertTrue(all(isinstance(r["source_pts"], int) for r in rows))
+                self.assertTrue(all(r["time_base"] for r in rows))
+                self.assertEqual(rows[0]["schema_version"], 2)
+                manifest = json.loads((directory / "manifest.json").read_text())
+                self.assertEqual(manifest["schema_version"], 2)
+                self.assertEqual(manifest["status"], "completed")
+                self.assertEqual(len(manifest["source_sha256"]), 64)
+                self.assertTrue((directory / "frames.jsonl").is_file())
 
     def test_fast_has_bounded_queues_and_no_claim_of_display_in_headless(self):
         directory, report = self.run_config(self.fixture(), "fast")
@@ -279,6 +287,41 @@ class VideoPipelineTests(unittest.TestCase):
         directory = next(config.output_dir.iterdir())
         self.assertEqual(json.loads((directory / "report.json").read_text())["status"], "failed")
         self.assertFalse((directory / "annotated.mp4").exists())
+
+    def test_pose_tracks_keep_original_detection_points_and_observed_state(self):
+        class Pose(Detector):
+            calls = 0
+
+            def predict(self, *args, **kwargs):
+                self.calls += 1
+                row = super().predict(*args, **kwargs)
+                row["detections"][0]["bbox_xyxy"] = [2, 2, 26, 44]
+                row["detections"][0]["keypoints17"] = [[self.calls, 3, 0.9]] * 17
+                row["detections"][0]["keypoints13"] = [[self.calls, 3, 0.9]] * 13
+                return row
+
+        detector = Pose(self.weights, "cpu")
+        config = VideoConfig(
+            source=self.fixture(),
+            mode="full",
+            weights=self.weights,
+            device="cpu",
+            output_dir=self.root / "outputs",
+            no_display=True,
+            tracking="bytetrack",
+            analysis_task="pose",
+        )
+        directory = run_video(
+            config, predictor_factory=lambda *a: detector, manager=Guard(), progress=lambda _: None
+        )
+        rows = [json.loads(s) for s in (directory / "frames.jsonl").read_text().splitlines()]
+        assert len(rows) == 18 and detector.calls == 19
+        for row in rows:
+            for track in row["tracks"]:
+                assert track["state"] == "observed"
+                original = row["detections"][track["detection_index"]]
+                assert track["keypoints17"] == original["keypoints17"]
+                assert track["keypoints13"] == original["keypoints13"]
 
     def test_tracked_single_frame_no_people_fractional_fps_and_audio(self):
         class OnlyTable(Detector):

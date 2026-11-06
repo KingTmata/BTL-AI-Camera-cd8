@@ -36,6 +36,7 @@ polars-runtime-32==1.44.2
 protobuf==7.36.2
 psutil==7.2.2
 pyarrow==25.0.1
+pycocotools==2.0.11
 pydeck==0.9.3
 pyparsing==3.3.3
 python-dateutil==2.9.0.post0

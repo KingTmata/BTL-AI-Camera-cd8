@@ -38,12 +38,13 @@ class DeviceTests(unittest.TestCase):
             self.assertIn("incompatible kernel", reason)
 
     def test_model_cache_is_separate_for_each_device(self):
-        from classroom_ai.interfaces.web.app import load_inspector
+        from classroom_ai.interfaces.streamlit_ui.app import load_inspector
 
         load_inspector.clear()
         try:
             with patch(
-                "classroom_ai.interfaces.web.app.ImageInspector", side_effect=[object(), object()]
+                "classroom_ai.interfaces.streamlit_ui.app.ImageInspector",
+                side_effect=[object(), object()],
             ) as create:
                 cpu = load_inspector("weights.pt", 1, "cpu")
                 gpu = load_inspector("weights.pt", 1, "cuda:0")
@@ -57,9 +58,9 @@ class DeviceTests(unittest.TestCase):
         app = AppTest.from_string("""
 from unittest.mock import patch
 import streamlit as st
-from classroom_ai.interfaces.web.app import main
+from classroom_ai.interfaces.streamlit_ui.app import main
 devices = {} if st.session_state.get('gpu_missing') else {'cuda:0': 'GPU 0 · RTX 5060 (CUDA)'}
-with patch('classroom_ai.interfaces.web.app.available_gpus', return_value=(devices, '')):
+with patch('classroom_ai.interfaces.streamlit_ui.app.available_gpus', return_value=(devices, '')):
     main()
 """).run()
         self.assertEqual(len(app.exception), 0)
@@ -75,12 +76,12 @@ with patch('classroom_ai.interfaces.web.app.available_gpus', return_value=(devic
         app = AppTest.from_string("""
 from unittest.mock import Mock, patch
 import numpy as np
-from classroom_ai.interfaces.web.app import main
+from classroom_ai.interfaces.streamlit_ui.app import main
 def inspector(path, stamp, device):
     return Mock(predict=Mock(return_value={'device': device, 'processing_ms': 1, 'detections': []}))
-with patch('classroom_ai.interfaces.web.app.available_gpus', return_value=({'cuda:0': 'RTX 5060'}, '')), \\
-     patch('classroom_ai.interfaces.web.app.sample_source', return_value=(np.zeros((64,64,3), dtype=np.uint8), 'sample', None)), \\
-     patch('classroom_ai.interfaces.web.app.load_inspector', side_effect=inspector):
+with patch('classroom_ai.interfaces.streamlit_ui.app.available_gpus', return_value=({'cuda:0': 'RTX 5060'}, '')), \\
+     patch('classroom_ai.interfaces.streamlit_ui.app.sample_source', return_value=(np.zeros((64,64,3), dtype=np.uint8), 'sample', None)), \\
+     patch('classroom_ai.interfaces.streamlit_ui.app.load_inspector', side_effect=inspector):
     main()
 """).run()
         app.button(key="analyze").click().run()
@@ -99,7 +100,7 @@ with patch('classroom_ai.interfaces.web.app.available_gpus', return_value=({'cud
 from pathlib import Path
 from unittest.mock import Mock
 import streamlit as st
-from classroom_ai.interfaces.web.app import webcam_panel
+from classroom_ai.interfaces.streamlit_ui.app import webcam_panel
 checkpoint = Path('configs/app.yaml')
 camera = Mock()
 camera.stop.return_value = STOPPED

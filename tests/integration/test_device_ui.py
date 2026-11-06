@@ -1,3 +1,5 @@
+import subprocess
+import sys
 import tempfile
 import threading
 import unittest
@@ -11,6 +13,37 @@ from classroom_ai.inference.camera import CameraSession
 
 
 class PreviewTests(unittest.TestCase):
+    def test_preview_import_does_not_load_model_or_training_runtime(self):
+        # A fresh process preserves the cold-import condition independently of
+        # suite order. Streamlit is the host; importing its preview helper must
+        # not initialize the model/training stack on the script-runner thread.
+        result = subprocess.run(
+            [
+                sys.executable,
+                "-c",
+                """
+import importlib.abc
+import sys
+import streamlit
+
+assert 'torch' not in sys.modules
+class PreviewOnly(importlib.abc.MetaPathFinder):
+    def find_spec(self, fullname, path=None, target=None):
+        if fullname == 'torch' or fullname.startswith(('torch.', 'ultralytics')) or fullname == 'classroom_ai.interfaces.streamlit_ui.training':
+            raise AssertionError('preview eagerly loads model/training runtime: ' + fullname)
+sys.meta_path.insert(0, PreviewOnly())
+from classroom_ai.interfaces.streamlit_ui.app import webcam_image
+from classroom_ai.interfaces.streamlit_ui.preview import PreviewSettings
+assert callable(webcam_image) and PreviewSettings().fps == 10
+assert 'torch' not in sys.modules
+""",
+            ],
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+        self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+
     def test_fast_preview_reuses_jpeg_and_invalidates_on_new_frame(self):
         from streamlit.testing.v1 import AppTest
 
@@ -19,15 +52,15 @@ import cv2
 import numpy as np
 import streamlit as st
 from unittest.mock import Mock, patch
-from classroom_ai.interfaces.web.app import webcam_image
-from classroom_ai.interfaces.web.preview import PreviewSettings
+from classroom_ai.interfaces.streamlit_ui.app import webcam_image
+from classroom_ai.interfaces.streamlit_ui.preview import PreviewSettings
 snapshot = {'status': 'running', 'starts': 1, 'frames_processed': 1,
             'frame': np.zeros((20, 20, 3), dtype=np.uint8), 'output': {'detections': []}}
 camera = Mock()
 camera.snapshot.return_value = snapshot
 st.session_state.camera_session = camera
 encoded = cv2.imencode('.jpg', snapshot['frame'])[1].tobytes()
-with patch('classroom_ai.interfaces.web.app.preview_jpeg', return_value=encoded) as encode, patch('classroom_ai.interfaces.web.app.st.image') as image:
+with patch('classroom_ai.interfaces.streamlit_ui.app.preview_jpeg', return_value=encoded) as encode, patch('classroom_ai.interfaces.streamlit_ui.app.st.image') as image:
     webcam_image([], PreviewSettings())
     webcam_image([], PreviewSettings())
     assert encode.call_count == 1
@@ -46,7 +79,7 @@ camera.predict.assert_not_called()
         app = AppTest.from_string("""
 from pathlib import Path
 from unittest.mock import Mock
-from classroom_ai.interfaces.web.app import webcam_panel
+from classroom_ai.interfaces.streamlit_ui.app import webcam_panel
 manager = Mock()
 manager.active.side_effect = AssertionError("Preview waited for the inference/training guard")
 webcam_panel(Path("configs/app.yaml"), .25, [], manager)
@@ -57,13 +90,13 @@ manager.active.assert_not_called()
         self.assertIn("Bấm Bật webcam", app.info[0].value)
 
     def test_fragment_uses_configured_rate(self):
-        from classroom_ai.interfaces.web.app import render_webcam
-        from classroom_ai.interfaces.web.preview import PreviewSettings
+        from classroom_ai.interfaces.streamlit_ui.app import render_webcam
+        from classroom_ai.interfaces.streamlit_ui.preview import PreviewSettings
 
         for fps in (5, 10, 20):
             with (
                 self.subTest(fps=fps),
-                patch("classroom_ai.interfaces.web.app.st.fragment") as fragment,
+                patch("classroom_ai.interfaces.streamlit_ui.app.st.fragment") as fragment,
             ):
                 settings = PreviewSettings(fps=fps)
                 render_webcam(settings, "checkpoint", 0.25, [], None)
@@ -73,7 +106,7 @@ manager.active.assert_not_called()
                 self.assertEqual(fragment.return_value.return_value.call_args.args[-1], settings)
 
     def test_loads_only_preview_settings_and_rejects_invalid_values(self):
-        from classroom_ai.interfaces.web.preview import load_preview_settings
+        from classroom_ai.interfaces.streamlit_ui.preview import load_preview_settings
 
         with tempfile.TemporaryDirectory() as folder:
             config = Path(folder) / "app.yaml"
@@ -97,7 +130,7 @@ manager.active.assert_not_called()
                     load_preview_settings(config)
 
     def test_jpeg_resizes_without_mutating_camera_frame_or_boxes(self):
-        from classroom_ai.interfaces.web.preview import PreviewSettings, preview_jpeg
+        from classroom_ai.interfaces.streamlit_ui.preview import PreviewSettings, preview_jpeg
 
         frame = np.zeros((720, 1280, 3), dtype=np.uint8)
         rows = [{"class_name": "person", "confidence": 0.9, "bbox_xyxy": [100, 100, 500, 500]}]

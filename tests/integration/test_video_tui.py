@@ -125,7 +125,7 @@ class RunnerTests(unittest.TestCase):
 
 class TerminalUITests(unittest.IsolatedAsyncioTestCase):
     async def test_tracking_checkbox_mode_lock_and_subprocess_options(self):
-        from textual.widgets import Checkbox, Input, Select
+        from textual.widgets import Input, Select
 
         from classroom_ai.interfaces.terminal import VideoTerminal
 
@@ -134,13 +134,13 @@ class TerminalUITests(unittest.IsolatedAsyncioTestCase):
         job.read_updates.return_value = []
         app = VideoTerminal(options={"tracking": "bytetrack", "track_gap_max_ms": 0}, job=job)
         async with app.run_test(size=(110, 34)) as pilot:
-            checkbox = app.query_one("#tracking", Checkbox)
+            checkbox = app.query_one("#tracking", Select)
             self.assertTrue(checkbox.disabled)
-            self.assertFalse(checkbox.value)
+            self.assertEqual(checkbox.value, "off")
             app.query_one("#mode", Select).value = "full"
             await pilot.pause()
             self.assertFalse(checkbox.disabled)
-            checkbox.value = True
+            checkbox.value = "bytetrack"
             app.query_one("#source", Input).value = str(Path(__file__))
             app.action_start()
             self.assertEqual(job.start.call_args.args[2]["tracking"], "bytetrack")
@@ -150,7 +150,7 @@ class TerminalUITests(unittest.IsolatedAsyncioTestCase):
             app.query_one("#mode", Select).value = "fast"
             await pilot.pause()
             self.assertTrue(checkbox.disabled)
-            self.assertFalse(checkbox.value)
+            self.assertEqual(checkbox.value, "off")
             app.action_start()
             self.assertNotIn("tracking", job.start.call_args.args[2])
             self.assertNotIn("track_gap_max_ms", job.start.call_args.args[2])

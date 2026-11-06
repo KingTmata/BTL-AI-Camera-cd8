@@ -7,8 +7,6 @@ from pathlib import Path
 import cv2
 import yaml
 
-from classroom_ai.inference.detector import draw_boxes
-
 
 @dataclass(frozen=True)
 class PreviewSettings:
@@ -43,6 +41,10 @@ def load_preview_settings(path: Path) -> PreviewSettings:
 
 
 def preview_jpeg(frame, rows, settings: PreviewSettings) -> bytes:
+    # Settings/preview imports must not initialize Torch. The camera's model
+    # runtime is already ready when a real frame needs detector-style drawing.
+    from classroom_ai.inference.detector import draw_boxes
+
     height, width = frame.shape[:2]
     if width > settings.max_width:
         target_height = max(1, round(height * settings.max_width / width))

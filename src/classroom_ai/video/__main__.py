@@ -18,13 +18,28 @@ def main():
     parser.add_argument("--tui", action="store_true", help="Minimal clickable terminal interface")
     parser.add_argument("--stop-file", type=Path, help=argparse.SUPPRESS)
     parser.add_argument("--weights", type=Path)
-    parser.add_argument("--device", default="auto", help="auto, cpu, cuda:N")
+    parser.add_argument("--analysis-task", choices=("detect", "pose"), default="detect")
+    parser.add_argument(
+        "--allow-vfr",
+        action="store_true",
+        help="Accept VFR with --no-display; use web for PTS playback",
+    )
+    parser.add_argument(
+        "--person-only", action="store_true", help="Show and save person detections only"
+    )
+    parser.add_argument(
+        "--device", default="auto", help="auto, cpu, cuda:N, intel:gpu (Pose/OpenVINO)"
+    )
     parser.add_argument("--imgsz", type=int, default=1280)
     parser.add_argument("--confidence", type=float, default=0.05)
     parser.add_argument("--tracking", choices=("off", "bytetrack"), default="off")
     parser.add_argument("--track-max-lost-seconds", type=float, default=3.0)
     parser.add_argument("--track-gap-max-ms", type=float, default=300.0)
     parser.add_argument("--track-smooth-alpha", type=float, default=0.65)
+    parser.add_argument("--track-high-thresh", type=float)
+    parser.add_argument("--track-low-thresh", type=float)
+    parser.add_argument("--new-track-thresh", type=float)
+    parser.add_argument("--recovery-confirm-observations", type=int, default=2)
     parser.add_argument("--nms-iou", type=float)
     parser.add_argument("--sample-fps", type=float, default=5)
     parser.add_argument("--buffer-ms", type=float, default=250)
@@ -58,6 +73,10 @@ def main():
     if "source" not in arguments or "mode" not in arguments:
         parser.error("--source và --mode là bắt buộc, hoặc dùng --tui.")
     stop_file = arguments.pop("stop_file", None)
+    if arguments.get("analysis_task") == "pose" and "weights" not in arguments:
+        from classroom_ai.paths import PROJECT_ROOT
+
+        arguments["weights"] = PROJECT_ROOT / "weights" / "yolo26n-pose.pt"
     from classroom_ai.video.pipeline import VideoConfig, run_video
 
     try:

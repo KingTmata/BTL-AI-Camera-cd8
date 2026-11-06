@@ -1,4 +1,4 @@
-"""Giao diện web xem ảnh; khởi động bằng streamlit run src/classroom_ai/interfaces/web/app.py."""
+"""Giao diện web xem ảnh; khởi động bằng streamlit run src/classroom_ai/interfaces/streamlit_ui/app.py."""
 
 from __future__ import annotations
 
@@ -14,32 +14,35 @@ from itertools import islice
 from pathlib import Path
 
 import cv2
-import pandas as pd
 import streamlit as st
 
+from classroom_ai.classes import PROJECT_NAMES
 from classroom_ai.inference.camera import CameraSession
-from classroom_ai.inference.detector import (
-    PROJECT_NAMES,
-    ImageInspector,
-    crop_box,
-    decode_image,
-    draw_boxes,
-    reference_boxes,
+from classroom_ai.interfaces.streamlit_ui.preview import (
+    PreviewSettings,
+    load_preview_settings,
+    preview_jpeg,
 )
-from classroom_ai.inference.devices import cuda_devices
-from classroom_ai.interfaces.web.preview import PreviewSettings, load_preview_settings, preview_jpeg
-from classroom_ai.interfaces.web.training import training_page
 from classroom_ai.paths import PROJECT_ROOT as ROOT
 from classroom_ai.training.manager import RunManager
 
 
+def ImageInspector(*args, **kwargs):
+    """Load the model runtime on request, retaining the injectable factory name."""
+    from classroom_ai.inference.detector import ImageInspector as Inspector
+
+    return Inspector(*args, **kwargs)
+
+
 @st.cache_resource
-def load_inspector(path: str, modified_ns: int, device: str = "cpu") -> ImageInspector:
+def load_inspector(path: str, modified_ns: int, device: str = "cpu"):
     return ImageInspector(Path(path), device=device)
 
 
 @st.cache_data(ttl=30)
 def available_gpus():
+    from classroom_ai.inference.devices import cuda_devices
+
     return cuda_devices()
 
 
@@ -93,6 +96,8 @@ def sample_source():
     if not samples:
         st.info("Chưa có ảnh train trong manifest chính. Chọn ‘Ảnh của bạn’ để mở ảnh riêng.")
         return None
+    from classroom_ai.inference.detector import decode_image, reference_boxes
+
     ids = list(samples)
     # Nhãn dataset chính dùng ID project8; không đọc chúng như raw ID COCO80.
     sample_names = {}
@@ -137,6 +142,8 @@ def uploaded_source():
     if upload is None:
         st.info("Chọn ảnh trên máy. Ảnh được xử lý trong phiên này, không tự ghi vào dataset.")
         return None
+    from classroom_ai.inference.detector import decode_image
+
     return decode_image(upload.getvalue()), upload.name, None
 
 
@@ -174,6 +181,8 @@ def video_source():
 
 
 def detection_table(rows):
+    import pandas as pd
+
     return pd.DataFrame(
         [
             {
@@ -425,6 +434,8 @@ def main():
     with st.sidebar:
         page = st.selectbox("Màn hình", ["Recognition", "Training"], key="workspace_page")
     if page == "Training":
+        from classroom_ai.interfaces.streamlit_ui.training import training_page
+
         stop_current_webcam()
         training_page(manager, stop_current_webcam, clear_inference)
         return
@@ -582,6 +593,9 @@ def main():
                 st.session_state.inspection = {"fingerprint": fingerprint, **output}
         output = st.session_state.get("inspection")
         valid = output is not None and output["fingerprint"] == fingerprint
+        if valid:
+            from classroom_ai.inference.detector import crop_box, draw_boxes
+
         original_col, result_col = st.columns(2)
         with original_col:
             st.markdown("**Ảnh gốc**")
@@ -665,6 +679,8 @@ def main():
                 "text/csv",
             )
         if refs is not None:
+            from classroom_ai.inference.detector import draw_boxes
+
             with st.expander("Đối chiếu nhãn dataset"):
                 reference = [r for r in refs if r["class_name"] in visible_classes]
                 st.image(draw_boxes(frame, reference, reference=True), channels="BGR", width=640)

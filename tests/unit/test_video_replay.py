@@ -1,10 +1,143 @@
 import threading
 import unittest
+from fractions import Fraction
+from pathlib import Path
+from types import SimpleNamespace
 from unittest.mock import patch
+
+import numpy as np
 
 from classroom_ai.interfaces.native_video import NativeDisplay
 from classroom_ai.video.core import PlaybackClock
 from classroom_ai.video.playback import Controls
+
+
+def test_slow_first_decode_starts_clock_when_ready_and_later_lateness_still_drops():
+    from classroom_ai.video.metrics import Metrics
+    from classroom_ai.video.playback import play_completed
+
+    now, shown = [0.0], []
+    stop = threading.Event()
+
+    class Capture:
+        index = 0
+
+        def isOpened(self):
+            return True
+
+        def set(self, *args):
+            return True
+
+        def read(self):
+            now[0] += 0.1  # Three frame periods: startup must not consume media time.
+            self.index += 1
+            return True, np.zeros((2, 2, 3), dtype=np.uint8)
+
+        def release(self):
+            pass
+
+    class Display:
+        seek_request = None
+
+        def poll(self):
+            return None
+
+        def take_seek(self):
+            return None
+
+        def enable_seek(self, *args):
+            pass
+
+        def show(self, frame, *args):
+            shown.append(frame.frame_index)
+
+        def update_position(self, index):
+            pass
+
+        def mark_end(self):
+            stop.set()
+
+    metrics = Metrics()
+    display = Display()
+    controls = Controls(display, stop, threading.Event(), PlaybackClock())
+    session = SimpleNamespace(
+        stop=stop,
+        metrics=metrics,
+        progress=SimpleNamespace(set=lambda *a: None, tick=lambda *a: None),
+    )
+    source = SimpleNamespace(path=Path("fixture.mp4"), fps=Fraction(30), frame_count=2)
+    with (
+        patch("classroom_ai.video.playback.cv2.VideoCapture", return_value=Capture()),
+        patch("classroom_ai.video.playback.time.perf_counter", side_effect=lambda: now[0]),
+    ):
+        play_completed(session, source, controls, display)
+    assert shown == [0]
+    assert metrics.counts["frames_display_dropped"] == 1
+
+
+def test_seek_preview_is_presented_even_when_input_poll_makes_it_late():
+    from classroom_ai.video.metrics import Metrics
+    from classroom_ai.video.playback import play_completed
+
+    now, shown = [0.0], []
+    stop = threading.Event()
+
+    class Capture:
+        def isOpened(self):
+            return True
+
+        def set(self, *args):
+            return True
+
+        def get(self, *args):
+            return 1
+
+        def read(self):
+            now[0] += 0.1
+            return True, np.zeros((2, 2, 3), dtype=np.uint8)
+
+        def release(self):
+            pass
+
+    class Display:
+        seek_request = 1
+
+        def poll(self):
+            return None
+
+        def take_seek(self):
+            target, self.seek_request = self.seek_request, None
+            if target is None:
+                now[0] += 0.1  # A slow input poll after decode must not drop a seek preview.
+            return target
+
+        def enable_seek(self, *args):
+            pass
+
+        def show(self, frame, *args):
+            shown.append(frame.frame_index)
+
+        def update_position(self, index):
+            pass
+
+        def mark_end(self):
+            stop.set()
+
+    metrics, display = Metrics(), Display()
+    controls = Controls(display, stop, threading.Event(), PlaybackClock())
+    session = SimpleNamespace(
+        stop=stop,
+        metrics=metrics,
+        progress=SimpleNamespace(set=lambda *a: None, tick=lambda *a: None),
+    )
+    source = SimpleNamespace(path=Path("fixture.mp4"), fps=Fraction(30), frame_count=2)
+    with (
+        patch("classroom_ai.video.playback.cv2.VideoCapture", return_value=Capture()),
+        patch("classroom_ai.video.playback.time.perf_counter", side_effect=lambda: now[0]),
+    ):
+        play_completed(session, source, controls, display)
+    assert shown == [1]
+    assert metrics.counts.get("frames_display_dropped", 0) == 0
 
 
 class ReplayControlsTests(unittest.TestCase):
